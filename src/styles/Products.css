@@ -1,0 +1,15 @@
+.Products {
+    text-align: center;
+  }
+.btn_home{
+    text-decoration: none;
+    font-size: 18px;
+}
+.Container{
+  padding: 10px 5px 10px 5px;
+}
+.TextInput{
+  width: '100%';
+  height: 30px;
+  padding-right: 20px;
+}
