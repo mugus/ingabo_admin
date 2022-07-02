@@ -13,7 +13,7 @@ import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 import logo from '../img/icon.png';
 import user_default from '../img/default-img.png';
-const pages = ['Crops', 'Products', 'Diagnosis'];
+const pages = ['Crops', 'Products', 'Help'];
 const settings = ['Profile', 'Settings', 'Logout'];
 
 const Navbar = () => {

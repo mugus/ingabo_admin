@@ -38,7 +38,7 @@ export default function Crops() {
                 </Grid>
                 <Grid item xs={12} sm={5} md={5} lg={5} xl={5}>
                   <Item>
-                    <h2>New Crop</h2>
+                    <h2>Record New Crop</h2>
                     <Addcrop />
                   </Item>
                 </Grid>

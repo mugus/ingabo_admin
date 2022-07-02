@@ -9,6 +9,7 @@ import Home from './screens/Home';
 import Settings from './screens/Settings';
 import Diagnosis from './screens/Diagnosis';
 import Crops from './screens/Crops';
+import Help from './screens/Help';
 
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 
@@ -41,6 +42,7 @@ root.render(
         <Route path="Settings" element={<Settings />} />
         <Route path="Profile" element={<Profile />} />
         <Route path="Diagnosis" element={<Diagnosis />} />
+        <Route path="Help" element={<Help />} />
         <Route path="Crops" element={<Crops />} />
       </Routes>
     </BrowserRouter>
