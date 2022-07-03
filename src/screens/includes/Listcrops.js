@@ -70,10 +70,17 @@ export default function Listcrops() {
                     )
                 })
             }
-
+            
             </Grid>
             ) : (
-                <CircularProgress />
+                <Grid container >
+                    <Grid item xl={12}>
+                        <center>
+                            <CircularProgress />
+                        </center>
+                    </Grid>
+
+                </Grid>
             )
         }
         </>

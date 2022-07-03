@@ -5,6 +5,7 @@ import { styled } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import Paper from '@mui/material/Paper';
 import Grid from '@mui/material/Grid';
+import CircularProgress from '@mui/material/CircularProgress';
 import Addproduct from "./includes/Addproduct";
 import ListProducts from "./includes/ListProducts";
 
@@ -19,19 +20,24 @@ const Item = styled(Paper)(({ theme }) => ({
 
 export default function Products() {
   const [items, setItems] = useState([]);
+  const [Ready, setready] = useState(false);
 
   useEffect(() => {
-    const items = JSON.parse(localStorage.getItem('token'));
+    const items = localStorage.getItem('token');
     if (items) {
      setItems(items);
+     setready(true);
     }
   }, []);
 
-  console.log("Item: ", items);
+  console.log("Token: ", Ready);
+  // console.log("Item: ", localStorage.getItem('token'));
 
   return (
     <>
       <Navbar />
+    {
+            Ready ? (
 
       <Box sx={{ width: '100%' }}>
         <Grid container>
@@ -44,13 +50,13 @@ export default function Products() {
             <Grid item xs={12} sm={7} md={7} lg={7} xl={7}>
               <Item>
                 <h2>Product list</h2>
-                <ListProducts />
+                  <ListProducts />
               </Item>
             </Grid>
             <Grid item xs={12} sm={5} md={5} lg={5} xl={5}>
               <Item>
                 <h2>New Product</h2>
-                <Addproduct />
+                  <Addproduct />
               </Item>
             </Grid>
 
@@ -60,7 +66,7 @@ export default function Products() {
 
 
       </Box>
-
+      ) : ( window.location.replace('./') ) }
     </>
   );
 }
