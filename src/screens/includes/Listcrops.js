@@ -13,18 +13,21 @@ import axios from 'axios';
 export default function Listcrops() {
 
     const [crop, setCrop] = useState([]);
-    const [diagnosisdetails, setDiagnosisdetails] = useState([]);
+    // const [diagnosisdetails, setDiagnosisdetails] = useState([]);
     const [isReady, setisready] = useState(false);
     
     const handleDiagnosis=(crop_id)=>{
         // alert("crop_id: "+crop_id);
-        axios.get(`http://197.243.14.102:4000/api/v1/crops/${crop_id}`).then(res => {
-            setDiagnosisdetails(res.data.diag);
-        }).catch(err=>{
-            console.log(err);
-        })
+        const items = localStorage.getItem('token');
+        window.location.replace(`./Diagnosis/${items}/${crop_id}`)
+        // window.location.replace(`./Diagnosis?token=${items}&crop_id=${crop_id}`)
+        // axios.get(`http://197.243.14.102:4000/api/v1/crops/${crop_id}`).then(res => {
+        //     setDiagnosisdetails(res.data.diag);
+        // }).catch(err=>{
+        //     console.log(err);
+        // })
     }
-    console.log("Diagnosis: ", diagnosisdetails);
+    // console.log("Diagnosis: ", diagnosisdetails);
 
     useEffect(()=> {
         axios.get('http://197.243.14.102:4000/api/v1/crops').then(res => {

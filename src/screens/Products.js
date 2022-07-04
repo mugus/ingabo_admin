@@ -8,6 +8,7 @@ import Grid from '@mui/material/Grid';
 import CircularProgress from '@mui/material/CircularProgress';
 import Addproduct from "./includes/Addproduct";
 import ListProducts from "./includes/ListProducts";
+import { Button } from '@mui/material';
 
 const Item = styled(Paper)(({ theme }) => ({
   backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
@@ -30,14 +31,14 @@ export default function Products() {
     }
   }, []);
 
-  console.log("Token: ", Ready);
+  // console.log("Token: ", Ready);
   // console.log("Item: ", localStorage.getItem('token'));
 
   return (
     <>
       <Navbar />
     {
-            Ready ? (
+      Ready ? (
 
       <Box sx={{ width: '100%' }}>
         <Grid container>
@@ -61,12 +62,20 @@ export default function Products() {
             </Grid>
 
         </Grid>
-
-
-
-
       </Box>
-      ) : ( window.location.replace('./') ) }
+      ) : ( 
+      <Grid container style={{paddingTop: 30}}>
+        <Grid item xl={5} lg={5} md={4}></Grid>
+        <Grid item xl={6} lg={3} md={3}>
+            <center>
+                <CircularProgress />
+                <h4>Looks like you are not logged in</h4>
+                <Button href="./" variant='contained' color='primary'>Click to Login</Button>
+            </center>
+        </Grid>
+
+      </Grid>
+    ) }
     </>
   );
 }

@@ -41,7 +41,7 @@ root.render(
         <Route path="Products" element={<Products />} />
         <Route path="Settings" element={<Settings />} />
         <Route path="Profile" element={<Profile />} />
-        <Route path="Diagnosis" element={<Diagnosis />} />
+        <Route path="Diagnosis/:token/:crop_id" element={<Diagnosis />} />
         <Route path="Help" element={<Help />} />
         <Route path="Crops" element={<Crops />} />
       </Routes>
