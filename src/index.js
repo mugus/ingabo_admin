@@ -8,6 +8,7 @@ import Profile from './screens/Profile';
 import Home from './screens/Home';
 import Settings from './screens/Settings';
 import Diagnosis from './screens/Diagnosis';
+import DiagnosisDetails from './screens/DiagnosisDetails';
 import Crops from './screens/Crops';
 import Help from './screens/Help';
 
@@ -42,6 +43,7 @@ root.render(
         <Route path="Settings" element={<Settings />} />
         <Route path="Profile" element={<Profile />} />
         <Route path="Diagnosis/:token/:crop_id" element={<Diagnosis />} />
+        <Route path="DiagnosisDetails/:token/:diagnosis_id" element={<DiagnosisDetails />} />
         <Route path="Help" element={<Help />} />
         <Route path="Crops" element={<Crops />} />
       </Routes>

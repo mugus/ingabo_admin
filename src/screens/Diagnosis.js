@@ -27,6 +27,12 @@ const Diagnosis = () => {
   const [diagnosisdetails, setDiagnosisdetails] = useState([]);
   const { token, crop_id } = useParams();
 
+  const handlediagnosisDetails =(diagnosis_id)=>{
+    const token = localStorage.getItem('token');
+    window.location.replace(`../../DiagnosisDetails/${token}/${diagnosis_id}`)
+    // alert("Diagnosis ID: "+diagnosis_id)
+  }
+
   useEffect(()=> {
     axios.get(`http://197.243.14.102:4000/api/v1/crops/${crop_id}`).then(res => {
         setDiagnosisdetails(res.data.diag);
@@ -68,7 +74,7 @@ console.log("Diagnosis ",diagnosisdetails);
                                 </Typography>
                             </CardContent>
                             <CardActions>
-                                <Button value={diagnosisdetails.diagnosis_id} variant="outlined" size="small">Diagnosis Details</Button>
+                                <Button value={diagnosisdetails.diagnosis_id} variant="outlined" size="small" onClick={e => handlediagnosisDetails(e.target.value)}>Diagnosis Details</Button>
                             </CardActions>
                         </Card>
 
