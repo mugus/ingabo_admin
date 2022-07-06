@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { styled } from '@mui/material/styles';
-import Navbar from './Navbar';
+import TextField from '@mui/material/TextField';
 import Grid from '@mui/material/Grid';
 import Card from '@mui/material/Card';
 import CardActions from '@mui/material/CardActions';
@@ -13,6 +13,10 @@ import Typography from '@mui/material/Typography';
 import { useParams } from "react-router-dom";
 import axios from 'axios';
 
+const Input = styled('input')({
+  display: 'none',
+  padding: 50
+});
 
 const Item = styled(Paper)(({ theme }) => ({
   backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
@@ -24,6 +28,8 @@ const Item = styled(Paper)(({ theme }) => ({
 
 
 const Diagnosis = () => {
+  const [diagnosis_name, setDiagnosis_name] = useState("");
+  const [image, setImage] = useState("");
   const [diagnosisdetails, setDiagnosisdetails] = useState([]);
   const { token, crop_id } = useParams();
 
@@ -31,6 +37,10 @@ const Diagnosis = () => {
     const token = localStorage.getItem('token');
     window.location.replace(`../../DiagnosisDetails/${token}/${diagnosis_id}`)
     // alert("Diagnosis ID: "+diagnosis_id)
+  }
+
+  const handleAddDiagnosis = () => {
+    alert("READY")
   }
 
   useEffect(()=> {
@@ -91,7 +101,28 @@ console.log("Diagnosis ",diagnosisdetails);
 
                     <Grid container spacing={0.5}>
                       <Grid item>
-                        <h2>Ingabo Diagnosis Dashboard Management Screen</h2>
+
+                        <Box
+                          component="form"
+                          sx={{
+                            '& > :not(style)': { m: 1, width: '80%' },
+                          }}
+                          noValidate
+                          autoComplete="off"
+                          >
+                          <TextField id="standard-basic" label="Diagnosis Name" variant="standard" value={diagnosis_name} onChange={(e) => setDiagnosis_name(e.target.value)} />
+
+                          <label htmlFor="contained-button-file" style={{ paddingLeft: '10px!important' }}>
+                            <Input accept="image/*" id="contained-button-file" multiple type="file" value={image} onChange={(e) => setImage(e.target.value.files[0])} />
+                            <Button variant="outlined" component="span">
+                              Upload Image
+                            </Button>
+                          </label>
+                          <Button variant="contained" color="success" onClick={handleAddDiagnosis}>
+                            Create Diagnosis
+                          </Button>
+                        </Box>
+
                         <Button href="../../Crops">Back to crop screen</Button>
                       </Grid>
                     </Grid>

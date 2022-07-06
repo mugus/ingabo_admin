@@ -43,14 +43,14 @@ console.log("Diagnosis Details",diagdetails);
       <>
         {/* <Navbar /> */}
         <Box sx={{ width: '100%' }}>
-            <Grid container style={{paddingTop: 50}}>
+            <Grid container style={{paddingTop: '5%'}}>
                 <Grid item xs={12} sm={2} md={2} lg={2} xl={2}></Grid>
                 <Grid item xs={12} sm={8} md={8} lg={8} xl={8}>
                     <Item>
-                        <h2> {diagdetails.crop_name} Diagnosis Details</h2>
+                        <h2 style={{ fontWeight: 'bold', textTransform: 'uppercase'}} color="primary"> {diagdetails.crop_name} Diagnosis Details</h2>
                         <Grid container spacing={0.5} style={{height: window.innerHeight + 'px', paddingTop: 50, float: 'left'}}>
                             <Grid item xs={12} sm={5} md={5} lg={5} xl={5}>
-                                <Card sx={{ width: '100%' }}>
+                                <Card sx={{ width: '100%' }} style={{ textAlign: 'left' }}>
                                     <CardMedia
                                     component="img"
                                     height="300"
@@ -80,15 +80,16 @@ console.log("Diagnosis Details",diagdetails);
                                     </CardContent>
                                     <CardActions>
                                         <Button value="" variant="outlined" size="small">Edit Details</Button>
+                                        <Button variant="outlined" size="small" href="../../Crops">Back</Button>
                                     </CardActions>
 
                                 </Card>
                             </Grid>
                             <Grid item xs={12} sm={7} md={7} lg={7} xl={7}>
                                 
-                                <Card sx={{ width: '100%' }}>
+                                <Card sx={{ width: '100%' }} style={{textAlign: 'left'}}>
                                     <CardContent>
-                                        <Typography gutterBottom variant="h4" color="primary" component="div">
+                                        <Typography gutterBottom variant="h5" color="primary" component="div" style={{ fontWeight: 'bold' ,textTransform: 'uppercase' }}>
                                             {diagdetails.diagnosis_name}
                                         </Typography>
                                         <Typography gutterBottom variant="h6" color="primary" component="div">
