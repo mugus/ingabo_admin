@@ -134,16 +134,7 @@ const Diagnosis = () => {
                             const image = e.target.files[0];
                             setImage(image)
                           }}/>
-                          {/* <FormGroup controlId='uploadFormId'>
-                            <FormControlLabel>Upload image</FormControlLabel>
-                            <FormControl type="file" name="image" label="file" />
-                          </FormGroup> */}
-                          {/* <label htmlFor="contained-button-file" style={{ paddingLeft: '10px!important' }}>
-                            <Input accept="image/*" id="contained-button-file" name="image" multiple type="file" value={image} onChange={(e) => setImage(e.target.input.files[0])} />
-                            <Button variant="outlined" component="span">
-                              Upload Image
-                            </Button>
-                          </label> */}
+                          
                           <Button variant="contained" color="success" onClick={handleAddDiagnosis}>
                             Create Diagnosis
                           </Button>
