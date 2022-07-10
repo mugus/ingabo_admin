@@ -15,7 +15,8 @@ export default function ListProducts() {
     const [isReady, setisready] = useState(false);
     
     useEffect(()=> {
-        axios.get('http://197.243.14.102:4000/api/v1/products').then(res => {
+        axios.get('http://localhost:4000/api/v1/products').then(res => {
+        // axios.get('http://197.243.14.102:4000/api/v1/products').then(res => {
           setProduct(res.data.products);
         }).catch(err=>{
             console.log(err);
@@ -31,7 +32,8 @@ export default function ListProducts() {
             <Grid container spacing={0.5} style={{height: window.innerHeight + 'px', overflowY: 'scroll'}}>
             {
                 product.map((product)=>{
-                    let photo = 'http://197.243.14.102:4000/uploads/'+product.image;
+                    let photo = 'http://localhost:4000/uploads/'+product.image;
+                    // let photo = 'http://197.243.14.102:4000/uploads/'+product.image;
                     return (
                         <Grid item xs={12} sm={6} md={4} lg={4} xl={3}>
 
