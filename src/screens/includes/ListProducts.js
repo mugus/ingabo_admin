@@ -8,12 +8,42 @@ import Button from '@mui/material/Button';
 import CircularProgress from '@mui/material/CircularProgress';
 import Typography from '@mui/material/Typography';
 import axios from 'axios';
+import Modal from '@mui/material/Modal';
+import Box from '@mui/material/Box';
+import { styled } from '@mui/material/styles';
+import TextField from '@mui/material/TextField';
+import LoadingButton from '@mui/lab/LoadingButton';
+import $ from 'jquery';
+
+
+const style = {
+  position: 'absolute',
+  top: '50%',
+  left: '50%',
+  transform: 'translate(-50%, -50%)',
+  width: 450,
+  height: window.innerHeight + 'px', overflowY: 'scroll', paddingTop: 20, paddingBottom: 15,
+  bgcolor: 'background.paper',
+  border: '2px solid #000',
+  boxShadow: 24,
+  p: 4,
+};
+
 
 export default function ListProducts() {
-
+    const [open, setOpen] = React.useState(false);
+    const handleOpen = () => setOpen(true);
+    const handleClose = () => setOpen(false);
+    
     const [product, setProduct] = useState([]);
     const [isReady, setisready] = useState(false);
     
+    $(document).ready(function(){
+      $('.CreatePro').show()
+      $('.Loading_btn').hide()
+    })
+
+
     useEffect(()=> {
         axios.get('http://localhost:4000/api/v1/products').then(res => {
         // axios.get('http://197.243.14.102:4000/api/v1/products').then(res => {
@@ -54,8 +84,7 @@ export default function ListProducts() {
                                 </CardContent>
                                 <CardActions>
                                     
-                                <Button variant="outlined" size="small" color="warning">Edit</Button>
-                                <Button variant="outlined" size="small" onClick={()=> alert('Modal ready')}>View More</Button>
+                                <Button variant="outlined" size="small" onClick={handleOpen}>Load & Edit Details</Button>
                                 </CardActions>
                             </Card>
 
@@ -69,6 +98,76 @@ export default function ListProducts() {
                 <CircularProgress />
             )
         }
+
+    <Modal
+        open={open}
+        onClose={handleClose}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
+      >
+        <Box sx={style}>
+          <Typography id="modal-modal-title" variant="h5" component="h2">
+            Text in a modal
+          </Typography>
+          <Typography id="modal-modal-description" sx={{ mt: 2 }}>
+            
+          <Box
+        component="form"
+        sx={{
+          '& > :not(style)': { m: 1, width: '100%' },
+        }}
+        noValidate
+        autoComplete="off"
+      >
+        <TextField id="standard-basic" label="Product Name" variant="standard"/>
+        <TextField id="standard-basic" label="Product Category" variant="standard" />
+        <TextField id="standard-basic" label="Product Size" variant="standard" />
+        <TextField id="standard-basic" label="Product Price" variant="standard" />
+        <TextField
+            id="standard-multiline-static"
+            label="Product details(Description)"
+            multiline
+            rows={2}
+            variant="standard"
+          />
+
+          <TextField
+            id="standard-multiline-static"
+            label="Product Pre-condition"
+            multiline
+            rows={2}
+            variant="standard"
+          />
+
+          <TextField
+            id="standard-multiline-static"
+            label="Product Application"
+            multiline
+            rows={2}
+            variant="standard"
+          />
+
+          
+        <input type="file" name="image" label="file"  />
+       
+        <Button className="CreatePro" variant="contained" color="success">
+          Update
+        </Button>
+        
+        <LoadingButton
+          loading
+          loadingPosition="center"
+          variant="contained"
+          color="primary"
+          className='Loading_btn'
+        >
+          Wait
+        </LoadingButton>
+      </Box>
+
+          </Typography>
+        </Box>
+      </Modal>
         </>
     )
 }

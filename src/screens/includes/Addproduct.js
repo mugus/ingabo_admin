@@ -19,13 +19,17 @@ export default function Addproduct() {
   const [description, setDescription] = useState("");
   const [image, setImage] = useState("");
   const [msg, setMsg] = useState("");
+  const [alertclass, setAlertclass] = useState("");
 
   const token = localStorage.getItem('token');
   $(document).ready(function(){
     $('.CreatePro').show()
     $('.Loading_btn').hide()
   })
-
+  setTimeout(
+    () => setMsg(""),
+    8000
+  );
 
   const handleAddProduct = async (e)=>{
     e.preventDefault();
@@ -42,63 +46,33 @@ export default function Addproduct() {
     data.append("description", description);
     data.append("image", image);
 
-    console.log("data: ", data)
     
     axios.post('http://localhost:4000/api/v1/products', data, { headers: {"Authorization" : `Bearer ${token}`} })
     .then(res => {
-    if(res.status===201){
-      console.log(res.message);
-      setMsg(res.message)
-    }else if(res.status===400){
-      console.log(res.message);
-      setMsg(res.message)
-    }else{
-      console.log(res)
-    }
+      if(res.status===201){
+        console.log(res);
+        // setMsg(res.message)
+        // setAlertclass("success")
+      }else if(res.status===400){
+        console.log(res);
+        setMsg(res.message)
+        setAlertclass("error")
+      }else{
+        console.log(res)
+      }
       // console.log('Axios response: ', res)
     }).catch(function (error) {
       if(error.response.data.status===403){
         console.log("Message: ",error.response.data.message);
         // setMsg(error.response.data.message)
-        setMsg(`<Alert severity="error">${error.response.data.message}</Alert>`)
-
+        setMsg(error.response.data.message)
+        setAlertclass("error")
       }else{
         console.log(error);
       }
   });
 
-    // let url = "http://localhost:4000/api/v1/products";
-    // const response = await axios.post(url,data,{headers:{"Content-Type" : "application/json"}});
-    // console.log(response.data);
 
-    // alert(`image:  ${image}`)
-    // axios.post('http://localhost:4000/api/v1/products', {
-    //   name: name,
-    //   size: size,
-    //   category: category,
-    //   price: price,
-    //   description: description,
-    //   image: image
-    // })
-    // .then(function (response) {
-    //   console.log(response);
-    // })
-    // .catch(function (error) {
-    //   console.log(error);
-    // });
-    // axios({
-    //   method: 'post',
-    //   url: 'localhost:4000/api/v1/products',
-    //   data: {
-    //     name: name,
-    //     size: size,
-    //     category: category,
-    //     price: price,
-    //     description: description,
-    //     image: image,
-    //   }
-    // });
-    // alert(`The name you entered was: ${name} :${category} with ${price} and size of ${size} image:  ${image}`)
   }
   return (
     <>
@@ -112,8 +86,10 @@ export default function Addproduct() {
         noValidate
         autoComplete="off"
       >
+        <div style={{ paddingLeft: 40 }}>
+          {msg ? <Alert severity={alertclass}>{msg}</Alert> : <></> }
+        </div>
         
-        {msg}
         
         <br/>
         <TextField id="standard-basic" label="Product Name" variant="standard" value={name} onChange={(e) => setName(e.target.value)} />

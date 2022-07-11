@@ -27,7 +27,8 @@ export default function Landing() {
       $('.Login_btn').hide()
       $('.Loading_btn').show()
     })
-    await fetch('http://197.243.14.102:4000/api/v1/auth/login',{
+    await fetch('http://localhost:4000/api/v1/auth/login',{
+    // await fetch('http://197.243.14.102:4000/api/v1/auth/login',{
       method:'POST',
         headers:{
           'Accept':'application/json',
@@ -39,7 +40,7 @@ export default function Landing() {
         })
     }).then((response)=>response.json())
     .then((res)=>{
-      console.log("Message: ", res.loggedin_user_id);
+      // console.log("Message: ", res.loggedin_user_id);
       if(res.status===200){
         localStorage.setItem('token',res.token);
         localStorage.setItem('user',res.loggedin_user_id);
@@ -124,7 +125,7 @@ export default function Landing() {
                     </LoadingButton>
                 </Box>
                   <Typography style={{paddingTop: '3%', paddingLeft: '1%'}}>
-                    <Button href="#" color='secondary'>
+                    <Button href="/Signup" color='secondary'>
                       New Account?
                     </Button>
                     

@@ -4,6 +4,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import './index.css';
 import Products from './screens/Products';
 import Landing from './screens/Landing';
+import Signup from './screens/Signup';
 import Profile from './screens/Profile';
 import Home from './screens/Home';
 import Settings from './screens/Settings';
@@ -38,6 +39,7 @@ root.render(
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<Landing />} />
+        <Route path="/Signup" element={<Signup />} />
         <Route path="Home" element={<Home />} />
         <Route path="Products" element={<Products />} />
         <Route path="Settings" element={<Settings />} />
