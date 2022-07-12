@@ -152,7 +152,7 @@ export default function ListProducts() {
             id="standard-multiline-static"
             label="Product details(Description)"
             multiline
-            rows={3}
+            rows={4}
             variant="standard"
           />          
         
