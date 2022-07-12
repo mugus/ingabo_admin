@@ -22,7 +22,7 @@ const style = {
   left: '50%',
   transform: 'translate(-50%, -50%)',
   width: 450,
-  height: '55%', overflowY: 'scroll', paddingTop: 20, paddingBottom: 15,
+  // height: '50%', overflowY: 'scroll', paddingTop: 20, paddingBottom: 15,
   bgcolor: 'background.paper',
   border: '2px solid #2e4037',
   boxShadow: 24,
@@ -126,7 +126,6 @@ export default function ListProducts() {
         <TextField id="standard-basic" label="Product Name" variant="standard"/>
         <TextField id="standard-basic" label="Product Category" variant="standard" />
         <TextField id="standard-basic" label="Product Size" variant="standard" />
-        <TextField id="standard-basic" label="Product Price" variant="standard" />
         <TextField
             id="standard-multiline-static"
             label="Product details(Description)"
