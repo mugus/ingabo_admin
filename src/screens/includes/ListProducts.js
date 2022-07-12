@@ -22,11 +22,14 @@ const style = {
   left: '50%',
   transform: 'translate(-50%, -50%)',
   width: 450,
-  height: window.innerHeight + 'px', overflowY: 'scroll', paddingTop: 20, paddingBottom: 15,
+  height: '55%', overflowY: 'scroll', paddingTop: 20, paddingBottom: 15,
   bgcolor: 'background.paper',
-  border: '2px solid #000',
+  border: '2px solid #2e4037',
   boxShadow: 24,
   p: 4,
+  '*::-webkit-scrollbar-track': {
+    width: '0.4em'
+  }
 };
 
 
@@ -84,7 +87,8 @@ export default function ListProducts() {
                                 </CardContent>
                                 <CardActions>
                                     
-                                <Button variant="outlined" size="small" onClick={handleOpen}>Load & Edit Details</Button>
+                                <Button variant="outlined" size="small" onClick={()=> alert("Usage is ready")}>Product usage</Button>
+                                <Button variant="outlined" size="small" onClick={handleOpen}>Edit Details</Button>
                                 </CardActions>
                             </Card>
 
@@ -127,27 +131,9 @@ export default function ListProducts() {
             id="standard-multiline-static"
             label="Product details(Description)"
             multiline
-            rows={2}
+            rows={3}
             variant="standard"
-          />
-
-          <TextField
-            id="standard-multiline-static"
-            label="Product Pre-condition"
-            multiline
-            rows={2}
-            variant="standard"
-          />
-
-          <TextField
-            id="standard-multiline-static"
-            label="Product Application"
-            multiline
-            rows={2}
-            variant="standard"
-          />
-
-          
+          />          
         <input type="file" name="image" label="file"  />
        
         <Button className="CreatePro" variant="contained" color="success">

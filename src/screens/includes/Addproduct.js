@@ -92,7 +92,7 @@ export default function Addproduct() {
         
         
         <br/>
-        <TextField id="standard-basic" label="Product Name" variant="standard" value={name} onChange={(e) => setName(e.target.value)} />
+        <TextField id="standard-basic" label="Product Name" variant="standard" value={name} onChange={(e) => setName(e.target.value)} required/>
         <TextField id="standard-basic" label="Product Category" variant="standard" value={category} onChange={(e) => setCategory(e.target.value)} />
         <TextField id="standard-basic" label="Product Size" variant="standard" value={size} onChange={(e) => setSize(e.target.value)} />
         <TextField id="standard-basic" label="Product Price" variant="standard" value={price} onChange={(e) => setPrice(e.target.value)} />
@@ -107,7 +107,7 @@ export default function Addproduct() {
         <input type="file" name="image" label="file" onChange={e => {
                             const image = e.target.files[0];
                             setImage(image)
-                          }} />
+                          }} required/>
        
         <Button className="CreatePro" variant="contained" color="success" onClick={handleAddProduct}>
           Create
