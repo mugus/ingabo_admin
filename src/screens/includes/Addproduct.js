@@ -8,7 +8,10 @@ import '../../styles/Products.css';
 import axios from 'axios';
 import $ from 'jquery'; 
 import Alert from '@mui/material/Alert';
-
+import InputLabel from '@mui/material/InputLabel';
+import MenuItem from '@mui/material/MenuItem';
+import FormControl from '@mui/material/FormControl';
+import Select from '@mui/material/Select';
 
 
 export default function Addproduct() {
@@ -96,7 +99,22 @@ export default function Addproduct() {
         
         <br/>
         <TextField id="standard-basic" label="Product Name" variant="standard" value={name} onChange={(e) => setName(e.target.value)} required/>
-        <TextField id="standard-basic" label="Product Category" variant="standard" value={category} onChange={(e) => setCategory(e.target.value)} />
+        <FormControl variant="standard" sx={{ m: 1, minWidth: 120 }}>
+          <InputLabel id="demo-simple-select-standard-label">Product Category</InputLabel>
+          <Select
+            labelId="demo-simple-select-standard-label"
+            id="demo-simple-select-standard"
+            value={category}
+            onChange={(e) => setCategory(e.target.value)}
+            label="Product Category"
+          >
+            <MenuItem value="Fungicide">Fungicide</MenuItem>
+            <MenuItem value="Pesticide">Pesticide</MenuItem>
+            <MenuItem value="Fertilizer">Fertilizer</MenuItem>
+            <MenuItem value="Seed Coating">Seed Coating</MenuItem>
+          </Select>
+        </FormControl>
+        {/* <TextField id="standard-basic" label="Product Category" variant="standard" value={category} onChange={(e) => setCategory(e.target.value)} /> */}
         <TextField id="standard-basic" label="Product Size" variant="standard" value={size} onChange={(e) => setSize(e.target.value)} />
         <TextField
             id="standard-multiline-static"

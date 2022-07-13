@@ -12,6 +12,8 @@ import { useParams } from "react-router-dom";
 import $ from 'jquery'; 
 import Alert from '@mui/material/Alert';
 
+
+
 const style = {
     position: 'absolute',
 };
@@ -38,8 +40,13 @@ export default function ProductUsage() {
         // http://197.243.14.102:4000/api/v1/products/details
         axios.post('http://localhost:4000/api/v1/products/details', data, { headers: {"Authorization" : `Bearer ${token}`} })
         .then(res => {
-            alert(res.message);
-          console.log('Axios response: ', res)
+            if(res.status === 201){
+                alert("Created");
+            }else{
+                console.log('Axios response: ', res)
+            }
+            
+        //   console.log('Axios response: ', res)
         }).catch(function (err) {
             if(err.response.data.status === 403){
                 alert(err.response.data.message);
@@ -79,7 +86,7 @@ export default function ProductUsage() {
 
     }, []);
 
-    
+    let photo = 'http://localhost:4000/uploads/'+product.image;   
 
 
   return (
@@ -87,16 +94,30 @@ export default function ProductUsage() {
           {/* <Navbar /> */}
           <Grid container style={{ paddingTop: 20 }}>
             <Grid item xl={1} lg={1} md={1} sm={1} xs={1}></Grid>
-            <Grid item xl={8} lg={8} md={8}>
+            <Grid item xl={10} lg={10} md={10}>
                 <Grid container style={{ paddingTop: 20 }}>
                     <Grid item xl={7} lg={8} md={8} sm={8} xs={12}>
                         <div style={{ paddingLeft: 40,paddingTop: 20 }}>
                             {msg ? 
                                 <Alert severity={alertclass}>{msg}</Alert> : 
                                 <>
-                                    <h3>{product.name} Details</h3>
-                                    <small>Category: {product.category}</small>
-                                    <Button color="primary" href='../Products'>Products</Button>
+                                    <h3>{product.name}</h3>
+                                    <Typography color='primary' variant="p">{product.category}</Typography>
+                                    <hr />
+                                    <Typography color='secondary' variant="h6">Sizes</Typography>
+                                    <Typography color='primary' variant="p">{product.size}</Typography>
+                                    
+                                    <Typography color='secondary' variant="h6" style={{ paddingTop: 10 }}>Description</Typography>
+                                    <Typography color='primary' variant="p">{product.description}</Typography>
+
+                                    <Typography color='secondary' variant="h6" style={{ paddingTop: 10 }}>Pre Condition</Typography>
+                                    <Typography color='primary' variant="p">{product.pre_condition}</Typography>
+
+                                    <Typography color='secondary' variant="h6" style={{ paddingTop: 10 }}>Application</Typography>
+                                    <Typography color='primary' variant="p">{product.application}</Typography>
+
+                                    <Typography color='secondary' variant="h6" style={{ paddingTop: 10 }}>Images</Typography>
+                                    <img src={photo} width='150' height='200' />
                                 </>
                             }
                         </div>
@@ -109,7 +130,7 @@ export default function ProductUsage() {
                                             <Box
                                                 component="form"
                                                 sx={{
-                                                '& > :not(style)': { m: 1, width: '100%' },
+                                                '& > :not(style)': { m: 1, width: '95%' },
                                                 }}
                                                 noValidate
                                                 autoComplete="off"
@@ -155,7 +176,7 @@ export default function ProductUsage() {
                                             <Box
                                                 component="form"
                                                 sx={{
-                                                '& > :not(style)': { m: 1, width: '100%' },
+                                                '& > :not(style)': { m: 1, width: '95%' },
                                                 }}
                                                 noValidate
                                                 autoComplete="off"
