@@ -15,6 +15,16 @@ import TextField from '@mui/material/TextField';
 import LoadingButton from '@mui/lab/LoadingButton';
 import $ from 'jquery';
 import ButtonGroup from '@mui/material/ButtonGroup';
+import Dialog from '@mui/material/Dialog';
+import DialogActions from '@mui/material/DialogActions';
+import DialogContent from '@mui/material/DialogContent';
+import DialogContentText from '@mui/material/DialogContentText';
+import DialogTitle from '@mui/material/DialogTitle';
+import Slide from '@mui/material/Slide';
+
+const Transition = React.forwardRef(function Transition(props, ref) {
+  return <Slide direction="up" ref={ref} {...props} />;
+});
 
 const style = {
   position: 'absolute',
@@ -34,6 +44,16 @@ const style = {
 
 
 export default function ListProducts() {
+  const [open1, setOpen1] = React.useState(false);
+
+  const handleClickOpen1 = () => {
+    setOpen1(true);
+  };
+
+  const handleClose1 = () => {
+    setOpen1(false);
+  };
+
     const [open, setOpen] = React.useState(false);
     // const handleOpen = () => setOpen(true);
     const [pro_modal, setPro_modal] = useState([]);
@@ -59,6 +79,13 @@ export default function ListProducts() {
         }
       })
     }
+
+    const handleDelete = (product_id) => {
+      alert("Product"+product_id)
+
+    }
+
+
     let photo_modal = 'http://localhost:4000/uploads/'+pro_modal.image;
     
     const handleClose = () => setOpen(false);
@@ -115,12 +142,14 @@ export default function ListProducts() {
                                 <ButtonGroup size="small" aria-label="small button group">
                                   <Button style={{ fontSize: 11, color: '#fff' , backgroundColor: '#5cb85c' }} value={product.product_id} onClick={(e)=> handleProUsage(e.target.value)}>Product usage</Button>
                                   <Button style={{ fontSize: 11, color: '#fff' , backgroundColor: '#5bc0de' }} value={product.product_id} onClick={e => handleOpen(e.target.value)}>Edit Details</Button>
-                                  <Button style={{ fontSize: 11, color: '#fff' , backgroundColor: '#f0ad4e' }}>Delete</Button>
+                                  <Button style={{ fontSize: 11, color: '#fff' , backgroundColor: '#f0ad4e' }} value={product.product_id} onClick={e => handleDelete(e.target.value)}>Delete</Button>
                                 </ButtonGroup>
 
                                 </CardActions>
                             </Card>
-
+                            <Button variant="outlined" onClick={handleClickOpen1}>
+        Slide in alert dialog
+      </Button>
                         </Grid>
                     )
                 })
@@ -190,6 +219,30 @@ export default function ListProducts() {
           </Typography>
         </Box>
       </Modal>
+
+
+      <div>
+      
+      <Dialog
+        open={open}
+        TransitionComponent={Transition}
+        keepMounted
+        onClose={handleClose}
+        aria-describedby="alert-dialog-slide-description"
+      >
+        <DialogTitle>{"Use Google's location service?"}</DialogTitle>
+        <DialogContent>
+          <DialogContentText id="alert-dialog-slide-description">
+            Let Google help apps determine location. This means sending anonymous
+            location data to Google, even when no apps are running.
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleClose1}>Disagree</Button>
+          <Button onClick={handleClose1}>Agree</Button>
+        </DialogActions>
+      </Dialog>
+    </div>
         </>
     )
 }
