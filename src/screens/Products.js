@@ -48,13 +48,13 @@ export default function Products() {
             </Item>
           </Grid> */}
 
-            <Grid item xs={12} sm={7} md={7} lg={7} xl={7}>
+            <Grid item xs={12} sm={7} md={7} lg={7} xl={8}>
               <Item>
                 <h2>Product list</h2>
                   <ListProducts />
               </Item>
             </Grid>
-            <Grid item xs={12} sm={5} md={5} lg={5} xl={5}>
+            <Grid item xs={12} sm={5} md={5} lg={5} xl={4}>
               <Item>
                 <h2>New Product</h2>
                   <Addproduct />

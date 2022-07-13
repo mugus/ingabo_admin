@@ -14,7 +14,7 @@ import { styled } from '@mui/material/styles';
 import TextField from '@mui/material/TextField';
 import LoadingButton from '@mui/lab/LoadingButton';
 import $ from 'jquery';
-
+import ButtonGroup from '@mui/material/ButtonGroup';
 
 const style = {
   position: 'absolute',
@@ -112,8 +112,12 @@ export default function ListProducts() {
                                 </CardContent>
                                 <CardActions>
                                     
-                                <Button variant="outlined" size="small" value={product.product_id} onClick={(e)=> handleProUsage(e.target.value)}>Product usage</Button>
-                                <Button variant="outlined" size="small" value={product.product_id} onClick={e => handleOpen(e.target.value)}>Edit Details</Button>
+                                <ButtonGroup size="small" aria-label="small button group">
+                                  <Button style={{ fontSize: 11, color: '#fff' , backgroundColor: '#5cb85c' }} value={product.product_id} onClick={(e)=> handleProUsage(e.target.value)}>Product usage</Button>
+                                  <Button style={{ fontSize: 11, color: '#fff' , backgroundColor: '#5bc0de' }} value={product.product_id} onClick={e => handleOpen(e.target.value)}>Edit Details</Button>
+                                  <Button style={{ fontSize: 11, color: '#fff' , backgroundColor: '#f0ad4e' }}>Delete</Button>
+                                </ButtonGroup>
+
                                 </CardActions>
                             </Card>
 
