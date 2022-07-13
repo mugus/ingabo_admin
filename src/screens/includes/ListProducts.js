@@ -45,7 +45,12 @@ export default function ListProducts() {
           // console.log("Product: ", res.data.product);
           setOpen(true);
       }).catch(err=>{
+        if(err.response.data.status === 404){
+          alert(err.response.data.message);
+          console.log(err.response.data.message);
+        }else{
           console.log(err);
+        }
       })
     }
     let photo_modal = 'http://localhost:4000/uploads/'+pro_modal.image;

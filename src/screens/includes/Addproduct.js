@@ -15,7 +15,6 @@ export default function Addproduct() {
   const [name, setName] = useState("");
   const [size, setSize] = useState("");
   const [category, setCategory] = useState("");
-  const [price, setPrice] = useState("");
   const [description, setDescription] = useState("");
   const [image, setImage] = useState("");
   const [msg, setMsg] = useState("");
@@ -26,10 +25,10 @@ export default function Addproduct() {
     $('.CreatePro').show()
     $('.Loading_btn').hide()
   })
-  setTimeout(
-    () => setMsg(""),
-    8000
-  );
+  // setTimeout(
+  //   () => setMsg(""),
+  //   8000
+  // );
 
   const handleAddProduct = async (e)=>{
     e.preventDefault();
@@ -42,7 +41,6 @@ export default function Addproduct() {
     data.append("name", name);
     data.append("size", size);
     data.append("category", category);
-    data.append("price", price);
     data.append("description", description);
     data.append("image", image);
 
@@ -50,10 +48,15 @@ export default function Addproduct() {
     axios.post('http://localhost:4000/api/v1/products', data, { headers: {"Authorization" : `Bearer ${token}`} })
     .then(res => {
       if(res.status===201){
-        console.log(res);
-        // setMsg(res.message)
-        // setAlertclass("success")
+        console.log(res.message);
+        // alert('Product Created')
+        setMsg(res.message)
+        setAlertclass("success")
       }else if(res.status===400){
+        console.log(res);
+        setMsg(res.message)
+        setAlertclass("error")
+      }else if(res.status===403){
         console.log(res);
         setMsg(res.message)
         setAlertclass("error")
@@ -95,7 +98,6 @@ export default function Addproduct() {
         <TextField id="standard-basic" label="Product Name" variant="standard" value={name} onChange={(e) => setName(e.target.value)} required/>
         <TextField id="standard-basic" label="Product Category" variant="standard" value={category} onChange={(e) => setCategory(e.target.value)} />
         <TextField id="standard-basic" label="Product Size" variant="standard" value={size} onChange={(e) => setSize(e.target.value)} />
-        <TextField id="standard-basic" label="Product Price" variant="standard" value={price} onChange={(e) => setPrice(e.target.value)} />
         <TextField
             id="standard-multiline-static"
             label="Product details(Description)"
