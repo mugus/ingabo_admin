@@ -37,6 +37,12 @@ export default function ListProducts() {
     const [open, setOpen] = React.useState(false);
     // const handleOpen = () => setOpen(true);
     const [pro_modal, setPro_modal] = useState([]);
+
+    const handleProUsage = (product_id) => {
+      window.location.replace(`./ProductUsage/${product_id}`)
+      // alert("ready"+product_id)
+    }
+
     const handleOpen = (product_id) =>{
       axios.get(`http://localhost:4000/api/v1/products/${product_id}`).then(res => {
         // axios.get('http://197.243.14.102:4000/api/v1/products').then(res => {
@@ -106,7 +112,7 @@ export default function ListProducts() {
                                 </CardContent>
                                 <CardActions>
                                     
-                                <Button variant="outlined" size="small" onClick={()=> alert("Usage is ready")}>Product usage</Button>
+                                <Button variant="outlined" size="small" value={product.product_id} onClick={(e)=> handleProUsage(e.target.value)}>Product usage</Button>
                                 <Button variant="outlined" size="small" value={product.product_id} onClick={e => handleOpen(e.target.value)}>Edit Details</Button>
                                 </CardActions>
                             </Card>
@@ -149,10 +155,10 @@ export default function ListProducts() {
             noValidate
             autoComplete="off"
           >
-        <TextField id="standard-basic" value={pro_modal.name} label="Product Name" variant="standard"/>
-        <TextField id="standard-basic" value={pro_modal.category} label="Product Category" variant="standard" />
-        <TextField id="standard-basic" value={pro_modal.size} label="Product Size" variant="standard" />
-        <TextField
+          <TextField id="standard-basic" value={pro_modal.name} label="Product Name" variant="standard"/>
+          <TextField id="standard-basic" value={pro_modal.category} label="Product Category" variant="standard" />
+          <TextField id="standard-basic" value={pro_modal.size} label="Product Size" variant="standard" />
+          <TextField
             value={pro_modal.description}
             id="standard-multiline-static"
             label="Product details(Description)"

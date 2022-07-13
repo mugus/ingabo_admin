@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom/client';
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import './index.css';
 import Products from './screens/Products';
+import ProductUsage from './screens/ProductUsage';
 import Landing from './screens/Landing';
 import Signup from './screens/Signup';
 import Profile from './screens/Profile';
@@ -42,6 +43,7 @@ root.render(
         <Route path="/Signup" element={<Signup />} />
         <Route path="Home" element={<Home />} />
         <Route path="Products" element={<Products />} />
+        <Route path="ProductUsage/:product_id" element={<ProductUsage />} />
         <Route path="Settings" element={<Settings />} />
         <Route path="Profile" element={<Profile />} />
         <Route path="Diagnosis/:token/:crop_id" element={<Diagnosis />} />
