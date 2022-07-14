@@ -51,6 +51,7 @@ export default function Addproduct() {
     axios.post('http://localhost:4000/api/v1/products', data, { headers: {"Authorization" : `Bearer ${token}`} })
     .then(res => {
       if(res.status===201){
+        window.location.reload()
         console.log(res.message);
         // alert('Product Created')
         setMsg(res.message)

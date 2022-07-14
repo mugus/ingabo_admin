@@ -15,7 +15,7 @@ import Crops from './screens/Crops';
 import Help from './screens/Help';
 
 import { ThemeProvider, createTheme } from '@mui/material/styles';
-
+import { ConfirmProvider } from "material-ui-confirm";
 const theme = createTheme({
   palette: {
     mode: 'light',
@@ -37,21 +37,23 @@ const theme = createTheme({
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <ThemeProvider theme={theme}>
-    <BrowserRouter>
-      <Routes>
-        <Route path="/" element={<Landing />} />
-        <Route path="/Signup" element={<Signup />} />
-        <Route path="Home" element={<Home />} />
-        <Route path="Products" element={<Products />} />
-        <Route path="ProductUsage/:product_id" element={<ProductUsage />} />
-        <Route path="Settings" element={<Settings />} />
-        <Route path="Profile" element={<Profile />} />
-        <Route path="Diagnosis/:token/:crop_id" element={<Diagnosis />} />
-        <Route path="DiagnosisDetails/:token/:diagnosis_id" element={<DiagnosisDetails />} />
-        <Route path="Help" element={<Help />} />
-        <Route path="Crops" element={<Crops />} />
-      </Routes>
-    </BrowserRouter>
+    <ConfirmProvider>
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" element={<Landing />} />
+          <Route path="/Signup" element={<Signup />} />
+          <Route path="Home" element={<Home />} />
+          <Route path="Products" element={<Products />} />
+          <Route path="ProductUsage/:product_id" element={<ProductUsage />} />
+          <Route path="Settings" element={<Settings />} />
+          <Route path="Profile" element={<Profile />} />
+          <Route path="Diagnosis/:token/:crop_id" element={<Diagnosis />} />
+          <Route path="DiagnosisDetails/:token/:diagnosis_id" element={<DiagnosisDetails />} />
+          <Route path="Help" element={<Help />} />
+          <Route path="Crops" element={<Crops />} />
+        </Routes>
+      </BrowserRouter>
+    </ConfirmProvider>
 
   </ThemeProvider>
 );
