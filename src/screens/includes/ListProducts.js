@@ -59,7 +59,7 @@ export default function ListProducts() {
           // setProduct(res.data.product);
           setPro_modal(res.data.product)
           // console.log("Product: ", res.data.product);
-          // setOpen(true);
+          setOpen(true);
       }).catch(err=>{
         if(err.response.data.status === 404){
           alert(err.response.data.message);
