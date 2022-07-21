@@ -5,6 +5,7 @@ import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import '../../styles/Products.css';
 import axios from 'axios';
+import Alert from '@mui/material/Alert';
 
 const Input = styled('input')({
   display: 'none',
@@ -16,44 +17,49 @@ export default function Addcrop() {
   const [name, setName] = useState("");
   const [image, setImage] = useState("");
 
+  const [msg, setMsg] = useState("");
+  const [alertclass, setAlertclass] = useState("");
+  const token = localStorage.getItem('token');
+
   const handleAddCrop= async (e)=>{
     e.preventDefault();
-    let data = JSON.stringify({
-      name: name,
-      image: image
-    });
-    let url = "http://localhost:4000/api/v1/crop";
-    const response = await axios.post(url,data,{headers:{"Content-Type" : "application/json"}});
-    console.log(response.data);
-
-    // alert(`image:  ${image}`)
-    // axios.post('http://localhost:4000/api/v1/products', {
+    const data = new FormData(); 
+    data.append("name", name);
+    data.append("image", image);
+    // let data = JSON.stringify({
     //   name: name,
-    //   size: size,
-    //   category: category,
-    //   price: price,
-    //   description: description,
     //   image: image
-    // })
-    // .then(function (response) {
-    //   console.log(response);
-    // })
-    // .catch(function (error) {
-    //   console.log(error);
     // });
-    // axios({
-    //   method: 'post',
-    //   url: 'localhost:4000/api/v1/products',
-    //   data: {
-    //     name: name,
-    //     size: size,
-    //     category: category,
-    //     price: price,
-    //     description: description,
-    //     image: image,
-    //   }
-    // });
-    // alert(`The name you entered was: ${name} :${category} with ${price} and size of ${size} image:  ${image}`)
+    axios.post('http://localhost:4000/api/v1/crops', data, { headers: {"Authorization" : `Bearer ${token}`} })
+    .then(res => {
+      if(res.status===201){
+        window.location.reload()
+        console.log(res.message);
+        // alert('Product Created')
+        setMsg(res.message)
+        setAlertclass("success")
+      }else if(res.status===400){
+        console.log(res);
+        setMsg(res.message)
+        setAlertclass("error")
+      }else if(res.status===403){
+        console.log(res);
+        setMsg(res.message)
+        setAlertclass("error")
+      }else{
+        console.log(res)
+      }
+      // console.log('Axios response: ', res)
+    }).catch(function (error) {
+      if(error.response.data.status===403){
+        console.log("Message: ",error.response.data.message);
+        // setMsg(error.response.data.message)
+        setMsg(error.response.data.message)
+        setAlertclass("error")
+      }else{
+        console.log(error);
+      }
+  });
   }
   return (
     <>
@@ -67,14 +73,16 @@ export default function Addcrop() {
         noValidate
         autoComplete="off"
       >
+        <div style={{ paddingLeft: 40 }}>
+          {msg ? <Alert severity={alertclass}>{msg}</Alert> : <></> }
+        </div>
+
         <TextField id="standard-basic" label="Crop Name" variant="standard" value={name} onChange={(e) => setName(e.target.value)} />
 
-        <label htmlFor="contained-button-file" style={{ paddingLeft: '10px!important' }}>
-          <Input accept="image/*" id="contained-button-file" multiple type="file" value={image} onChange={(e) => setImage(e.target.value.files[0])} />
-          <Button variant="outlined" component="span">
-            Upload Image
-          </Button>
-        </label>
+        <input type="file" name="image" label="file" onChange={e => {
+                            const image = e.target.files[0];
+                            setImage(image)
+                          }} required/>
         <Button variant="contained" color="success" onClick={handleAddCrop}>
           Create Crop
         </Button>

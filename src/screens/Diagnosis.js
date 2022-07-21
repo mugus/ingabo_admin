@@ -13,6 +13,8 @@ import Typography from '@mui/material/Typography';
 import { useParams } from "react-router-dom";
 import axios from 'axios';
 import { FormControl, FormControlLabel, FormGroup } from "@mui/material";
+import Alert from '@mui/material/Alert';
+
 
 const Input = styled('input')({
   display: 'none',
@@ -33,9 +35,8 @@ const Diagnosis = () => {
   const [diagnosisdetails, setDiagnosisdetails] = useState([]);
   const [image, setImage] = useState("");
   const { token, crop_id } = useParams();
-  const [imageUrl, setImageUrl] = useState("");
-  const [img, setImg] = useState("");
-
+  const [msg, setMsg] = useState("");
+  const [alertclass, setAlertclass] = useState("");
 
 
   const handlediagnosisDetails =(diagnosis_id)=>{
@@ -51,11 +52,19 @@ const Diagnosis = () => {
     data.append("image", image);
 
     // console.log("data: ", data);
-    axios.post('http://localhost:4000/api/v1/diagnosis', data)
+    axios.post('http://localhost:4000/api/v1/diagnosis', data, { headers: {"Authorization" : `Bearer ${token}`} })
     .then(res => {
-      console.log('Axios response: ', res)
+      window.location.reload()
+      console.log(res.message);
     }).catch(function (error) {
-      console.log(error);
+      if(error.response.data.status===403){
+        console.log("Message: ",error.response.data.message);
+        // setMsg(error.response.data.message)
+        setMsg(error.response.data.message)
+        setAlertclass("error")
+      }else{
+        console.log(error);
+      }
   });
 
 
@@ -77,6 +86,8 @@ const Diagnosis = () => {
         <Box sx={{ width: '100%' }}>
           <Grid container>
             <Grid item xs={12} sm={7} md={7} lg={7} xl={7}>
+            
+
               <Item>
                   <h2>Diagnosis</h2>
                   
@@ -84,7 +95,7 @@ const Diagnosis = () => {
             
                   { 
                   // if(diagnosisdetails !== ''){
-                    diagnosisdetails.length > 0 &&
+                    diagnosisdetails.length > 0 ?
                   diagnosisdetails.map((diagnosisdetails)=>{
                     let photo = 'http://localhost:4000/uploads/'+diagnosisdetails.image;
                     return (
@@ -109,7 +120,15 @@ const Diagnosis = () => {
 
                       </Grid>
                     )
-                  })}
+                  }): 
+                  <>
+                  <Grid item xs={5} sm={6} md={4} lg={4} xl={3}></Grid>
+                  <Grid item xs={6} sm={6} md={4} lg={4} xl={3}>
+
+                    <h6 style={{paddingTop: 20}}>No Diagnois found</h6>
+
+                  </Grid>
+                  </>}
                 </Grid>
 
               </Item>
@@ -129,6 +148,10 @@ const Diagnosis = () => {
                           noValidate
                           autoComplete="off"
                           >
+                            <div style={{ paddingLeft: 40 }}>
+                            {msg ? <Alert severity={alertclass}>{msg}</Alert> : <></> }
+                          </div>
+
                           <TextField id="standard-basic" label="Diagnosis Name" variant="standard" value={diagnosis_name} onChange={(e) => setDiagnosis_name(e.target.value)} />
                           <input type="file" name="image" label="file" onChange={e => {
                             const image = e.target.files[0];

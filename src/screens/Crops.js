@@ -31,7 +31,7 @@ export default function Crops() {
   }, []);
 
   let url = window.location.origin+"/Crop";
-  console.log(url);
+  console.log("URL: ",url);
   
   return (
       <>

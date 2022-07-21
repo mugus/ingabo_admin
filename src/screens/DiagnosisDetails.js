@@ -12,6 +12,8 @@ import Paper from '@mui/material/Paper';
 import Typography from '@mui/material/Typography';
 import { useParams } from "react-router-dom";
 import axios from 'axios';
+import Alert from '@mui/material/Alert';
+import TextField from '@mui/material/TextField';
 
 
 const Item = styled(Paper)(({ theme }) => ({
@@ -24,11 +26,32 @@ const Item = styled(Paper)(({ theme }) => ({
 
 
 const DiagnosisDetails = () => {
-  const [diagdetails, setDiagdetails] = useState([]);
-  const [ msg, setMsg] = useState("")
-  const { token, diagnosis_id } = useParams();
+    const [diagnosis_name, setDiagnosis_name] = useState("");
+    const [singledetails, setSingledetails] = useState([]);
+    const [image, setImage] = useState("");
+    const [msg, setMsg] = useState("");
+    const [alertclass, setAlertclass] = useState("");
+    const [diagdetails, setDiagdetails] = useState([]);
+    const { token, diagnosis_id } = useParams();
 
+    const handleAddDiagnosisDetails = () => {
+        alert("ready")
+    }
+    // http://localhost:4000/api/v1/diagnosis/single/3
 
+    const GetSingleDiagnosis = () => {
+        axios.get(`http://localhost:4000/api/v1/diagnosis/single/${diagnosis_id}`).then(res => {
+            // setDiagdetails(res.data.diag);
+            setSingledetails(res.data.diag)
+            console.log('Data: ',res.data.diag);
+            // console.log('test ',res.data.diagnosis.diagnosis_name);
+        }).catch(err=>{
+            // alert(err.response.data.message);
+            setMsg(err.response.data.message)
+            // window.location.replace('./Diagnosis');
+            // console.log(err);
+        })
+    }
 
   useEffect(() => {
     axios.get(`http://197.243.14.102:4000/api/v1/diagnosis/${diagnosis_id}`).then(res => {
@@ -40,9 +63,11 @@ const DiagnosisDetails = () => {
         // window.location.replace('./Diagnosis');
         // console.log(err);
     })
+    GetSingleDiagnosis()
 }, []);
+
 let photo = 'http://197.243.14.102:4000/uploads/'+diagdetails.image;
-console.log("Diagnosis Details",diagdetails);
+console.log("Diagnosis Details",singledetails.diagnosis_name);
   return (
       <>
         {/* <Navbar /> */}
@@ -53,7 +78,34 @@ console.log("Diagnosis Details",diagdetails);
                     <Item>
                         <h2 style={{ fontWeight: 'bold', textTransform: 'uppercase'}} color="primary"> {diagdetails.crop_name} Diagnosis Details</h2>
                         <Grid container spacing={0.5} style={{height: window.innerHeight + 'px', paddingTop: 50, float: 'left'}}>
-                        { msg ? <center>{msg}</center>  : 
+                        { msg ? (
+                            <>
+                            <Grid item xs={12} sm={7} md={7} lg={7} xl={7}>
+                            {msg}
+                            <Box
+                                component="form"
+                                sx={{
+                                    '& > :not(style)': { m: 1, width: '80%' },
+                                }}
+                                noValidate
+                                autoComplete="off"
+                                >
+
+                                <TextField id="standard-basic" label="Diagnosis Name" variant="standard" value={diagnosis_name} onChange={(e) => setDiagnosis_name(e.target.value)} />
+                                <input type="file" name="image" label="file" onChange={e => {
+                                    const image = e.target.files[0];
+                                    setImage(image)
+                                }}/>
+                                
+                                <Button variant="contained" color="success" onClick={handleAddDiagnosisDetails}>
+                                    Create Diagnosis Details
+                                </Button>
+                            </Box>
+
+                                <a className="text text-warning" href="../../Crops">Back</a>
+                            </Grid>
+                            </>
+                        )  : 
                             (
                                 <>
                                     <Grid item xs={12} sm={5} md={5} lg={5} xl={5}>
