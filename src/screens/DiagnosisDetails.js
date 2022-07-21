@@ -14,6 +14,11 @@ import { useParams } from "react-router-dom";
 import axios from 'axios';
 import Alert from '@mui/material/Alert';
 import TextField from '@mui/material/TextField';
+import InputLabel from '@mui/material/InputLabel';
+import MenuItem from '@mui/material/MenuItem';
+import FormControl from '@mui/material/FormControl';
+import OutlinedInput from '@mui/material/OutlinedInput';
+import Select from '@mui/material/Select';
 
 
 const Item = styled(Paper)(({ theme }) => ({
@@ -25,25 +30,73 @@ const Item = styled(Paper)(({ theme }) => ({
 }));
 
 
+const ITEM_HEIGHT = 48;
+const ITEM_PADDING_TOP = 8;
+const MenuProps = {
+  PaperProps: {
+    style: {
+      maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
+      width: 250,
+    },
+  },
+};
+
+
 const DiagnosisDetails = () => {
-    const [diagnosis_name, setDiagnosis_name] = useState("");
+    const [pro, setPro] = useState([]);
+    const [symptoms, setSymptoms] = useState("");
+    const [cause, setCause] = useState("");
+    const [prevention, setPrevention] = useState("");
     const [singledetails, setSingledetails] = useState([]);
-    const [image, setImage] = useState("");
     const [msg, setMsg] = useState("");
     const [alertclass, setAlertclass] = useState("");
     const [diagdetails, setDiagdetails] = useState([]);
     const { token, diagnosis_id } = useParams();
 
+    const [productlist, setProductlist] = React.useState([]);
+
+    // http://localhost:4000/api/v1/diagnosis/details
     const handleAddDiagnosisDetails = () => {
-        alert("ready")
+        let pro_item = productlist.toString();
+        console.log("Item ", pro_item);
+        const data = {
+            diagnosis_id:diagnosis_id,
+            recommendation_products: pro_item,
+            symptoms: symptoms,
+            prevention: prevention,
+            cause: cause
+        }
+        axios.post('http://localhost:4000/api/v1/diagnosis/details', data, { headers: {"Authorization" : `Bearer ${token}`} }).then(res => {
+            // window.location.reload()
+            console.log(res.message);
+        }).catch(err=> {
+            if(err.response.data.status===403){
+                console.log("Message: ",err.response.data.message);
+                // setMsg(err.response.data.message)
+                setMsg(err.response.data.message)
+                setAlertclass("err")
+              }else{
+                console.log(err);
+              }
+        })
+        
     }
     // http://localhost:4000/api/v1/diagnosis/single/3
 
+
+    const GetProducts = () => {
+        axios.get(`http://localhost:4000/api/v1/products`).then(res => {
+              setPro(res.data.products)
+            //   console.log("Pro ", res.data.products);
+          }).catch(err=>{
+              console.log(err);
+          })
+    }
     const GetSingleDiagnosis = () => {
         axios.get(`http://localhost:4000/api/v1/diagnosis/single/${diagnosis_id}`).then(res => {
             // setDiagdetails(res.data.diag);
             setSingledetails(res.data.diag)
-            console.log('Data: ',res.data.diag);
+            // console.log('Data: ',res.data.diag.name);
             // console.log('test ',res.data.diagnosis.diagnosis_name);
         }).catch(err=>{
             // alert(err.response.data.message);
@@ -54,7 +107,7 @@ const DiagnosisDetails = () => {
     }
 
   useEffect(() => {
-    axios.get(`http://197.243.14.102:4000/api/v1/diagnosis/${diagnosis_id}`).then(res => {
+    axios.get(`http://localhost:4000/api/v1/diagnosis/${diagnosis_id}`).then(res => {
         setDiagdetails(res.data.diagnosis);
         // console.log('test ',res.data.diagnosis.diagnosis_name);
     }).catch(err=>{
@@ -64,10 +117,11 @@ const DiagnosisDetails = () => {
         // console.log(err);
     })
     GetSingleDiagnosis()
+    GetProducts()
 }, []);
 
-let photo = 'http://197.243.14.102:4000/uploads/'+diagdetails.image;
-console.log("Diagnosis Details",singledetails.diagnosis_name);
+let photo = 'http://localhost:4000/uploads/'+diagdetails.image;
+// console.log("Products ",pro);
   return (
       <>
         {/* <Navbar /> */}
@@ -76,31 +130,85 @@ console.log("Diagnosis Details",singledetails.diagnosis_name);
                 <Grid item xs={12} sm={2} md={2} lg={2} xl={2}></Grid>
                 <Grid item xs={12} sm={8} md={8} lg={8} xl={8}>
                     <Item>
-                        <h2 style={{ fontWeight: 'bold', textTransform: 'uppercase'}} color="primary"> {diagdetails.crop_name} Diagnosis Details</h2>
+                        <h2 style={{ fontWeight: 'bold', textTransform: 'uppercase'}} color="primary"> {singledetails.name} Diagnosis Details</h2>
                         <Grid container spacing={0.5} style={{height: window.innerHeight + 'px', paddingTop: 50, float: 'left'}}>
                         { msg ? (
                             <>
                             <Grid item xs={12} sm={7} md={7} lg={7} xl={7}>
-                            {msg}
-                            <Box
-                                component="form"
-                                sx={{
-                                    '& > :not(style)': { m: 1, width: '80%' },
-                                }}
-                                noValidate
-                                autoComplete="off"
-                                >
+                                {msg} for {singledetails.name}
+                                <Box
+                                    component="form"
+                                    sx={{
+                                        '& > :not(style)': { m: 1, width: '80%' },
+                                    }}
+                                    noValidate
+                                    autoComplete="off"
+                                    >
 
-                                <TextField id="standard-basic" label="Diagnosis Name" variant="standard" value={diagnosis_name} onChange={(e) => setDiagnosis_name(e.target.value)} />
-                                <input type="file" name="image" label="file" onChange={e => {
-                                    const image = e.target.files[0];
-                                    setImage(image)
-                                }}/>
-                                
-                                <Button variant="contained" color="success" onClick={handleAddDiagnosisDetails}>
-                                    Create Diagnosis Details
-                                </Button>
-                            </Box>
+                                    <TextField id="standard-basic" label="Crop Name" variant="standard" value={singledetails.name} disabled />
+                                    <TextField id="standard-basic" label="Diagnosis Name" variant="standard" value={singledetails.diagnosis_name} disabled />
+                                    <TextField
+                                        id="standard-multiline-static"
+                                        label="Diagnosis symptoms(Description)"
+                                        multiline
+                                        rows={3}
+                                        variant="standard"
+                                        value={symptoms} onChange={(e) => setSymptoms(e.target.value)} 
+                                    />
+                                    <TextField
+                                        id="standard-multiline-static"
+                                        label="Diagnosis cause(Description)"
+                                        multiline
+                                        rows={3}
+                                        variant="standard"
+                                        value={cause} onChange={(e) => setCause(e.target.value)} 
+                                    />
+
+                                    <TextField
+                                        id="standard-multiline-static"
+                                        label="Diagnosis prevention(Description)"
+                                        multiline
+                                        rows={3}
+                                        variant="standard"
+                                        value={prevention} onChange={(e) => setPrevention(e.target.value)} 
+                                    />
+
+                                    <FormControl sx={{ m: 1, width: 300 }}>
+
+                                        <InputLabel id="demo-multiple-name-label">Diagnosis recommendation products</InputLabel>
+                                        <Select
+                                                labelId="Diagnosis recommendation products"
+                                                multiple
+                                                value={productlist}
+                                                onChange={ (event) => {
+                                                    const {
+                                                        target: { value },
+                                                    } = event;
+                                                    setProductlist(
+                                                        // On autofill we get a stringified value.
+                                                        typeof value === 'string' ? value.split(',') : value,
+                                                    );
+                                                    }
+                                                }
+                                                input={<OutlinedInput label="Diagnosis recommendation products" />}
+                                                MenuProps={MenuProps}
+                                                >
+                                                {pro.map((pro) => (
+                                                    <MenuItem
+                                                    key={pro.product_id}
+                                                    value={pro.name}
+                                                    >
+                                                    {pro.name}
+                                                    </MenuItem>
+                                                ))}
+                                        </Select>
+                                    </FormControl>
+                                    
+                                    
+                                    <Button variant="contained" color="success" onClick={handleAddDiagnosisDetails}>
+                                        Create Diagnosis Details
+                                    </Button>
+                                </Box>
 
                                 <a className="text text-warning" href="../../Crops">Back</a>
                             </Grid>
