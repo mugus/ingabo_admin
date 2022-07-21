@@ -25,6 +25,7 @@ const Item = styled(Paper)(({ theme }) => ({
 
 const DiagnosisDetails = () => {
   const [diagdetails, setDiagdetails] = useState([]);
+  const [ msg, setMsg] = useState("")
   const { token, diagnosis_id } = useParams();
 
 
@@ -34,7 +35,10 @@ const DiagnosisDetails = () => {
         setDiagdetails(res.data.diagnosis);
         // console.log('test ',res.data.diagnosis.diagnosis_name);
     }).catch(err=>{
-        console.log(err);
+        // alert(err.response.data.message);
+        setMsg(err.response.data.message)
+        // window.location.replace('./Diagnosis');
+        // console.log(err);
     })
 }, []);
 let photo = 'http://197.243.14.102:4000/uploads/'+diagdetails.image;
@@ -49,60 +53,67 @@ console.log("Diagnosis Details",diagdetails);
                     <Item>
                         <h2 style={{ fontWeight: 'bold', textTransform: 'uppercase'}} color="primary"> {diagdetails.crop_name} Diagnosis Details</h2>
                         <Grid container spacing={0.5} style={{height: window.innerHeight + 'px', paddingTop: 50, float: 'left'}}>
-                            <Grid item xs={12} sm={5} md={5} lg={5} xl={5}>
-                                <Card sx={{ width: '100%' }} style={{ textAlign: 'left' }}>
-                                    <CardMedia
-                                    component="img"
-                                    height="300"
-                                    image={photo}
-                                    alt={diagdetails.diagnosis_name}
-                                    />
+                        { msg ? <center>{msg}</center>  : 
+                            (
+                                <>
+                                    <Grid item xs={12} sm={5} md={5} lg={5} xl={5}>
+                                        <Card sx={{ width: '100%' }} style={{ textAlign: 'left' }}>
+                                            <CardMedia
+                                            component="img"
+                                            height="300"
+                                            image={photo}
+                                            alt={diagdetails.diagnosis_name}
+                                            />
 
-                                    <CardContent>
-                                        <Typography  variant="h6" color="primary">
-                                            Cause
-                                        </Typography>
-                                        <Typography gutterBottom variant="p">
-                                            {diagdetails.cause}
-                                        </Typography>
-                                        <Typography gutterBottom variant="h6" color="primary">
-                                            Prevention
-                                        </Typography>
-                                        <Typography gutterBottom variant="p">
-                                            {diagdetails.prevention}
-                                        </Typography>
-                                        <Typography gutterBottom variant="h6" color="primary" component="div">
-                                            Product recommended
-                                        </Typography>
-                                        <Typography gutterBottom variant="p" component="div">
-                                            {diagdetails.recommendation_products}
-                                        </Typography>
-                                    </CardContent>
-                                    <CardActions>
-                                        <Button value="" variant="outlined" size="small">Edit Details</Button>
-                                        <Button variant="outlined" size="small" href="../../Crops">Back</Button>
-                                    </CardActions>
+                                            <CardContent>
+                                                <Typography  variant="h6" color="primary">
+                                                    Cause
+                                                </Typography>
+                                                <Typography gutterBottom variant="p">
+                                                    {diagdetails.cause}
+                                                </Typography>
+                                                <Typography gutterBottom variant="h6" color="primary">
+                                                    Prevention
+                                                </Typography>
+                                                <Typography gutterBottom variant="p">
+                                                    {diagdetails.prevention}
+                                                </Typography>
+                                                <Typography gutterBottom variant="h6" color="primary" component="div">
+                                                    Product recommended
+                                                </Typography>
+                                                <Typography gutterBottom variant="p" component="div">
+                                                    {diagdetails.recommendation_products}
+                                                </Typography>
+                                            </CardContent>
+                                            <CardActions>
+                                                <Button value="" variant="outlined" size="small">Edit Details</Button>
+                                                <Button variant="outlined" size="small" href="../../Crops">Back</Button>
+                                            </CardActions>
 
-                                </Card>
-                            </Grid>
-                            <Grid item xs={12} sm={7} md={7} lg={7} xl={7}>
-                                
-                                <Card sx={{ width: '100%' }} style={{textAlign: 'left'}}>
-                                    <CardContent>
-                                        <Typography gutterBottom variant="h5" color="primary" component="div" style={{ fontWeight: 'bold' ,textTransform: 'uppercase' }}>
-                                            {diagdetails.diagnosis_name}
-                                        </Typography>
-                                        <Typography gutterBottom variant="h6" color="primary" component="div">
-                                            Symptoms
-                                        </Typography>
-                                        <Typography gutterBottom variant="p" component="div">
-                                            {diagdetails.symptoms}
-                                        </Typography>
-                                    </CardContent>
-                                </Card>
+                                        </Card>
+                                    </Grid>
+                                    <Grid item xs={12} sm={7} md={7} lg={7} xl={7}>
+                                        
+                                        <Card sx={{ width: '100%' }} style={{textAlign: 'left'}}>
+                                            <CardContent>
+                                                <Typography gutterBottom variant="h5" color="primary" component="div" style={{ fontWeight: 'bold' ,textTransform: 'uppercase' }}>
+                                                    {diagdetails.diagnosis_name}
+                                                </Typography>
+                                                <Typography gutterBottom variant="h6" color="primary" component="div">
+                                                    Symptoms
+                                                </Typography>
+                                                <Typography gutterBottom variant="p" component="div">
+                                                    {diagdetails.symptoms}
+                                                </Typography>
+                                            </CardContent>
+                                        </Card>
 
 
-                            </Grid>
+                                    </Grid>
+                                </>
+                            )
+                        }
+                            
                         </Grid>
 
 

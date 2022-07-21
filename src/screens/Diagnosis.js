@@ -86,7 +86,7 @@ const Diagnosis = () => {
                   // if(diagnosisdetails !== ''){
                     diagnosisdetails.length > 0 &&
                   diagnosisdetails.map((diagnosisdetails)=>{
-                    let photo = 'http://197.243.14.102:4000/uploads/'+diagnosisdetails.image;
+                    let photo = 'http://localhost:4000/uploads/'+diagnosisdetails.image;
                     return (
                       <Grid item xs={12} sm={6} md={4} lg={4} xl={3} key={diagnosisdetails.diagnosis_id}>
 
