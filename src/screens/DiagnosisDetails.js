@@ -48,11 +48,12 @@ const DiagnosisDetails = () => {
     const [cause, setCause] = useState("");
     const [prevention, setPrevention] = useState("");
     const [singledetails, setSingledetails] = useState([]);
-    const [msg, setMsg] = useState("");
+    const [msg, setMsg] = useState(false);
     const [alertclass, setAlertclass] = useState("");
     const [diagdetails, setDiagdetails] = useState([]);
     const { token, diagnosis_id } = useParams();
 
+    console.log("Diag ", diagnosis_id);
     const [productlist, setProductlist] = React.useState([]);
 
     // http://localhost:4000/api/v1/diagnosis/details
@@ -73,8 +74,8 @@ const DiagnosisDetails = () => {
             if(err.response.data.status===403){
                 console.log("Message: ",err.response.data.message);
                 // setMsg(err.response.data.message)
-                setMsg(err.response.data.message)
-                setAlertclass("err")
+                // setMsg(err.response.data.message)
+                // setAlertclass("err")
               }else{
                 console.log(err);
               }
@@ -96,32 +97,41 @@ const DiagnosisDetails = () => {
         axios.get(`http://localhost:4000/api/v1/diagnosis/single/${diagnosis_id}`).then(res => {
             // setDiagdetails(res.data.diag);
             setSingledetails(res.data.diag)
-            // console.log('Data: ',res.data.diag.name);
+            
+            // res.data.diag.cause === "" ? setMsg("No data found") : setMsg("")
+            console.log('Data: ',res.data.diag.cause);
             // console.log('test ',res.data.diagnosis.diagnosis_name);
         }).catch(err=>{
             // alert(err.response.data.message);
-            setMsg(err.response.data.message)
+            // setMsg(err.response.data.message)
             // window.location.replace('./Diagnosis');
-            // console.log(err);
+            console.log(err);
         })
     }
 
   useEffect(() => {
     axios.get(`http://localhost:4000/api/v1/diagnosis/${diagnosis_id}`).then(res => {
         setDiagdetails(res.data.diagnosis);
-        // console.log('test ',res.data.diagnosis.diagnosis_name);
+        if(res.data.diag.cause === undefined){
+            setMsg(false)
+        }
+        // if(res.data.diag.cause === undefined){
+        //     setMsg("No Details found")
+        // }
+        console.log('Test: ',res.data.diagnosis.cause);
     }).catch(err=>{
         // alert(err.response.data.message);
-        setMsg(err.response.data.message)
+        // setMsg(err.response.data.message)
         // window.location.replace('./Diagnosis');
-        // console.log(err);
+        setMsg(true)
+        console.log("Error: ",err);
     })
     GetSingleDiagnosis()
     GetProducts()
 }, []);
-
+console.log("image", diagdetails.cause);
 let photo = 'http://localhost:4000/uploads/'+diagdetails.image;
-// console.log("Products ",pro);
+console.log("Products ",msg);
   return (
       <>
         {/* <Navbar /> */}
@@ -132,6 +142,8 @@ let photo = 'http://localhost:4000/uploads/'+diagdetails.image;
                     <Item>
                         <h2 style={{ fontWeight: 'bold', textTransform: 'uppercase'}} color="primary"> {singledetails.name} Diagnosis Details</h2>
                         <Grid container spacing={0.5} style={{height: window.innerHeight + 'px', paddingTop: 50, float: 'left'}}>
+                        { msg ? <><h2>No data</h2></> : <><h2>Data Available</h2></>}
+                        
                         { msg ? (
                             <>
                             <Grid item xs={12} sm={7} md={7} lg={7} xl={7}>
@@ -273,7 +285,6 @@ let photo = 'http://localhost:4000/uploads/'+diagdetails.image;
                                 </>
                             )
                         }
-                            
                         </Grid>
 
 
