@@ -7,12 +7,15 @@ import CardMedia from '@mui/material/CardMedia';
 import Button from '@mui/material/Button';
 import CircularProgress from '@mui/material/CircularProgress';
 import Typography from '@mui/material/Typography';
+import ButtonGroup from '@mui/material/ButtonGroup';
+import { useConfirm } from "material-ui-confirm";
 import axios from 'axios';
 
 
 export default function Listcrops() {
-
+    const confirm = useConfirm();
     const [crop, setCrop] = useState([]);
+    const token = localStorage.getItem('token');
     // const [diagnosisdetails, setDiagnosisdetails] = useState([]);
     const [isReady, setisready] = useState(false);
     
@@ -29,6 +32,32 @@ export default function Listcrops() {
     }
     // console.log("Diagnosis: ", diagnosisdetails);
 
+        // Delete product
+        const handleDelete = crop_id => {
+            confirm({ description: `You are going to permanently delete` })
+              .then(() => {
+                // console.log("Ready");
+                    axios.delete(`http://localhost:4000/api/v1/crops/${crop_id}`, { headers: {"Authorization" : `Bearer ${token}`} }).then(res => {
+                    alert("Deleted ")
+                    window.location.reload()
+                }).catch(err=>{
+                    if(err.response.data.status===403){
+                    console.log("Message: ",err.response.data.message);
+                    alert(err.response.data.message);
+                    // setMsg(err.response.data.message)
+                    // setMsg(err.response.data.message)
+                    // setAlertclass("err")
+                    }else{
+                    console.log(err);
+                    }
+                        // console.log(err);
+                })
+              }
+              )
+              .catch(() => console.log("Deletion cancelled."));
+          };
+
+
     useEffect(()=> {
         axios.get('http://localhost:4000/api/v1/crops').then(res => {
             setCrop(res.data.crops);
@@ -38,7 +67,7 @@ export default function Listcrops() {
         crop ? setisready(true) : setisready(false)
       }, [])
 
-      console.log("Data: ",crop);
+    //   console.log("Data: ",crop);
     return (
         <>
         {
@@ -63,9 +92,20 @@ export default function Listcrops() {
                                     </Typography>
                                 </CardContent>
                                 <CardActions>
-                                    
-                                    <Button variant="outlined" size="small" color="warning">Edit</Button>
-                                    <Button value={crop.crop_id} variant="outlined" size="small" onClick={e => handleDiagnosis(e.target.value)}>View Diagnosis</Button>
+
+                                    <ButtonGroup size="small" aria-label="small button group">
+                                        <Button style={{ fontSize: 11, color: '#fff' , backgroundColor: '#5cb85c' }} value={crop.crop_id} onClick={e => handleDiagnosis(e.target.value)}>
+                                            View Diagnosis
+                                        </Button>
+                                        <Button style={{ fontSize: 11, color: '#fff' , backgroundColor: '#5bc0de' }} value={crop.crop_id}>
+                                            Edit
+                                        </Button>
+                                        {/* <Button style={{ fontSize: 11, color: '#fff' , backgroundColor: '#f0ad4e' }} value={product.product_id} onClick={handleDelete(product)}>Delete</Button> */}
+                                        <Button style={{ fontSize: 11, color: '#fff' , backgroundColor: '#f0ad4e' }} value={crop.crop_id} onClick={e => handleDelete(e.target.value)}>
+                                            Delete
+                                        </Button>
+                                    </ButtonGroup>
+
                                 </CardActions>
                             </Card>
 
