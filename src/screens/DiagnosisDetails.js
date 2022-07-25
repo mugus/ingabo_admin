@@ -48,7 +48,7 @@ const DiagnosisDetails = () => {
     const [cause, setCause] = useState("");
     const [prevention, setPrevention] = useState("");
     const [singledetails, setSingledetails] = useState([]);
-    const [msg, setMsg] = useState(false);
+    const [msg, setMsg] = useState(true);
     const [alertclass, setAlertclass] = useState("");
     const [diagdetails, setDiagdetails] = useState([]);
     const { token, diagnosis_id } = useParams();
@@ -105,16 +105,16 @@ const DiagnosisDetails = () => {
             // alert(err.response.data.message);
             // setMsg(err.response.data.message)
             // window.location.replace('./Diagnosis');
-            console.log(err);
+            console.log("Err: ",err);
         })
     }
 
   useEffect(() => {
     axios.get(`http://localhost:4000/api/v1/diagnosis/${diagnosis_id}`).then(res => {
         setDiagdetails(res.data.diagnosis);
-        if(res.data.diag.cause === undefined){
-            setMsg(false)
-        }
+        // if(res.data.diag.cause === undefined){
+            setMsg(true)
+        // }
         // if(res.data.diag.cause === undefined){
         //     setMsg("No Details found")
         // }
@@ -123,7 +123,7 @@ const DiagnosisDetails = () => {
         // alert(err.response.data.message);
         // setMsg(err.response.data.message)
         // window.location.replace('./Diagnosis');
-        setMsg(true)
+        setMsg(false)
         console.log("Error: ",err);
     })
     GetSingleDiagnosis()
@@ -131,7 +131,7 @@ const DiagnosisDetails = () => {
 }, []);
 console.log("image", diagdetails.cause);
 let photo = 'http://localhost:4000/uploads/'+diagdetails.image;
-console.log("Products ",msg);
+console.log("Single ",singledetails);
   return (
       <>
         {/* <Navbar /> */}
