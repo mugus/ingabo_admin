@@ -43,6 +43,7 @@ const MenuProps = {
 
 
 const DiagnosisDetails = () => {
+    const [diag_det, setDiag_det] = useState(false)
     const [pro, setPro] = useState([]);
     const [symptoms, setSymptoms] = useState("");
     const [cause, setCause] = useState("");
@@ -68,8 +69,8 @@ const DiagnosisDetails = () => {
             cause: cause
         }
         axios.post('http://localhost:4000/api/v1/diagnosis/details', data, { headers: {"Authorization" : `Bearer ${token}`} }).then(res => {
-            // window.location.reload()
-            console.log(res.message);
+            window.location.reload()
+            // console.log(res.message);
         }).catch(err=> {
             if(err.response.data.status===403){
                 console.log("Message: ",err.response.data.message);
@@ -114,16 +115,22 @@ const DiagnosisDetails = () => {
         setDiagdetails(res.data.diagnosis);
         // if(res.data.diag.cause === undefined){
             setMsg(true)
+            setDiag_det(true)
+            console.log("All data ",res.data.diagnosis.diagnosis_name);
         // }
-        // if(res.data.diag.cause === undefined){
-        //     setMsg("No Details found")
-        // }
-        console.log('Test: ',res.data.diagnosis.cause);
+        if(res.data.diagnosis.cause === null || res.data.diagnosis.symptoms === null || res.data.diagnosis.prevention === null){
+            console.log("No data")
+            setDiag_det(false)
+        }else{
+            console.log("data")
+            setDiag_det(true)
+        }
     }).catch(err=>{
         // alert(err.response.data.message);
         // setMsg(err.response.data.message)
         // window.location.replace('./Diagnosis');
         setMsg(false)
+        
         console.log("Error: ",err);
     })
     GetSingleDiagnosis()
@@ -131,7 +138,9 @@ const DiagnosisDetails = () => {
 }, []);
 console.log("image", diagdetails.cause);
 let photo = 'http://localhost:4000/uploads/'+diagdetails.image;
-console.log("Single ",singledetails);
+console.log("Check data ",diag_det);
+
+
   return (
       <>
         {/* <Navbar /> */}
@@ -142,149 +151,153 @@ console.log("Single ",singledetails);
                     <Item>
                         <h2 style={{ fontWeight: 'bold', textTransform: 'uppercase'}} color="primary"> {singledetails.name} Diagnosis Details</h2>
                         <Grid container spacing={0.5} style={{height: window.innerHeight + 'px', paddingTop: 50, float: 'left'}}>
-                        { msg ? <><h2>No data</h2></> : <><h2>Data Available</h2></>}
-                        
-                        { msg ? (
-                            <>
-                            <Grid item xs={12} sm={7} md={7} lg={7} xl={7}>
-                                {msg} for {singledetails.name}
-                                <Box
-                                    component="form"
-                                    sx={{
-                                        '& > :not(style)': { m: 1, width: '80%' },
-                                    }}
-                                    noValidate
-                                    autoComplete="off"
-                                    >
+                        {/* { diag_det ? <><h2>No data</h2></> : <><h2>Data Available</h2></>} */}
+                        {
+                        diag_det ? 
+                        <>
+                        <Grid item xs={12} sm={5} md={5} lg={5} xl={5}>
+                            <Card sx={{ width: '100%' }} style={{ textAlign: 'left' }}>
+                                <CardMedia
+                                component="img"
+                                height="300"
+                                image={photo}
+                                alt={diagdetails.diagnosis_name}
+                                />
 
-                                    <TextField id="standard-basic" label="Crop Name" variant="standard" value={singledetails.name} disabled />
-                                    <TextField id="standard-basic" label="Diagnosis Name" variant="standard" value={singledetails.diagnosis_name} disabled />
-                                    <TextField
-                                        id="standard-multiline-static"
-                                        label="Diagnosis symptoms(Description)"
-                                        multiline
-                                        rows={3}
-                                        variant="standard"
-                                        value={symptoms} onChange={(e) => setSymptoms(e.target.value)} 
-                                    />
-                                    <TextField
-                                        id="standard-multiline-static"
-                                        label="Diagnosis cause(Description)"
-                                        multiline
-                                        rows={3}
-                                        variant="standard"
-                                        value={cause} onChange={(e) => setCause(e.target.value)} 
-                                    />
+                                <CardContent>
+                                    <Typography  variant="h6" color="primary">
+                                        Cause
+                                    </Typography>
+                                    <Typography gutterBottom variant="p">
+                                        {diagdetails.cause}
+                                    </Typography>
+                                    <Typography gutterBottom variant="h6" color="primary">
+                                        Prevention
+                                    </Typography>
+                                    <Typography gutterBottom variant="p">
+                                        {diagdetails.prevention}
+                                    </Typography>
+                                    <Typography gutterBottom variant="h6" color="primary" component="div">
+                                        Product recommended
+                                    </Typography>
+                                    <Typography gutterBottom variant="p" component="div">
+                                        {diagdetails.recommendation_products}
+                                    </Typography>
+                                </CardContent>
+                                <CardActions>
+                                    <Button value="" variant="outlined" size="small">Edit Details</Button>
+                                    <Button variant="outlined" size="small" href="../../Crops">Back</Button>
+                                </CardActions>
 
-                                    <TextField
-                                        id="standard-multiline-static"
-                                        label="Diagnosis prevention(Description)"
-                                        multiline
-                                        rows={3}
-                                        variant="standard"
-                                        value={prevention} onChange={(e) => setPrevention(e.target.value)} 
-                                    />
+                            </Card>
+                        </Grid>
+                        <Grid item xs={12} sm={7} md={7} lg={7} xl={7}>
+                            
+                            <Card sx={{ width: '100%' }} style={{textAlign: 'left'}}>
+                                <CardContent>
+                                    <Typography gutterBottom variant="h5" color="primary" component="div" style={{ fontWeight: 'bold' ,textTransform: 'uppercase' }}>
+                                        {diagdetails.diagnosis_name}
+                                    </Typography>
+                                    <Typography gutterBottom variant="h6" color="primary" component="div">
+                                        Symptoms
+                                    </Typography>
+                                    <Typography gutterBottom variant="p" component="div">
+                                        {diagdetails.symptoms}
+                                    </Typography>
+                                </CardContent>
+                            </Card>
 
-                                    <FormControl sx={{ m: 1, width: 300 }}>
 
-                                        <InputLabel id="demo-multiple-name-label">Diagnosis recommendation products</InputLabel>
-                                        <Select
-                                                labelId="Diagnosis recommendation products"
-                                                multiple
-                                                value={productlist}
-                                                onChange={ (event) => {
-                                                    const {
-                                                        target: { value },
-                                                    } = event;
-                                                    setProductlist(
-                                                        // On autofill we get a stringified value.
-                                                        typeof value === 'string' ? value.split(',') : value,
-                                                    );
-                                                    }
+                        </Grid>
+                    </>
+                            
+                        :
+                        <>
+                        <Grid item md={3} lg={3} xl={3}></Grid>
+                        <Grid item xs={12} sm={7} md={7} lg={7} xl={7}>
+                            No Diagnosis details for {singledetails.name}
+                            <Box
+                                component="form"
+                                sx={{
+                                    '& > :not(style)': { m: 1, width: '80%' },
+                                }}
+                                noValidate
+                                autoComplete="off"
+                                >
+
+                                <TextField id="standard-basic" label="Crop Name" variant="standard" value={singledetails.name} disabled />
+                                <TextField id="standard-basic" label="Diagnosis Name" variant="standard" value={singledetails.diagnosis_name} disabled />
+                                <TextField
+                                    id="standard-multiline-static"
+                                    label="Diagnosis symptoms(Description)"
+                                    multiline
+                                    rows={3}
+                                    variant="standard"
+                                    value={symptoms} onChange={(e) => setSymptoms(e.target.value)} 
+                                />
+                                <TextField
+                                    id="standard-multiline-static"
+                                    label="Diagnosis cause(Description)"
+                                    multiline
+                                    rows={3}
+                                    variant="standard"
+                                    value={cause} onChange={(e) => setCause(e.target.value)}
+                                    min={80}
+                                />
+
+                                <TextField
+                                    id="standard-multiline-static"
+                                    label="Diagnosis prevention(Description)"
+                                    multiline
+                                    rows={3}
+                                    variant="standard"
+                                    value={prevention} onChange={(e) => setPrevention(e.target.value)} 
+                                />
+
+                                <FormControl sx={{ m: 1, width: 300 }}>
+
+                                    <InputLabel id="demo-multiple-name-label">Diagnosis recommendation products</InputLabel>
+                                    <Select
+                                            labelId="Diagnosis recommendation products"
+                                            multiple
+                                            value={productlist}
+                                            onChange={ (event) => {
+                                                const {
+                                                    target: { value },
+                                                } = event;
+                                                setProductlist(
+                                                    // On autofill we get a stringified value.
+                                                    typeof value === 'string' ? value.split(',') : value,
+                                                );
                                                 }
-                                                input={<OutlinedInput label="Diagnosis recommendation products" />}
-                                                MenuProps={MenuProps}
+                                            }
+                                            input={<OutlinedInput label="Diagnosis recommendation products" />}
+                                            MenuProps={MenuProps}
+                                            >
+                                            {pro.map((pro) => (
+                                                <MenuItem
+                                                key={pro.product_id}
+                                                value={pro.name}
                                                 >
-                                                {pro.map((pro) => (
-                                                    <MenuItem
-                                                    key={pro.product_id}
-                                                    value={pro.name}
-                                                    >
-                                                    {pro.name}
-                                                    </MenuItem>
-                                                ))}
-                                        </Select>
-                                    </FormControl>
-                                    
-                                    
-                                    <Button variant="contained" color="success" onClick={handleAddDiagnosisDetails}>
-                                        Create Diagnosis Details
-                                    </Button>
-                                </Box>
+                                                {pro.name}
+                                                </MenuItem>
+                                            ))}
+                                    </Select>
+                                </FormControl>
+                                
+                                
+                                <Button variant="contained" color="success" onClick={handleAddDiagnosisDetails}>
+                                    Create Diagnosis Details
+                                </Button>
+                            </Box>
 
-                                <a className="text text-warning" href="../../Crops">Back</a>
-                            </Grid>
-                            </>
-                        )  : 
-                            (
-                                <>
-                                    <Grid item xs={12} sm={5} md={5} lg={5} xl={5}>
-                                        <Card sx={{ width: '100%' }} style={{ textAlign: 'left' }}>
-                                            <CardMedia
-                                            component="img"
-                                            height="300"
-                                            image={photo}
-                                            alt={diagdetails.diagnosis_name}
-                                            />
-
-                                            <CardContent>
-                                                <Typography  variant="h6" color="primary">
-                                                    Cause
-                                                </Typography>
-                                                <Typography gutterBottom variant="p">
-                                                    {diagdetails.cause}
-                                                </Typography>
-                                                <Typography gutterBottom variant="h6" color="primary">
-                                                    Prevention
-                                                </Typography>
-                                                <Typography gutterBottom variant="p">
-                                                    {diagdetails.prevention}
-                                                </Typography>
-                                                <Typography gutterBottom variant="h6" color="primary" component="div">
-                                                    Product recommended
-                                                </Typography>
-                                                <Typography gutterBottom variant="p" component="div">
-                                                    {diagdetails.recommendation_products}
-                                                </Typography>
-                                            </CardContent>
-                                            <CardActions>
-                                                <Button value="" variant="outlined" size="small">Edit Details</Button>
-                                                <Button variant="outlined" size="small" href="../../Crops">Back</Button>
-                                            </CardActions>
-
-                                        </Card>
-                                    </Grid>
-                                    <Grid item xs={12} sm={7} md={7} lg={7} xl={7}>
-                                        
-                                        <Card sx={{ width: '100%' }} style={{textAlign: 'left'}}>
-                                            <CardContent>
-                                                <Typography gutterBottom variant="h5" color="primary" component="div" style={{ fontWeight: 'bold' ,textTransform: 'uppercase' }}>
-                                                    {diagdetails.diagnosis_name}
-                                                </Typography>
-                                                <Typography gutterBottom variant="h6" color="primary" component="div">
-                                                    Symptoms
-                                                </Typography>
-                                                <Typography gutterBottom variant="p" component="div">
-                                                    {diagdetails.symptoms}
-                                                </Typography>
-                                            </CardContent>
-                                        </Card>
-
-
-                                    </Grid>
-                                </>
-                            )
+                            <a className="text text-warning" href="../../Crops">Back</a>
+                        </Grid>
+                        </> 
                         }
+                        
+                       
+                                
                         </Grid>
 
 
