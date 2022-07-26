@@ -19,13 +19,14 @@ const style = {
 };
   
 export default function ProductUsage() {
+    const { product_id } = useParams();
     const token = localStorage.getItem('token');
     const [product, setProduct] = useState([]);
     const [application, setApplication] = useState("");
     const [pre_condition, setPre_condition] = useState("");
     const [msg, setMsg] = useState("");
     const [alertclass, setAlertclass] = useState("");
-    const { product_id } = useParams();
+
     $(document).ready(function(){
         $('.CreatePro').show()
         $('.Loading_btn').hide()
@@ -60,8 +61,18 @@ export default function ProductUsage() {
     }
 
     const handleUpdateUsage = () => {
-        console.log('Application ',application);
-        console.log('Pre_condition ',pre_condition);
+        // http://localhost:4000/api/v1/products/details/:id
+        const data = {
+            product_id: product_id,
+            application: application ? application : product.application,
+            pre_condition: pre_condition ? pre_condition : product.pre_condition
+        }
+        axios.patch(`http://localhost:4000/api/v1/products/details/${product_id}`, data, { headers: {"Authorization" : `Bearer ${token}`} })
+        .then(res => {
+            window.location.reload()
+        }).catch(function (err) {
+                console.log("Err", err);
+        });
     }
 
     
@@ -73,12 +84,9 @@ export default function ProductUsage() {
             if(err.response.data.status === 404){
                 setMsg(err.response.data.message)
                 setAlertclass("error")
-                // alert(err.response.data.message);
-                // console.log(err.response.data.message);
               }else{
-                console.log(err);
+                console.log('Err ', err);
               }
-            // console.log(err);
         })
         // end Get Product
 
@@ -86,8 +94,7 @@ export default function ProductUsage() {
 
     }, []);
 
-    let photo = 'http://localhost:4000/uploads/'+product.image;   
-
+    let photo = 'http://localhost:4000/uploads/'+product.image;
 
   return (
       <>
@@ -151,8 +158,9 @@ export default function ProductUsage() {
                                                     multiline
                                                     rows={3}
                                                     variant="standard"
+                                                    // value={application}
                                                     value={application}
-                                                    onChange={e => setApplication(e.target.value)} 
+                                                    onChange={e => setApplication(e.target.value)}
                                                 />  
                                                 
                                             
