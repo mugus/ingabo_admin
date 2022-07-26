@@ -216,6 +216,7 @@ console.log("Check data ",diag_det);
                         <Grid item md={3} lg={3} xl={3}></Grid>
                         <Grid item xs={12} sm={7} md={7} lg={7} xl={7}>
                             No Diagnosis details for {singledetails.name}
+                            <hr />
                             <Box
                                 component="form"
                                 sx={{
@@ -224,9 +225,18 @@ console.log("Check data ",diag_det);
                                 noValidate
                                 autoComplete="off"
                                 >
+                                
+                                <Grid container>
+                                    <Grid item xs={12} sm={6} md={6} lg={6} xl={6}>
+                                        <h6 style={{ fontWeight: 'bold', textTransform: 'uppercase'}}>{singledetails.name}</h6>
+                                    </Grid>
+                                    <Grid item xs={12} sm={6} md={6} lg={6} xl={6}>                               
+                                        <h6 style={{ fontWeight: 'bold', textTransform: 'uppercase'}}>{singledetails.diagnosis_name}</h6>
+                                    </Grid>
+                                </Grid>
 
-                                <TextField id="standard-basic" label="Crop Name" variant="standard" value={singledetails.name} disabled />
-                                <TextField id="standard-basic" label="Diagnosis Name" variant="standard" value={singledetails.diagnosis_name} disabled />
+                                {/* <TextField id="standard-basic" variant="standard" value={singledetails.name} disabled />
+                                <TextField id="standard-basic" variant="standard" value={singledetails.diagnosis_name} disabled /> */}
                                 <TextField
                                     id="standard-multiline-static"
                                     label="Diagnosis symptoms(Description)"

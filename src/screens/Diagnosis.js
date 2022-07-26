@@ -37,6 +37,7 @@ const Diagnosis = () => {
   const { token, crop_id } = useParams();
   const [msg, setMsg] = useState("");
   const [alertclass, setAlertclass] = useState("");
+  const [cropdetails, setCropdetails] = useState([]);
 
 
   const handlediagnosisDetails =(diagnosis_id)=>{
@@ -70,6 +71,14 @@ const Diagnosis = () => {
 
   }
 
+
+
+//   const GetSingleDiagnosis = () => {
+
+// }
+
+
+
   useEffect(()=> {
     axios.get(`http://localhost:4000/api/v1/crops/${crop_id}`).then(res => {
       // axios.get(`http://197.243.14.102:4000/api/v1/crops/${crop_id}`).then(res => {
@@ -77,9 +86,12 @@ const Diagnosis = () => {
     }).catch(err=>{
         console.log(err);
     })
+
+
+
   }, [])
 
-// console.log("Diagnosis ",diagnosisdetails);
+console.log("Diagnosis ",diagnosisdetails);
   return (
       <>
         {/* <Navbar /> */}
@@ -97,7 +109,7 @@ const Diagnosis = () => {
                   // if(diagnosisdetails !== ''){
                     diagnosisdetails.length > 0 ?
                   diagnosisdetails.map((diagnosisdetails)=>{
-                    let photo = 'http://localhost:4000/uploads/'+diagnosisdetails.image;
+                    let photo = 'http://localhost:4000/uploads/'+diagnosisdetails.diag_image;
                     return (
                       <Grid item xs={12} sm={6} md={4} lg={4} xl={3} key={diagnosisdetails.diagnosis_id}>
 
@@ -112,6 +124,7 @@ const Diagnosis = () => {
                                 <Typography gutterBottom variant="h6" component="div">
                                     {diagnosisdetails.diagnosis_name}
                                 </Typography>
+                                <small>{diagnosisdetails.crop_name}  </small>
                             </CardContent>
                             <CardActions>
                                 <Button value={diagnosisdetails.diagnosis_id} variant="outlined" size="small" onClick={e => handlediagnosisDetails(e.target.value)}>Diagnosis Details</Button>
