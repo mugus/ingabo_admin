@@ -54,7 +54,6 @@ const DiagnosisDetails = () => {
     const [diagdetails, setDiagdetails] = useState([]);
     const { token, diagnosis_id } = useParams();
 
-    console.log("Diag ", diagnosis_id);
     const [productlist, setProductlist] = React.useState([]);
 
     // http://localhost:4000/api/v1/diagnosis/details
@@ -70,13 +69,9 @@ const DiagnosisDetails = () => {
         }
         axios.post('http://localhost:4000/api/v1/diagnosis/details', data, { headers: {"Authorization" : `Bearer ${token}`} }).then(res => {
             window.location.reload()
-            // console.log(res.message);
         }).catch(err=> {
             if(err.response.data.status===403){
                 console.log("Message: ",err.response.data.message);
-                // setMsg(err.response.data.message)
-                // setMsg(err.response.data.message)
-                // setAlertclass("err")
               }else{
                 console.log(err);
               }
@@ -89,23 +84,14 @@ const DiagnosisDetails = () => {
     const GetProducts = () => {
         axios.get(`http://localhost:4000/api/v1/products`).then(res => {
               setPro(res.data.products)
-            //   console.log("Pro ", res.data.products);
           }).catch(err=>{
               console.log(err);
           })
     }
     const GetSingleDiagnosis = () => {
         axios.get(`http://localhost:4000/api/v1/diagnosis/single/${diagnosis_id}`).then(res => {
-            // setDiagdetails(res.data.diag);
             setSingledetails(res.data.diag)
-            
-            // res.data.diag.cause === "" ? setMsg("No data found") : setMsg("")
-            console.log('Data: ',res.data.diag.cause);
-            // console.log('test ',res.data.diagnosis.diagnosis_name);
         }).catch(err=>{
-            // alert(err.response.data.message);
-            // setMsg(err.response.data.message)
-            // window.location.replace('./Diagnosis');
             console.log("Err: ",err);
         })
     }
@@ -113,32 +99,23 @@ const DiagnosisDetails = () => {
   useEffect(() => {
     axios.get(`http://localhost:4000/api/v1/diagnosis/${diagnosis_id}`).then(res => {
         setDiagdetails(res.data.diagnosis);
-        // if(res.data.diag.cause === undefined){
             setMsg(true)
             setDiag_det(true)
-            console.log("All data ",res.data.diagnosis.diagnosis_name);
-        // }
         if(res.data.diagnosis.cause === null || res.data.diagnosis.symptoms === null || res.data.diagnosis.prevention === null){
-            console.log("No data")
+            // console.log("No data")
             setDiag_det(false)
         }else{
-            console.log("data")
+            // console.log("data")
             setDiag_det(true)
         }
     }).catch(err=>{
-        // alert(err.response.data.message);
-        // setMsg(err.response.data.message)
-        // window.location.replace('./Diagnosis');
         setMsg(false)
-        
         console.log("Error: ",err);
     })
     GetSingleDiagnosis()
     GetProducts()
 }, []);
-console.log("image", diagdetails.cause);
 let photo = 'http://localhost:4000/uploads/'+diagdetails.image;
-console.log("Check data ",diag_det);
 
 
   return (
