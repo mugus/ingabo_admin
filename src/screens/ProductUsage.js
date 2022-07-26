@@ -42,7 +42,7 @@ export default function ProductUsage() {
         axios.post('http://localhost:4000/api/v1/products/details', data, { headers: {"Authorization" : `Bearer ${token}`} })
         .then(res => {
             if(res.status === 201){
-                alert("Created");
+                window.location.reload()
             }else{
                 console.log('Axios response: ', res)
             }
@@ -106,7 +106,11 @@ export default function ProductUsage() {
                     <Grid item xl={7} lg={8} md={8} sm={8} xs={12}>
                         <div style={{ paddingLeft: 40,paddingTop: 20 }}>
                             {msg ? 
-                                <Alert severity={alertclass}>{msg}</Alert> : 
+                                <>
+                                <Alert severity={alertclass}>{msg}</Alert> <br />
+                                <Alert severity="info"><small>Product will be ready for users until Application and Pre condition added to product details</small></Alert>
+                                
+                                </> : 
                                 <>
                                     <h3>{product.name}</h3>
                                     <Typography color='primary' variant="p">{product.category}</Typography>
