@@ -8,6 +8,10 @@ import Snackbar from '@mui/material/Snackbar';
 import IconButton from '@mui/material/IconButton';
 import CloseIcon from '@mui/icons-material/Close';
 import $ from 'jquery'; 
+import InputLabel from '@mui/material/InputLabel';
+import MenuItem from '@mui/material/MenuItem';
+import FormControl from '@mui/material/FormControl';
+import Select from '@mui/material/Select';
 
 
 export default function Landing() {
@@ -15,7 +19,9 @@ export default function Landing() {
   const [message, setmessage] = useState("");
   const [email_id, setEmail_id] = useState("");
   const [password, setPassword] = useState("");
-  
+  const [language, setLanguage] = useState("")
+
+
   $(document).ready(function(){
     $('.Login_btn').show()
     $('.Loading_btn').hide()
@@ -110,7 +116,21 @@ export default function Landing() {
                 >
                   <TextField color="primary" id="standard-basic" label="Email" type="email" variant="standard" value={email_id} onChange={(e) => setEmail_id(e.target.value)} />
                   <TextField color="primary" id="standard-basic" label="Password" variant="standard" type="password" value={password} onChange={(e) => setPassword(e.target.value)} />
-    
+                  
+                  {/* <FormControl variant="standard" sx={{ m: 1, minWidth: 120 }}>
+                    <InputLabel id="demo-simple-select-standard-label">Language</InputLabel>
+                    <Select
+                      labelId="demo-simple-select-standard-label"
+                      id="demo-simple-select-standard"
+                      value={language}
+                      onChange={(e) => setLanguage(e.target.value)}
+                      label="Product Category"
+                    >
+                      <MenuItem value="1">Kinyarwanda</MenuItem>
+                      <MenuItem value="2">English</MenuItem>
+                    </Select>
+                  </FormControl> */}
+
                   <Button variant="contained" color="primary" className='Login_btn' onClick={handleLogin}>
                     Login
                   </Button>
