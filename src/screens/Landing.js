@@ -27,7 +27,7 @@ export default function Landing() {
       $('.Login_btn').hide()
       $('.Loading_btn').show()
     })
-    await fetch('http://localhost:4000/api/v1/auth/login',{
+    await fetch('http://197.243.14.102:4000/api/v1/auth/login',{
     // await fetch('http://197.243.14.102:4000/api/v1/auth/login',{
       method:'POST',
         headers:{

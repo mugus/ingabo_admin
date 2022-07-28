@@ -53,7 +53,7 @@ const Diagnosis = () => {
     data.append("image", image);
 
     // console.log("data: ", data);
-    axios.post('http://localhost:4000/api/v1/diagnosis', data, { headers: {"Authorization" : `Bearer ${token}`} })
+    axios.post('http://197.243.14.102:4000/api/v1/diagnosis', data, { headers: {"Authorization" : `Bearer ${token}`} })
     .then(res => {
       window.location.reload()
       console.log(res.message);
@@ -80,7 +80,7 @@ const Diagnosis = () => {
 
 
   useEffect(()=> {
-    axios.get(`http://localhost:4000/api/v1/crops/${crop_id}`).then(res => {
+    axios.get(`http://197.243.14.102:4000/api/v1/crops/${crop_id}`).then(res => {
       // axios.get(`http://197.243.14.102:4000/api/v1/crops/${crop_id}`).then(res => {
         setDiagnosisdetails(res.data.diag);
     }).catch(err=>{
@@ -109,7 +109,7 @@ console.log("Diagnosis ",diagnosisdetails);
                   // if(diagnosisdetails !== ''){
                     diagnosisdetails.length > 0 ?
                   diagnosisdetails.map((diagnosisdetails)=>{
-                    let photo = 'http://localhost:4000/uploads/'+diagnosisdetails.diag_image;
+                    let photo = 'http://197.243.14.102:4000/uploads/'+diagnosisdetails.diag_image;
                     return (
                       <Grid item xs={12} sm={6} md={4} lg={4} xl={3} key={diagnosisdetails.diagnosis_id}>
 

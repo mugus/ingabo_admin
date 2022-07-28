@@ -37,7 +37,7 @@ export default function Listcrops() {
             confirm({ description: `You are going to permanently delete` })
               .then(() => {
                 // console.log("Ready");
-                    axios.delete(`http://localhost:4000/api/v1/crops/${crop_id}`, { headers: {"Authorization" : `Bearer ${token}`} }).then(res => {
+                    axios.delete(`http://197.243.14.102:4000/api/v1/crops/${crop_id}`, { headers: {"Authorization" : `Bearer ${token}`} }).then(res => {
                     alert("Deleted ")
                     window.location.reload()
                 }).catch(err=>{
@@ -59,7 +59,7 @@ export default function Listcrops() {
 
 
     useEffect(()=> {
-        axios.get('http://localhost:4000/api/v1/crops').then(res => {
+        axios.get('http://197.243.14.102:4000/api/v1/crops').then(res => {
             setCrop(res.data.crops);
         }).catch(err=>{
             console.log(err);
@@ -75,7 +75,7 @@ export default function Listcrops() {
             <Grid container spacing={0.5} style={{height: window.innerHeight + 'px', overflowY: 'scroll'}}>
             {
                 crop.map((crop)=>{
-                    let photo = 'http://localhost:4000/uploads/'+crop.image;
+                    let photo = 'http://197.243.14.102:4000/uploads/'+crop.image;
                     return (
                         <Grid item xs={12} sm={6} md={4} lg={4} xl={3} key={crop.crop_id}>
 

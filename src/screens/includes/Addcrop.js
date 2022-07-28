@@ -6,6 +6,11 @@ import Button from '@mui/material/Button';
 import '../../styles/Products.css';
 import axios from 'axios';
 import Alert from '@mui/material/Alert';
+import InputLabel from '@mui/material/InputLabel';
+import MenuItem from '@mui/material/MenuItem';
+import FormControl from '@mui/material/FormControl';
+import Select from '@mui/material/Select';
+
 
 const Input = styled('input')({
   display: 'none',
@@ -16,7 +21,7 @@ const Input = styled('input')({
 export default function Addcrop() {
   const [name, setName] = useState("");
   const [image, setImage] = useState("");
-
+  const [language, setLanguage] = useState("")
   const [msg, setMsg] = useState("");
   const [alertclass, setAlertclass] = useState("");
   const token = localStorage.getItem('token');
@@ -26,11 +31,9 @@ export default function Addcrop() {
     const data = new FormData(); 
     data.append("name", name);
     data.append("image", image);
-    // let data = JSON.stringify({
-    //   name: name,
-    //   image: image
-    // });
-    axios.post('http://localhost:4000/api/v1/crops', data, { headers: {"Authorization" : `Bearer ${token}`} })
+    data.append("lan_id", language);
+    //ALTER TABLE `crops` ADD `lan_id` INT(11) NOT NULL DEFAULT '2' AFTER `crop_id`, ADD INDEX (`lan_id`);
+    axios.post('http://197.243.14.102:4000/api/v1/crops', data, { headers: {"Authorization" : `Bearer ${token}`} })
     .then(res => {
       if(res.status===201){
         window.location.reload()
@@ -61,6 +64,7 @@ export default function Addcrop() {
       }
   });
   }
+  console.log("Language ", language);
   return (
     <>
     {/* <Grid item spacing={2}> */}
@@ -78,6 +82,20 @@ export default function Addcrop() {
         </div>
 
         <TextField id="standard-basic" label="Crop Name" variant="standard" value={name} onChange={(e) => setName(e.target.value)} />
+
+        <FormControl variant="standard" sx={{ m: 1, minWidth: 120 }}>
+          <InputLabel id="demo-simple-select-standard-label">Product language</InputLabel>
+          <Select
+            labelId="demo-simple-select-standard-label"
+            id="demo-simple-select-standard"
+            value={language}
+            onChange={(e) => setLanguage(e.target.value)}
+            label="Product Category"
+          >
+            <MenuItem value="1">Kinyarwanda</MenuItem>
+            <MenuItem value="2">English</MenuItem>
+          </Select>
+        </FormControl>
 
         <input type="file" name="image" label="file" onChange={e => {
                             const image = e.target.files[0];

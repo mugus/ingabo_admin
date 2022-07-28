@@ -46,7 +46,7 @@ const Signup = () => {
         // data.append("email_id", email_id);
         // data.append("password", password);
 
-    axios.post('http://localhost:4000/api/v1/auth/user', data)
+    axios.post('http://197.243.14.102:4000/api/v1/auth/user', data)
     .then(res => {
       if(res.status===201){
         console.log(res);
