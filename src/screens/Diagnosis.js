@@ -7,11 +7,13 @@ import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
 import Button from '@mui/material/Button';
+import LoadingButton from '@mui/lab/LoadingButton';
 import Box from '@mui/material/Box';
 import Paper from '@mui/material/Paper';
 import Typography from '@mui/material/Typography';
 import { useParams } from "react-router-dom";
 import axios from 'axios';
+import $ from 'jquery'; 
 import { FormControl, FormControlLabel, FormGroup } from "@mui/material";
 import Alert from '@mui/material/Alert';
 
@@ -31,6 +33,7 @@ const Item = styled(Paper)(({ theme }) => ({
 
 
 const Diagnosis = () => {
+  const language = localStorage.getItem('language');
   const [diagnosis_name, setDiagnosis_name] = useState("");
   const [diagnosisdetails, setDiagnosisdetails] = useState([]);
   const [image, setImage] = useState("");
@@ -40,6 +43,11 @@ const Diagnosis = () => {
   const [cropdetails, setCropdetails] = useState([]);
 
 
+  $(document).ready(function(){
+    $('.CreatePro').show()
+    $('.Loading_btn').hide()
+  })
+
   const handlediagnosisDetails =(diagnosis_id)=>{
     const token = localStorage.getItem('token');
     window.location.replace(`../../DiagnosisDetails/${token}/${diagnosis_id}`)
@@ -47,6 +55,13 @@ const Diagnosis = () => {
   }
 
   const handleAddDiagnosis = async(e) => {
+
+    $(document).ready(function(){
+      $('.CreatePro').hide()
+      $('.Loading_btn').show()
+    })
+
+
     const data = new FormData(); 
     data.append('crop_id', crop_id);
     data.append("diagnosis_name", diagnosis_name);
@@ -98,85 +113,182 @@ console.log("Diagnosis ",diagnosisdetails);
         <Box sx={{ width: '100%' }}>
           <Grid container>
             <Grid item xs={12} sm={7} md={7} lg={7} xl={7}>
-            
-
-              <Item>
-                  <h2>Diagnosis</h2>
                   
-                <Grid container spacing={0.5} style={{height: window.innerHeight + 'px', overflowY: 'scroll'}}>
-            
-                  { 
-                  // if(diagnosisdetails !== ''){
-                    diagnosisdetails.length > 0 ?
-                  diagnosisdetails.map((diagnosisdetails)=>{
-                    let photo = 'http://197.243.14.102:4000/uploads/'+diagnosisdetails.diag_image;
-                    return (
-                      <Grid item xs={12} sm={6} md={4} lg={4} xl={3} key={diagnosisdetails.diagnosis_id}>
+                  {
+                    language == 1 ?
+                    <Item>
+                        <h2>Indwara</h2>
+                        
+                      <Grid container spacing={0.5} style={{height: window.innerHeight + 'px', overflowY: 'scroll'}}>
+                  
+                        { 
+                        // if(diagnosisdetails !== ''){
+                          diagnosisdetails.length > 0 ?
+                        diagnosisdetails.map((diagnosisdetails)=>{
+                          let photo = 'http://197.243.14.102:4000/uploads/'+diagnosisdetails.diag_image;
+                          return (
+                            <Grid item xs={12} sm={6} md={4} lg={4} xl={3} key={diagnosisdetails.diagnosis_id}>
 
-                        <Card sx={{ width: '100%' }}>
-                            <CardMedia
-                            component="img"
-                            height="300"
-                            image={photo}
-                            alt={diagnosisdetails.diagnosis_name}
-                            />
-                            <CardContent>
-                                <Typography gutterBottom variant="h6" component="div">
-                                    {diagnosisdetails.diagnosis_name}
-                                </Typography>
-                                <small>{diagnosisdetails.crop_name}  </small>
-                            </CardContent>
-                            <CardActions>
-                                <Button value={diagnosisdetails.diagnosis_id} variant="outlined" size="small" onClick={e => handlediagnosisDetails(e.target.value)}>Diagnosis Details</Button>
-                            </CardActions>
-                        </Card>
+                              <Card sx={{ width: '100%' }}>
+                                  <CardMedia
+                                  component="img"
+                                  height="300"
+                                  image={photo}
+                                  alt={diagnosisdetails.diagnosis_name}
+                                  />
+                                  <CardContent>
+                                      <Typography gutterBottom variant="h6" component="div">
+                                          {diagnosisdetails.diagnosis_name}
+                                      </Typography>
+                                      <small>{diagnosisdetails.crop_name}  </small>
+                                  </CardContent>
+                                  <CardActions>
+                                      <Button value={diagnosisdetails.diagnosis_id} variant="outlined" size="small" onClick={e => handlediagnosisDetails(e.target.value)}>Ibisobanuro ku ndwara</Button>
+                                  </CardActions>
+                              </Card>
 
+                            </Grid>
+                          )
+                        }): 
+                        <>
+                        <Grid item xs={5} sm={6} md={4} lg={4} xl={3}></Grid>
+                        <Grid item xs={6} sm={6} md={4} lg={4} xl={3}>
+
+                          <h6 style={{paddingTop: 20}}>Nta ndwara igihingwa gifite</h6>
+
+                        </Grid>
+                        </>}
                       </Grid>
-                    )
-                  }): 
-                  <>
-                  <Grid item xs={5} sm={6} md={4} lg={4} xl={3}></Grid>
-                  <Grid item xs={6} sm={6} md={4} lg={4} xl={3}>
 
-                    <h6 style={{paddingTop: 20}}>No Diagnois found</h6>
+                    </Item>
+                    :
+                    <Item>
+                        <h2>Diagnosis</h2>
+                        
+                      <Grid container spacing={0.5} style={{height: window.innerHeight + 'px', overflowY: 'scroll'}}>
+                  
+                        { 
+                        // if(diagnosisdetails !== ''){
+                          diagnosisdetails.length > 0 ?
+                        diagnosisdetails.map((diagnosisdetails)=>{
+                          let photo = 'http://197.243.14.102:4000/uploads/'+diagnosisdetails.diag_image;
+                          return (
+                            <Grid item xs={12} sm={6} md={4} lg={4} xl={3} key={diagnosisdetails.diagnosis_id}>
 
-                  </Grid>
-                  </>}
-                </Grid>
+                              <Card sx={{ width: '100%' }}>
+                                  <CardMedia
+                                  component="img"
+                                  height="300"
+                                  image={photo}
+                                  alt={diagnosisdetails.diagnosis_name}
+                                  />
+                                  <CardContent>
+                                      <Typography gutterBottom variant="h6" component="div">
+                                          {diagnosisdetails.diagnosis_name}
+                                      </Typography>
+                                      <small>{diagnosisdetails.crop_name}  </small>
+                                  </CardContent>
+                                  <CardActions>
+                                      <Button value={diagnosisdetails.diagnosis_id} variant="outlined" size="small" onClick={e => handlediagnosisDetails(e.target.value)}>Diagnosis Details</Button>
+                                  </CardActions>
+                              </Card>
 
-              </Item>
+                            </Grid>
+                          )
+                        }): 
+                        <>
+                        <Grid item xs={5} sm={6} md={4} lg={4} xl={3}></Grid>
+                        <Grid item xs={6} sm={6} md={4} lg={4} xl={3}>
+
+                          <h6 style={{paddingTop: 20}}>No Diagnois found</h6>
+
+                        </Grid>
+                        </>}
+                      </Grid>
+
+                    </Item>
+                  }
+              
               </Grid>
                 <Grid item xs={12} sm={5} md={5} lg={5} xl={5}>
                   <Item>
-                    <h2>Record New Diagnosis</h2>
+                    { language == 1 ? <h2>Andika Indwara nshya</h2> :<h2>Record New Diagnosis</h2>}
                     {/* <img src={img} width="80%" height="200" alt="" /> */}
                     <Grid container spacing={0.5}>
                       <Grid item>
+                          {
+                            language == 1 ?
+                            <Box
+                              component="form"
+                              sx={{
+                                '& > :not(style)': { m: 1, width: '80%' },
+                              }}
+                              noValidate
+                              autoComplete="off"
+                              >
+                              
+                              <div style={{ paddingLeft: 40 }}>
+                                {msg ? <Alert severity={alertclass}>{msg}</Alert> : <></> }
+                              </div>
 
-                        <Box
-                          component="form"
-                          sx={{
-                            '& > :not(style)': { m: 1, width: '80%' },
-                          }}
-                          noValidate
-                          autoComplete="off"
+                              <TextField id="standard-basic" label="Izina ry'indwara" variant="standard" value={diagnosis_name} onChange={(e) => setDiagnosis_name(e.target.value)} />
+                              <input type="file" name="image" label="file" onChange={e => {
+                                const image = e.target.files[0];
+                                setImage(image)
+                              }}/>
+                              
+                              <Button variant="contained" color="success" onClick={handleAddDiagnosis}>
+                                Indika Indwara
+                              </Button>
+                              <LoadingButton
+                                loading
+                                loadingPosition="center"
+                                variant="contained"
+                                color="primary"
+                                className='Loading_btn'
+                              >
+                                Tegereza gato
+                              </LoadingButton>
+                            </Box>
+                            :
+                            
+                          <Box
+                            component="form"
+                            sx={{
+                              '& > :not(style)': { m: 1, width: '80%' },
+                            }}
+                            noValidate
+                            autoComplete="off"
                           >
+                            
                             <div style={{ paddingLeft: 40 }}>
-                            {msg ? <Alert severity={alertclass}>{msg}</Alert> : <></> }
-                          </div>
+                              {msg ? <Alert severity={alertclass}>{msg}</Alert> : <></> }
+                            </div>
 
-                          <TextField id="standard-basic" label="Diagnosis Name" variant="standard" value={diagnosis_name} onChange={(e) => setDiagnosis_name(e.target.value)} />
-                          <input type="file" name="image" label="file" onChange={e => {
-                            const image = e.target.files[0];
-                            setImage(image)
-                          }}/>
-                          
-                          <Button variant="contained" color="success" onClick={handleAddDiagnosis}>
-                            Create Diagnosis
-                          </Button>
-                        </Box>
+                            <TextField id="standard-basic" label="Diagnosis Name" variant="standard" value={diagnosis_name} onChange={(e) => setDiagnosis_name(e.target.value)} />
+                            <input type="file" name="image" label="file" onChange={e => {
+                              const image = e.target.files[0];
+                              setImage(image)
+                            }}/>
+                            
+                            <Button variant="contained" color="success" onClick={handleAddDiagnosis}>
+                              Create Diagnosis
+                            </Button>
+                            <LoadingButton
+                              loading
+                              loadingPosition="center"
+                              variant="contained"
+                              color="primary"
+                              className='Loading_btn'
+                            >
+                              Wait
+                            </LoadingButton>
+                          </Box>
+                          }
+                        
 
-                        <Button href="../../Crops">Back to crop screen</Button>
+                        
+                        { language == 1 ? <Button href="../../Crops">Subira inyuma ku bihingwa</Button> : <Button href="../../Crops">Back to crop screen</Button>}
                         
                       </Grid>
                     </Grid>
