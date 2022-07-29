@@ -21,7 +21,7 @@ const Input = styled('input')({
 export default function Addcrop() {
   const [name, setName] = useState("");
   const [image, setImage] = useState("");
-  const [language, setLanguage] = useState("")
+  const language = localStorage.getItem('language');
   const [msg, setMsg] = useState("");
   const [alertclass, setAlertclass] = useState("");
   const token = localStorage.getItem('token');
@@ -82,20 +82,6 @@ export default function Addcrop() {
         </div>
 
         <TextField id="standard-basic" label="Crop Name" variant="standard" value={name} onChange={(e) => setName(e.target.value)} />
-
-        <FormControl variant="standard" sx={{ m: 1, minWidth: 120 }}>
-          <InputLabel id="demo-simple-select-standard-label">Product language</InputLabel>
-          <Select
-            labelId="demo-simple-select-standard-label"
-            id="demo-simple-select-standard"
-            value={language}
-            onChange={(e) => setLanguage(e.target.value)}
-            label="Product Category"
-          >
-            <MenuItem value="1">Kinyarwanda</MenuItem>
-            <MenuItem value="2">English</MenuItem>
-          </Select>
-        </FormControl>
 
         <input type="file" name="image" label="file" onChange={e => {
                             const image = e.target.files[0];

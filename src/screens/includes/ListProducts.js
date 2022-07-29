@@ -43,6 +43,10 @@ export default function ListProducts() {
   const confirm = useConfirm();
   const [pro_modal, setPro_modal] = useState([]);
   const token = localStorage.getItem('token');
+  const language = localStorage.getItem('language');
+  const [productkin, setProductkin] = useState([]);
+  const [producteng, setPriducteng] = useState([]);
+
   $(document).ready(function(){
     $('.CreatePro').show()
     $('.Loading_btn').hide()
@@ -123,15 +127,43 @@ export default function ListProducts() {
         .catch(() => console.log("Deletion cancelled."));
     };
 
+    const getKinyaProducts = () => {
+      axios.get('http://localhost:4000/api/v1/products/kin').then(res => {
+        setProductkin(res.data.products);
+          // setLang(language)
+          productkin ? setisready(true) : setisready(false)
+              console.log("Kinya products");
+              // console.log("products", res.data.products);
+          }).catch(err=>{
+              console.log(err);
+          })
+  }
+  const getEngProducts = () => {
+      axios.get('http://localhost:4000/api/v1/products/en').then(res => {
+          setPriducteng(res.data.products);
+          // setLang(language)
+          producteng ? setisready(true) : setisready(false)
+              console.log("products English");
+              // console.log("products", res.data.products);
+          }).catch(err=>{
+              console.log(err);
+          })
+  }
+
+
+
+
 
     useEffect(()=> {
-        axios.get('http://197.243.14.102:4000/api/v1/products').then(res => {
+      getKinyaProducts()
+      getEngProducts()
         // axios.get('http://197.243.14.102:4000/api/v1/products').then(res => {
-          setProduct(res.data.products);
-        }).catch(err=>{
-            console.log(err);
-        })
-        product ? setisready(true) : setisready(false)
+        // // axios.get('http://197.243.14.102:4000/api/v1/products').then(res => {
+        //   setProduct(res.data.products);
+        // }).catch(err=>{
+        //     console.log(err);
+        // })
+        // product ? setisready(true) : setisready(false)
       }, [])
 
 let photo_modal = 'http://197.243.14.102:4000/uploads/'+pro_modal.image;
@@ -141,44 +173,90 @@ let photo_modal = 'http://197.243.14.102:4000/uploads/'+pro_modal.image;
         {
             isReady ? (
             <Grid container spacing={0.5} style={{height: window.innerHeight + 'px', overflowY: 'scroll'}}>
-            {
-                product.map((product)=>{
-                    let photo = 'http://197.243.14.102:4000/uploads/'+product.image;
-                    // let photo = 'http://197.243.14.102:4000/uploads/'+product.image;
-                    return (
-                        <Grid item xs={12} sm={6} md={4} lg={4} xl={3} key={product.product_id}>
+              {language == 1 ?
+                <>
+                {
+                    productkin.map((product)=>{
+                        let photo = 'http://localhost:4000/uploads/'+product.image;
+                        // let photo = 'http://197.243.14.102:4000/uploads/'+product.image;
+                        return (
+                            <Grid item xs={12} sm={6} md={4} lg={4} xl={3} key={product.product_id}>
 
-                            <Card sx={{ width: '100%' }}>
-                                <CardMedia
-                                component="img"
-                                height="300"
-                                image={photo}
-                                alt={product.name}
-                                />
-                                <CardContent>
-                                    <Typography gutterBottom variant="h6" component="div">
-                                        {product.name}
-                                    </Typography>
-                                    <Typography variant='p'>
-                                        {product.category}
-                                    </Typography>
-                                </CardContent>
-                                <CardActions>
+                                <Card sx={{ width: '100%' }}>
+                                    <CardMedia
+                                    component="img"
+                                    height="300"
+                                    image={photo}
+                                    alt={product.name}
+                                    />
+                                    <CardContent>
+                                        <Typography gutterBottom variant="h6" component="div">
+                                            {product.name}
+                                        </Typography>
+                                        <Typography variant='p'>
+                                            {product.category}
+                                        </Typography>
+                                    </CardContent>
+                                    <CardActions>
+                                        
+                                    <ButtonGroup size="small" aria-label="small button group">
+                                      <Button style={{ fontSize: 11, color: '#fff' , backgroundColor: '#5cb85c' }} value={product.product_id} onClick={(e)=> handleProUsage(e.target.value)}>Product usage</Button>
+                                      {/* <Button style={{ fontSize: 11, color: '#fff' , backgroundColor: '#5bc0de' }} value={product.product_id} onClick={e => handleOpen(e.target.value)}>Edit Details</Button> */}
+                                      <Button style={{ fontSize: 11, color: '#fff' , backgroundColor: '#5bc0de' }} className="view_data" data-bs-toggle="modal" href="#exampleModalToggle" data-id={product.product_id}>Edit Details</Button>
+                                      {/* <Button style={{ fontSize: 11, color: '#fff' , backgroundColor: '#f0ad4e' }} value={product.product_id} onClick={handleDelete(product)}>Delete</Button> */}
+                                      <Button style={{ fontSize: 11, color: '#fff' , backgroundColor: '#f0ad4e' }} value={product.product_id} onClick={e => handleDelete(e.target.value)}>Delete</Button>
+                                    </ButtonGroup>
                                     
-                                <ButtonGroup size="small" aria-label="small button group">
-                                  <Button style={{ fontSize: 11, color: '#fff' , backgroundColor: '#5cb85c' }} value={product.product_id} onClick={(e)=> handleProUsage(e.target.value)}>Product usage</Button>
-                                  {/* <Button style={{ fontSize: 11, color: '#fff' , backgroundColor: '#5bc0de' }} value={product.product_id} onClick={e => handleOpen(e.target.value)}>Edit Details</Button> */}
-                                  <Button style={{ fontSize: 11, color: '#fff' , backgroundColor: '#5bc0de' }} className="view_data" data-bs-toggle="modal" href="#exampleModalToggle" data-id={product.product_id}>Edit Details</Button>
-                                  {/* <Button style={{ fontSize: 11, color: '#fff' , backgroundColor: '#f0ad4e' }} value={product.product_id} onClick={handleDelete(product)}>Delete</Button> */}
-                                  <Button style={{ fontSize: 11, color: '#fff' , backgroundColor: '#f0ad4e' }} value={product.product_id} onClick={e => handleDelete(e.target.value)}>Delete</Button>
-                                </ButtonGroup>
-                                
-                                </CardActions>
-                            </Card>
-                        </Grid>
-                    )
-                })
-            }
+                                    </CardActions>
+                                </Card>
+                            </Grid>
+                        )
+                    })
+                  }
+                </>
+                :
+                <>
+                  {
+                    producteng.map((product)=>{
+                        let photo = 'http://localhost:4000/uploads/'+product.image;
+                        // let photo = 'http://197.243.14.102:4000/uploads/'+product.image;
+                        return (
+                            <Grid item xs={12} sm={6} md={4} lg={4} xl={3} key={product.product_id}>
+
+                                <Card sx={{ width: '100%' }}>
+                                    <CardMedia
+                                    component="img"
+                                    height="300"
+                                    image={photo}
+                                    alt={product.name}
+                                    />
+                                    <CardContent>
+                                        <Typography gutterBottom variant="h6" component="div">
+                                            {product.name}
+                                        </Typography>
+                                        <Typography variant='p'>
+                                            {product.category}
+                                        </Typography>
+                                    </CardContent>
+                                    <CardActions>
+                                        
+                                    <ButtonGroup size="small" aria-label="small button group">
+                                      <Button style={{ fontSize: 11, color: '#fff' , backgroundColor: '#5cb85c' }} value={product.product_id} onClick={(e)=> handleProUsage(e.target.value)}>Product usage</Button>
+                                      {/* <Button style={{ fontSize: 11, color: '#fff' , backgroundColor: '#5bc0de' }} value={product.product_id} onClick={e => handleOpen(e.target.value)}>Edit Details</Button> */}
+                                      <Button style={{ fontSize: 11, color: '#fff' , backgroundColor: '#5bc0de' }} className="view_data" data-bs-toggle="modal" href="#exampleModalToggle" data-id={product.product_id}>Edit Details</Button>
+                                      {/* <Button style={{ fontSize: 11, color: '#fff' , backgroundColor: '#f0ad4e' }} value={product.product_id} onClick={handleDelete(product)}>Delete</Button> */}
+                                      <Button style={{ fontSize: 11, color: '#fff' , backgroundColor: '#f0ad4e' }} value={product.product_id} onClick={e => handleDelete(e.target.value)}>Delete</Button>
+                                    </ButtonGroup>
+                                    
+                                    </CardActions>
+                                </Card>
+                            </Grid>
+                        )
+                    })
+                  }
+                </>
+                }
+            
 
             </Grid>
             ) : (

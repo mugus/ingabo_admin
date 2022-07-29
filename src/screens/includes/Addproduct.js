@@ -15,6 +15,7 @@ import Select from '@mui/material/Select';
 
 
 export default function Addproduct() {
+  const language = localStorage.getItem('language');
   const [name, setName] = useState("");
   const [size, setSize] = useState("");
   const [category, setCategory] = useState("");
@@ -24,6 +25,7 @@ export default function Addproduct() {
   const [alertclass, setAlertclass] = useState("");
 
   const token = localStorage.getItem('token');
+
   $(document).ready(function(){
     $('.CreatePro').show()
     $('.Loading_btn').hide()
@@ -41,6 +43,7 @@ export default function Addproduct() {
     })
 
     const data = new FormData(); 
+    data.append("lan_id", language);
     data.append("name", name);
     data.append("size", size);
     data.append("category", category);
@@ -48,7 +51,7 @@ export default function Addproduct() {
     data.append("image", image);
 
     
-    axios.post('http://197.243.14.102:4000/api/v1/products', data, { headers: {"Authorization" : `Bearer ${token}`} })
+    axios.post('http://localhost:4000/api/v1/products', data, { headers: {"Authorization" : `Bearer ${token}`} })
     .then(res => {
       if(res.status===201){
         window.location.reload()
@@ -93,56 +96,116 @@ export default function Addproduct() {
         noValidate
         autoComplete="off"
       >
-        <div style={{ paddingLeft: 40 }}>
-          {msg ? <Alert severity={alertclass}>{msg}</Alert> : <></> }
-        </div>
+        {
+          language == 1 ?
+
+          <>
+            <div style={{ paddingLeft: 40 }}>
+              {msg ? <Alert severity={alertclass}>{msg}</Alert> : <></> }
+            </div>
+            
+            
+            <br/>
+            <TextField id="standard-basic" label="Izina ry'igicuruzwa" variant="standard" value={name} onChange={(e) => setName(e.target.value)} required/>
+            <FormControl variant="standard" sx={{ m: 1, minWidth: 120 }}>
+              <InputLabel id="demo-simple-select-standard-label">Icyiciro cy'igicuruzwa</InputLabel>
+              <Select
+                labelId="demo-simple-select-standard-label"
+                id="demo-simple-select-standard"
+                value={category}
+                onChange={(e) => setCategory(e.target.value)}
+                label="Product Category"
+              >
+                <MenuItem value="Fungicide">Fungicide</MenuItem>
+                <MenuItem value="Imiti yica udukoko">Imiti yica udukoko</MenuItem>
+                <MenuItem value="Ifumbire">Ifumbire</MenuItem>
+                <MenuItem value="Imiti ihungira">Imiti ihungira</MenuItem>
+              </Select>
+            </FormControl>
+            {/* <TextField id="standard-basic" label="Product Category" variant="standard" value={category} onChange={(e) => setCategory(e.target.value)} /> */}
+            <TextField id="standard-basic" label="Ingano z'igicuruzwa" variant="standard" value={size} onChange={(e) => setSize(e.target.value)} />
+            <TextField
+                id="standard-multiline-static"
+                label="Ibisobanuro ku gicuruzwa(Ibindi)"
+                multiline
+                rows={3}
+                variant="standard"
+                value={description} onChange={(e) => setDescription(e.target.value)} 
+              />
+            <input type="file" name="image" label="file" onChange={e => {
+                                const image = e.target.files[0];
+                                setImage(image)
+                              }} required/>
+          
+            <Button className="CreatePro" variant="contained" color="success" onClick={handleAddProduct}>
+              Andika igicuruzwa {language}
+            </Button>
+            
+            <LoadingButton
+              loading
+              loadingPosition="center"
+              variant="contained"
+              color="primary"
+              className='Loading_btn'
+            >
+              Tegereza gato
+            </LoadingButton>
+          </>
+          :
+          <>
+            <div style={{ paddingLeft: 40 }}>
+              {msg ? <Alert severity={alertclass}>{msg}</Alert> : <></> }
+            </div>
+            
+            
+            <br/>
+            <TextField id="standard-basic" label="Product Name" variant="standard" value={name} onChange={(e) => setName(e.target.value)} required/>
+            <FormControl variant="standard" sx={{ m: 1, minWidth: 120 }}>
+              <InputLabel id="demo-simple-select-standard-label">Product Category</InputLabel>
+              <Select
+                labelId="demo-simple-select-standard-label"
+                id="demo-simple-select-standard"
+                value={category}
+                onChange={(e) => setCategory(e.target.value)}
+                label="Product Category"
+              >
+                <MenuItem value="Fungicide">Fungicide</MenuItem>
+                <MenuItem value="Pesticide">Pesticide</MenuItem>
+                <MenuItem value="Fertilizer">Fertilizer</MenuItem>
+                <MenuItem value="Seed Coating">Seed Coating</MenuItem>
+              </Select>
+            </FormControl>
+            {/* <TextField id="standard-basic" label="Product Category" variant="standard" value={category} onChange={(e) => setCategory(e.target.value)} /> */}
+            <TextField id="standard-basic" label="Product Size" variant="standard" value={size} onChange={(e) => setSize(e.target.value)} />
+            <TextField
+                id="standard-multiline-static"
+                label="Product details(Description)"
+                multiline
+                rows={3}
+                variant="standard"
+                value={description} onChange={(e) => setDescription(e.target.value)} 
+              />
+            <input type="file" name="image" label="file" onChange={e => {
+                                const image = e.target.files[0];
+                                setImage(image)
+                              }} required/>
+          
+            <Button className="CreatePro" variant="contained" color="success" onClick={handleAddProduct}>
+              Create
+            </Button>
+            
+            <LoadingButton
+              loading
+              loadingPosition="center"
+              variant="contained"
+              color="primary"
+              className='Loading_btn'
+            >
+              Wait
+            </LoadingButton>
+          </>
+        }
         
-        
-        <br/>
-        <TextField id="standard-basic" label="Product Name" variant="standard" value={name} onChange={(e) => setName(e.target.value)} required/>
-        <FormControl variant="standard" sx={{ m: 1, minWidth: 120 }}>
-          <InputLabel id="demo-simple-select-standard-label">Product Category</InputLabel>
-          <Select
-            labelId="demo-simple-select-standard-label"
-            id="demo-simple-select-standard"
-            value={category}
-            onChange={(e) => setCategory(e.target.value)}
-            label="Product Category"
-          >
-            <MenuItem value="Fungicide">Fungicide</MenuItem>
-            <MenuItem value="Pesticide">Pesticide</MenuItem>
-            <MenuItem value="Fertilizer">Fertilizer</MenuItem>
-            <MenuItem value="Seed Coating">Seed Coating</MenuItem>
-          </Select>
-        </FormControl>
-        {/* <TextField id="standard-basic" label="Product Category" variant="standard" value={category} onChange={(e) => setCategory(e.target.value)} /> */}
-        <TextField id="standard-basic" label="Product Size" variant="standard" value={size} onChange={(e) => setSize(e.target.value)} />
-        <TextField
-            id="standard-multiline-static"
-            label="Product details(Description)"
-            multiline
-            rows={3}
-            variant="standard"
-            value={description} onChange={(e) => setDescription(e.target.value)} 
-          />
-        <input type="file" name="image" label="file" onChange={e => {
-                            const image = e.target.files[0];
-                            setImage(image)
-                          }} required/>
-       
-        <Button className="CreatePro" variant="contained" color="success" onClick={handleAddProduct}>
-          Create
-        </Button>
-        
-        <LoadingButton
-          loading
-          loadingPosition="center"
-          variant="contained"
-          color="primary"
-          className='Loading_btn'
-        >
-          Wait
-        </LoadingButton>
       </Box>
 
     {/* </Grid> */}

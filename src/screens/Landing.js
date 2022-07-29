@@ -49,6 +49,7 @@ export default function Landing() {
       // console.log("Message: ", res.loggedin_user_id);
       if(res.status===200){
         localStorage.setItem('token',res.token);
+        localStorage.setItem('language',language);
         localStorage.setItem('user',res.loggedin_user_id);
         window.location.replace('./Home');
       } else{
@@ -117,7 +118,7 @@ export default function Landing() {
                   <TextField color="primary" id="standard-basic" label="Email" type="email" variant="standard" value={email_id} onChange={(e) => setEmail_id(e.target.value)} />
                   <TextField color="primary" id="standard-basic" label="Password" variant="standard" type="password" value={password} onChange={(e) => setPassword(e.target.value)} />
                   
-                  {/* <FormControl variant="standard" sx={{ m: 1, minWidth: 120 }}>
+                  <FormControl variant="standard" sx={{ m: 1, minWidth: 120 }}>
                     <InputLabel id="demo-simple-select-standard-label">Language</InputLabel>
                     <Select
                       labelId="demo-simple-select-standard-label"
@@ -125,11 +126,12 @@ export default function Landing() {
                       value={language}
                       onChange={(e) => setLanguage(e.target.value)}
                       label="Product Category"
+                      required = {true}
                     >
                       <MenuItem value="1">Kinyarwanda</MenuItem>
                       <MenuItem value="2">English</MenuItem>
                     </Select>
-                  </FormControl> */}
+                  </FormControl>
 
                   <Button variant="contained" color="primary" className='Login_btn' onClick={handleLogin}>
                     Login
