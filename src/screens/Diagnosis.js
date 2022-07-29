@@ -237,7 +237,7 @@ console.log("Diagnosis ",diagnosisdetails);
                                 setImage(image)
                               }}/>
                               
-                              <Button variant="contained" color="success" onClick={handleAddDiagnosis}>
+                              <Button variant="contained" color="success" className="CreatePro" onClick={handleAddDiagnosis}>
                                 Indika Indwara
                               </Button>
                               <LoadingButton
