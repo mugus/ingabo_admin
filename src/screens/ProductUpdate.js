@@ -20,6 +20,8 @@ import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
+import LoadingButton from '@mui/lab/LoadingButton';
+
 
 const Img = styled('img')({
   margin: 'auto',
@@ -33,8 +35,9 @@ export default function ProductUpdate() {
     const { product_id } = useParams();
     const token = localStorage.getItem('token');
     const language = localStorage.getItem('language');
-    const [pro_name, setPro_name] = useState("")
     const [product, setProduct] = useState([]);
+    const [pro_name, setPro_name] = useState("")
+    const [size, setSize] = useState("");
     const [category, setCategory] = useState("");
     const [description, setDescription] = useState("");
     const [image, setImage] = useState("");
@@ -62,14 +65,13 @@ export default function ProductUpdate() {
     // end Get Product
 
 
-    const handleUpdate = () => {
-        alert("Ready")
-    }
+
     
     const handleDiscardUpdate = () =>{
         setPro_name("")
         setCategory("")
         setDescription("")
+        setSize("")
         setImage("")
     }
     useEffect(() => {
@@ -77,8 +79,37 @@ export default function ProductUpdate() {
     }, []);
 
     let photo = 'http://localhost:4000/uploads/'+product.image;
-    console.log("Pro: ", product.name);
-    
+
+// Update Pro details
+const handleUpdate = () => {
+    const data = new FormData(); 
+    data.append("category", category ? category : product.category);
+    data.append("name", pro_name ? pro_name : product.name);
+    data.append("size", size ? size : product.size);
+    data.append("description", description ? description : product.description);
+    data.append("image", image ? image : product.image);
+    // product_id
+
+    axios.patch(`http://localhost:4000/api/v1/products/${product_id}`, data, { headers: {"Authorization" : `Bearer ${token}`} })
+    .then(res => {
+        // console.log("Updated: ",res);
+        window.location.reload()
+    }).catch(function (err) {
+        if(err.response.data.status===403){
+            console.log("Message: ",err.response.data.message);
+            // setMsg(err.response.data.message)
+            setMsg(err.response.data.message)
+            setAlertclass("err")
+          }else{
+            console.log(err);
+          }
+            // console.log("Err", err);
+    });
+}
+// End update Pro details
+
+
+
   return (
       <>
         <Grid container >
@@ -86,21 +117,18 @@ export default function ProductUpdate() {
             <Grid item xl={8} lg={8} md={8}>
                 <br />
                 <br />
-            {msg ? <Alert severity={alertclass}>{msg}</Alert>: 
+            {msg ? 
             <>
-            <h2>Update Product details of {product.name}</h2>
+                <center>
+                    <Alert severity={alertclass} style={{ width: '100%'}}>{msg}</Alert>
+                    <br/>
+                    <a className='text text-info text-sm' href="../Products">Back on Products</a>
+                </center>
+            </>
+            : 
+            <>
+            <h2>Update details of {product.name}</h2>
 
-            
-            
-            {/* <input value={product.name} type="text"/>
-                <h2>Ingabo ProductUpdate Dashboard Management Screen Id {product.name}</h2><br /> */}
-
-                        {/* <small className='text-muted'>
-                            Current Product name:
-                        </small><br />
-                        <small className='text-primary'>{product.name}</small><hr />
-                        
-                    */}
                     <Paper
                         sx={{
                             p: 2,
@@ -127,7 +155,7 @@ export default function ProductUpdate() {
                                     <Grid item xs>
 
                                         <Grid container>
-                                            <Grid item xl={6} lg={12} md={12} sm={12}>
+                                            <Grid item xl={6} lg={12} md={12} sm={12} xs={12}>
 
                                                 <Typography gutterBottom variant="subtitle1" component="div">
                                                     Product Name
@@ -135,18 +163,33 @@ export default function ProductUpdate() {
                                                 <Typography variant="body2" color="primary" style={{ paddingLeft: 5, fontWeight: 'bold' }}>{product.name}</Typography>
 
                                             </Grid>
-                                            <Grid item xl={6} lg={12} md={12} sm={12}>
+                                            <Grid item xl={6} lg={12} md={12} sm={12} xs={12}>
                                                 <TextField id="standard-basic" label="Set new Product name" style={{ padding:5, width: '100%' }} variant="standard" value={pro_name} onChange={(e) => setPro_name(e.target.value)} /> 
                                             </Grid>
                                         </Grid>
                                     <hr />
                                     
                                     <Grid container>
-                                        <Grid item xl={6} lg={12} md={12} sm={12}>
+                                            <Grid item xl={6} lg={12} md={12} sm={12} xs={12}>
+
+                                                <Typography gutterBottom variant="subtitle1" component="div">
+                                                    Product Sizes
+                                                </Typography>
+                                                <Typography variant="body2" color="primary" style={{ paddingLeft: 5, fontWeight: 'bold' }}>{product.size}</Typography>
+
+                                            </Grid>
+                                            <Grid item xl={6} lg={12} md={12} sm={12} xs={12}>
+                                            <TextField id="standard-basic" label="Product Size" style={{ padding:5, width: '100%' }} variant="standard" value={size} onChange={(e) => setSize(e.target.value)} />
+                                            </Grid>
+                                        </Grid>
+                                    <hr />
+
+                                    <Grid container>
+                                        <Grid item xl={6} lg={12} md={12} sm={12} xs={12}>
                                             <Typography variant="body2" gutterBottom>Category</Typography>
                                             <Typography variant="body2" color="primary" style={{ paddingLeft: 5, fontWeight: 'bold' }}>{product.category}</Typography>
                                         </Grid>
-                                        <Grid item xl={6} lg={12} md={12} sm={12}>
+                                        <Grid item xl={6} lg={12} md={12} sm={12} xs={12}>
                                             <FormControl variant="standard" sx={{ m: 1, minWidth: 120 }} style={{ padding:5, width: '100%' }}>
                                                 <InputLabel id="demo-simple-select-standard-label">Set New category</InputLabel>
                                                 <Select
@@ -166,11 +209,11 @@ export default function ProductUpdate() {
                                     </Grid>
                                     <hr />
                                     <Grid container>
-                                        <Grid item xl={6} lg={12} md={12} sm={12}>
+                                        <Grid item xl={6} lg={12} md={12} sm={12} xs={12}>
                                             <Typography variant="body2" gutterBottom>Descriptions</Typography>
                                             <Typography variant="body2" color="primary" style={{ paddingLeft: 5, fontWeight: 'bold' }}>{product.description}</Typography>
                                         </Grid>
-                                        <Grid item xl={6} lg={12} md={12} sm={12}>
+                                        <Grid item xl={6} lg={12} md={12} sm={12} xs={12}>
                                             <TextField
                                                 id="standard-multiline-static"
                                                 label="Set new desc"
@@ -188,18 +231,35 @@ export default function ProductUpdate() {
 
                                     </Grid>
                                     <Grid item>
+                                        {/* <Grid item id="conf_updates_sm" style={{ display: 'none' }}>
+                                            <Typography variant="subtitle1" component="div" style={{ padding:5}}>
+                                                <a className='btn btn-success btn-sm CreatePro' onClick={handleUpdate}>Confirm updates</a>
+                                            </Typography> <hr/>
+                                        </Grid> */}
                                     <Typography sx={{ cursor: 'pointer' }} variant="body2">
-                                        <a className='btn btn-danger btn-sm' onClick={handleDiscardUpdate}>Discard changes</a><br/><br/>
-                                        <a className='text text-info text-sm' href="">Exit update screen</a>
+                                        <a className='btn btn-success btn-sm CreatePro' onClick={handleUpdate}>Confirm updates</a>
+                                        <LoadingButton
+                                            loading
+                                            loadingPosition="center"
+                                            variant="contained"
+                                            color="primary"
+                                            className='Loading_btn'
+                                            >
+                                            Tegereza gato
+                                        </LoadingButton>
+                                        <span>  </span>
+                                        <a className='btn btn-danger btn-sm' onClick={handleDiscardUpdate}>Discard changes</a>
+                                        <br/><br/>
+                                        <a className='text text-info text-sm' href="../Products">Exit update screen</a>
                                         
                                     </Typography>
                                     </Grid>
                                 </Grid>
-                            <Grid item style={{ padding:10}}>
+                            {/* <Grid item style={{ padding:10}} id="conf_updates">
                                 <Typography variant="subtitle1" component="div" style={{ padding:5}}>
                                     <a className='btn btn-success btn-sm CreatePro' onClick={handleUpdate}>Confirm updates</a>
                                 </Typography>
-                            </Grid>
+                            </Grid> */}
                             </Grid>
                         </Grid>
                     </Paper>

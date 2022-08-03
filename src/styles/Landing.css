@@ -5,3 +5,12 @@
     text-decoration: none;
     font-size: 18px;
 }
+@media only screen and (max-width: 600px) {
+  #conf_updates {
+    display: none;
+  }
+  #conf_updates_sm{
+    display: block;
+  }
+}
+
