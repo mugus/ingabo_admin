@@ -48,6 +48,12 @@ export default function ProductUpdate() {
         $('.CreatePro').show()
         $('.Loading_btn').hide()
       })
+      $(document).ready(function(){
+        $('.image_loading').show()
+        $('.imageLoading_btn').hide()
+      })
+
+
     // get Product
     const GetProduct = () => {
         axios.get(`http://localhost:4000/api/v1/products/${product_id}`).then(res => {
@@ -81,18 +87,13 @@ export default function ProductUpdate() {
     let photo = 'http://localhost:4000/uploads/'+product.image;
 // console.log(product.image);
 // Update Pro details
-let new_image = '';
-if(image !== ''){
-    new_image = image;
-}else{
-    new_image = product.image;
-}
-console.log("New image: ",new_image);
+
 const handleUpdate = () => {
     $(document).ready(function(){
         $('.CreatePro').hide()
         $('.Loading_btn').show()
       })
+      
 
       
       const data = {
@@ -109,10 +110,10 @@ const handleUpdate = () => {
         window.location.reload()
     }).catch(function (err) {
         if(err.response.data.status===403){
-            console.log("Message: ",err.response.data.message);
+            alert(err.response.data.message);
             // setMsg(err.response.data.message)
-            setMsg(err.response.data.message)
-            setAlertclass("err")
+            // setMsg(err.response.data.message)
+            // setAlertclass("err")
           }else{
             console.log(err);
           }
@@ -120,10 +121,25 @@ const handleUpdate = () => {
     });
 }
 // End update Pro details
+
+
+// update Pro Image
+
+let new_image = '';
+if(image !== ''){
+    new_image = image;
+}else{
+    new_image = product.image;
+}
 const handleImageUpdate =() => {
+
     if(new_image == product.image){
         alert("add Image")
     }else{
+        $(document).ready(function(){
+            $('.image_loading').hide()
+            $('.imageLoading_btn').show()
+          })
 
         const data = new FormData();
         data.append("image", new_image);
@@ -133,10 +149,10 @@ const handleImageUpdate =() => {
             window.location.reload()
         }).catch(function (err) {
             if(err.response.data.status===403){
-                console.log("Message: ",err.response.data.message);
+                alert(err.response.data.message);
                 // setMsg(err.response.data.message)
-                setMsg(err.response.data.message)
-                setAlertclass("err")
+                // setMsg(err.response.data.message)
+                // setAlertclass("err")
                 }else{
                 console.log(err);
                 }
@@ -145,6 +161,7 @@ const handleImageUpdate =() => {
 
     }
 }
+// End update Pro Image
 
 
   return (
@@ -197,9 +214,31 @@ const handleImageUpdate =() => {
                                     <input type="file" name="image" label="file" onChange={e => {const image = e.target.files[0]; setImage(image) }} required/>
                                     <hr />
                                     {language == 1 ? 
-                                        <button type='submit' className='btn btn-sm btn-success' onClick={handleImageUpdate}>Emeza Ifoto</button>
+                                       <>
+                                        <button type='submit' className='btn btn-sm btn-success image_loading' onClick={handleImageUpdate}>Emeza Ifoto</button>
+                                        <LoadingButton
+                                            loading
+                                            loadingPosition="center"
+                                            variant="contained"
+                                            color="primary"
+                                            className='imageLoading_btn'
+                                            >
+                                            Tegereza gato
+                                        </LoadingButton>
+                                        </>
                                     :
-                                        <button type='submit' className='btn btn-sm btn-success' onClick={handleImageUpdate}>Confirm image</button>
+                                        <>
+                                        <button type='submit' className='btn btn-sm btn-success image_loading' onClick={handleImageUpdate}>Confirm image</button>
+                                        <LoadingButton
+                                            loading
+                                            loadingPosition="center"
+                                            variant="contained"
+                                            color="primary"
+                                            className='imageLoading_btn'
+                                            >
+                                            Wait
+                                        </LoadingButton>
+                                        </>
                                     }
                                 </form>
                             </Grid>
