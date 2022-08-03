@@ -71,8 +71,8 @@ export default function ListProducts() {
       EditProductDet(pro_id);
   });
   const EditProductDet = (pro_id) => {
-          axios.get(`http://localhost:4000/api/v1/products/${pro_id}`).then(res => {
-        // axios.get('http://localhost:4000/api/v1/products').then(res => {
+          axios.get(`http://197.243.14.102:4000/api/v1/products/${pro_id}`).then(res => {
+        // axios.get('http://197.243.14.102:4000/api/v1/products').then(res => {
           setPro_modal(res.data.product)
       }).catch(err=>{
         if(err.response.data.status === 404){
@@ -85,8 +85,8 @@ export default function ListProducts() {
   }
     // const handleOpen = (product_id) =>{
     //   console.log(product_id);
-      // axios.get(`http://localhost:4000/api/v1/products/${product_id}`).then(res => {
-      //   // axios.get('http://localhost:4000/api/v1/products').then(res => {
+      // axios.get(`http://197.243.14.102:4000/api/v1/products/${product_id}`).then(res => {
+      //   // axios.get('http://197.243.14.102:4000/api/v1/products').then(res => {
       //     // setProduct(res.data.product);
       //     setPro_modal(res.data.product)
       //     // console.log("Product: ", res.data.product);
@@ -108,8 +108,8 @@ export default function ListProducts() {
     const handleDelete = product_id => {
       confirm({ description: `You are going to permanently delete` })
         .then(() => {
-          axios.delete(`http://localhost:4000/api/v1/products/${product_id}`, { headers: {"Authorization" : `Bearer ${token}`} }).then(res => {
-        // axios.get('http://localhost:4000/api/v1/products').then(res => {
+          axios.delete(`http://197.243.14.102:4000/api/v1/products/${product_id}`, { headers: {"Authorization" : `Bearer ${token}`} }).then(res => {
+        // axios.get('http://197.243.14.102:4000/api/v1/products').then(res => {
           // setProduct(res.data.products);
           alert("Deleted ")
           window.location.reload()
@@ -131,7 +131,7 @@ export default function ListProducts() {
     };
 
     const getKinyaProducts = () => {
-      axios.get('http://localhost:4000/api/v1/products/kin').then(res => {
+      axios.get('http://197.243.14.102:4000/api/v1/products/kin').then(res => {
         setProductkin(res.data.products);
           // setLang(language)
           productkin ? setisready(true) : setisready(false)
@@ -142,7 +142,7 @@ export default function ListProducts() {
           })
   }
   const getEngProducts = () => {
-      axios.get('http://localhost:4000/api/v1/products/en').then(res => {
+      axios.get('http://197.243.14.102:4000/api/v1/products/en').then(res => {
           setPriducteng(res.data.products);
           // setLang(language)
           producteng ? setisready(true) : setisready(false)
@@ -160,8 +160,8 @@ export default function ListProducts() {
     useEffect(()=> {
       getKinyaProducts()
       getEngProducts()
-        // axios.get('http://localhost:4000/api/v1/products').then(res => {
-        // // axios.get('http://localhost:4000/api/v1/products').then(res => {
+        // axios.get('http://197.243.14.102:4000/api/v1/products').then(res => {
+        // // axios.get('http://197.243.14.102:4000/api/v1/products').then(res => {
         //   setProduct(res.data.products);
         // }).catch(err=>{
         //     console.log(err);
@@ -169,7 +169,7 @@ export default function ListProducts() {
         // product ? setisready(true) : setisready(false)
       }, [])
 
-let photo_modal = 'http://localhost:4000/uploads/'+pro_modal.image;
+let photo_modal = 'http://197.243.14.102:4000/uploads/'+pro_modal.image;
       console.log("Data: ",pro_modal.name);
     return (
         <>
@@ -180,8 +180,8 @@ let photo_modal = 'http://localhost:4000/uploads/'+pro_modal.image;
                 <>
                 {
                     productkin.map((product)=>{
-                        let photo = 'http://localhost:4000/uploads/'+product.image;
-                        // let photo = 'http://localhost:4000/uploads/'+product.image;
+                        let photo = 'http://197.243.14.102:4000/uploads/'+product.image;
+                        // let photo = 'http://197.243.14.102:4000/uploads/'+product.image;
                         return (
                             <Grid item xs={12} sm={6} md={4} lg={4} xl={3} key={product.product_id}>
 
@@ -221,8 +221,8 @@ let photo_modal = 'http://localhost:4000/uploads/'+pro_modal.image;
                 <>
                   {
                     producteng.map((product)=>{
-                        let photo = 'http://localhost:4000/uploads/'+product.image;
-                        // let photo = 'http://localhost:4000/uploads/'+product.image;
+                        let photo = 'http://197.243.14.102:4000/uploads/'+product.image;
+                        // let photo = 'http://197.243.14.102:4000/uploads/'+product.image;
                         return (
                             <Grid item xs={12} sm={6} md={4} lg={4} xl={3} key={product.product_id}>
 

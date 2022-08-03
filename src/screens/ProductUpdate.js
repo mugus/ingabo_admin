@@ -1,12 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import '../styles/Landing.css';
-import Navbar from './Navbar';
-import Card from '@mui/material/Card';
-import { Input } from '@mui/material';
-import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
-import { useForm, Controller } from "react-hook-form";
-import Button from '@mui/material/Button';
 import axios from 'axios';
 import $ from 'jquery'; 
 import Alert from '@mui/material/Alert';
@@ -56,7 +50,7 @@ export default function ProductUpdate() {
 
     // get Product
     const GetProduct = () => {
-        axios.get(`http://localhost:4000/api/v1/products/${product_id}`).then(res => {
+        axios.get(`http://197.243.14.102:4000/api/v1/products/${product_id}`).then(res => {
         setProduct(res.data.product);
     }).catch(err=>{
         console.log(err.response.data.message);
@@ -84,7 +78,7 @@ export default function ProductUpdate() {
         GetProduct()
     }, []);
 
-    let photo = 'http://localhost:4000/uploads/'+product.image;
+    let photo = 'http://197.243.14.102:4000/uploads/'+product.image;
 // console.log(product.image);
 // Update Pro details
 
@@ -104,7 +98,7 @@ const handleUpdate = () => {
       };
 
 
-    axios.patch(`http://localhost:4000/api/v1/products/${product_id}`, data, { headers: {"Authorization" : `Bearer ${token}`} })
+    axios.patch(`http://197.243.14.102:4000/api/v1/products/${product_id}`, data, { headers: {"Authorization" : `Bearer ${token}`} })
     .then(res => {
         // console.log("Updated: ",res);
         window.location.reload()
@@ -143,7 +137,7 @@ const handleImageUpdate =() => {
 
         const data = new FormData();
         data.append("image", new_image);
-        axios.put(`http://localhost:4000/api/v1/products/profile/${product_id}`, data, { headers: {"Authorization" : `Bearer ${token}`} })
+        axios.put(`http://197.243.14.102:4000/api/v1/products/profile/${product_id}`, data, { headers: {"Authorization" : `Bearer ${token}`} })
         .then(res => {
             // console.log("Updated: ",res);
             window.location.reload()

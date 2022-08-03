@@ -51,7 +51,7 @@ export default function Addproduct() {
     data.append("image", image);
 
     
-    axios.post('http://localhost:4000/api/v1/products', data, { headers: {"Authorization" : `Bearer ${token}`} })
+    axios.post('http://197.243.14.102:4000/api/v1/products', data, { headers: {"Authorization" : `Bearer ${token}`} })
     .then(res => {
       if(res.status===201){
         window.location.reload()

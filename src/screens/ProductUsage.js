@@ -39,8 +39,8 @@ export default function ProductUsage() {
             application: application,
             pre_condition: pre_condition
         }
-        // http://localhost:4000/api/v1/products/details
-        axios.post('http://localhost:4000/api/v1/products/details', data, { headers: {"Authorization" : `Bearer ${token}`} })
+        // http://197.243.14.102:4000/api/v1/products/details
+        axios.post('http://197.243.14.102:4000/api/v1/products/details', data, { headers: {"Authorization" : `Bearer ${token}`} })
         .then(res => {
             if(res.status === 201){
                 window.location.reload()
@@ -62,13 +62,13 @@ export default function ProductUsage() {
     }
 
     const handleUpdateUsage = () => {
-        // http://localhost:4000/api/v1/products/details/:id
+        // http://197.243.14.102:4000/api/v1/products/details/:id
         const data = {
             product_id: product_id,
             application: application ? application : product.application,
             pre_condition: pre_condition ? pre_condition : product.pre_condition
         }
-        axios.patch(`http://localhost:4000/api/v1/products/details/${product_id}`, data, { headers: {"Authorization" : `Bearer ${token}`} })
+        axios.patch(`http://197.243.14.102:4000/api/v1/products/details/${product_id}`, data, { headers: {"Authorization" : `Bearer ${token}`} })
         .then(res => {
             window.location.reload()
         }).catch(function (err) {
@@ -79,7 +79,7 @@ export default function ProductUsage() {
     
     useEffect(() => {
         // get Product
-        axios.get(`http://localhost:4000/api/v1/products/${product_id}`).then(res => {
+        axios.get(`http://197.243.14.102:4000/api/v1/products/${product_id}`).then(res => {
             setProduct(res.data.product);
         }).catch(err=>{
             if(err.response.data.status === 404){
@@ -95,7 +95,7 @@ export default function ProductUsage() {
 
     }, []);
 
-    let photo = 'http://localhost:4000/uploads/'+product.image;
+    let photo = 'http://197.243.14.102:4000/uploads/'+product.image;
 
   return (
       <>
