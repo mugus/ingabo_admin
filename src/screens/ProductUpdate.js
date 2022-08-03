@@ -121,11 +121,10 @@ const handleUpdate = () => {
 }
 // End update Pro details
 const handleImageUpdate =() => {
-    if( new_image === ''){
-        setMsg("Add Image")
-        setAlertclass("err")
+    if(new_image == product.image){
+        alert("add Image")
     }else{
-        
+
         const data = new FormData();
         data.append("image", new_image);
         axios.put(`http://localhost:4000/api/v1/products/profile/${product_id}`, data, { headers: {"Authorization" : `Bearer ${token}`} })
@@ -138,9 +137,9 @@ const handleImageUpdate =() => {
                 // setMsg(err.response.data.message)
                 setMsg(err.response.data.message)
                 setAlertclass("err")
-              }else{
+                }else{
                 console.log(err);
-              }
+                }
                 // console.log("Err", err);
         });
 
@@ -194,9 +193,15 @@ const handleImageUpdate =() => {
                                     Change Image
                                 </Typography>
                                 }
-                                <input type="file" name="image" label="file" onChange={e => {const image = e.target.files[0]; setImage(image) }} required/>
-                                <hr />
-                                {language == 1 ? <a className='btn btn-sm btn-success' onClick={handleImageUpdate}>Emeza Ifoto</a>: <a className='btn btn-sm btn-success' onClick={handleImageUpdate}>Confirm image</a>}
+                                <form>
+                                    <input type="file" name="image" label="file" onChange={e => {const image = e.target.files[0]; setImage(image) }} required/>
+                                    <hr />
+                                    {language == 1 ? 
+                                        <button type='submit' className='btn btn-sm btn-success' onClick={handleImageUpdate}>Emeza Ifoto</button>
+                                    :
+                                        <button type='submit' className='btn btn-sm btn-success' onClick={handleImageUpdate}>Confirm image</button>
+                                    }
+                                </form>
                             </Grid>
 
                             {language == 1 ?
