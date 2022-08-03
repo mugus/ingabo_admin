@@ -150,7 +150,7 @@ export default function ProductUsage() {
                                                 >
                                                 <TextField
                                                     id="standard-multiline-static"
-                                                    label="Product Pre-Condition(Description)"
+                                                    label="Andika ibyo kwitondera mbere(Ibindi)"
                                                     multiline
                                                     rows={3}
                                                     variant="standard"
@@ -160,7 +160,7 @@ export default function ProductUsage() {
 
                                                 <TextField
                                                     id="standard-multiline-static"
-                                                    label="Product Application(Description)"
+                                                    label="Andika uko umuti ukoreshwa(Ibindi)"
                                                     multiline
                                                     rows={3}
                                                     variant="standard"
@@ -198,7 +198,7 @@ export default function ProductUsage() {
                                                 <TextField
                                                     value={pre_condition}
                                                     id="standard-multiline-static"
-                                                    label="Set New Product Pre-Condition"
+                                                    label="Kosora ibyo kwitondera mbere"
                                                     multiline
                                                     rows={3}
                                                     variant="standard"
@@ -207,7 +207,7 @@ export default function ProductUsage() {
                                                 <TextField
                                                 value={application}
                                                 id="standard-multiline-static"
-                                                label="Set New Product Application"
+                                                label="Kosora uko umuti ukoreshwa"
                                                 multiline
                                                 rows={3}
                                                 variant="standard"
@@ -215,7 +215,7 @@ export default function ProductUsage() {
                                             />    
                                                 
                                             
-                                                <Button className="CreatePro" variant="contained" color="success" onClick={handleUpdateUsage}>Update</Button>
+                                                <Button className="CreatePro" variant="contained" color="success" onClick={handleUpdateUsage}>Emeza</Button>
                                                 
                                                 <LoadingButton
                                                 loading

@@ -10,6 +10,7 @@ import Profile from './screens/Profile';
 import Home from './screens/Home';
 import Settings from './screens/Settings';
 import Diagnosis from './screens/Diagnosis';
+import ProductUpdate from './screens/ProductUpdate';
 import DiagnosisDetails from './screens/DiagnosisDetails';
 import Crops from './screens/Crops';
 import Help from './screens/Help';
@@ -45,6 +46,7 @@ root.render(
           <Route path="Home" element={<Home />} />
           <Route path="Products" element={<Products />} />
           <Route path="ProductUsage/:product_id" element={<ProductUsage />} />
+          <Route path="ProductUpdate/:product_id" element={<ProductUpdate />} />
           <Route path="Settings" element={<Settings />} />
           <Route path="Profile" element={<Profile />} />
           <Route path="Diagnosis/:token/:crop_id" element={<Diagnosis />} />

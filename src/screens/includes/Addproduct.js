@@ -138,7 +138,7 @@ export default function Addproduct() {
                               }} required/>
           
             <Button className="CreatePro" variant="contained" color="success" onClick={handleAddProduct}>
-              Andika igicuruzwa {language}
+              Andika igicuruzwa
             </Button>
             
             <LoadingButton

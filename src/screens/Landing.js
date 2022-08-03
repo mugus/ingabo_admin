@@ -19,7 +19,7 @@ export default function Landing() {
   const [message, setmessage] = useState("");
   const [email_id, setEmail_id] = useState("");
   const [password, setPassword] = useState("");
-  const [language, setLanguage] = useState("")
+  const [language, setLanguage] = useState(2)
 
 
   $(document).ready(function(){
@@ -115,8 +115,8 @@ export default function Landing() {
                   noValidate
                   autoComplete="off"
                 >
-                  <TextField color="primary" id="standard-basic" label="Email" type="email" variant="standard" value={email_id} onChange={(e) => setEmail_id(e.target.value)} />
-                  <TextField color="primary" id="standard-basic" label="Password" variant="standard" type="password" value={password} onChange={(e) => setPassword(e.target.value)} />
+                  <TextField required = {true} color="primary" id="standard-basic" label="Email" type="email" variant="standard" value={email_id} onChange={(e) => setEmail_id(e.target.value)} />
+                  <TextField required = {true} color="primary" id="standard-basic" label="Password" variant="standard" type="password" value={password} onChange={(e) => setPassword(e.target.value)} />
                   
                   <FormControl variant="standard" sx={{ m: 1, minWidth: 120 }}>
                     <InputLabel id="demo-simple-select-standard-label">Language</InputLabel>
