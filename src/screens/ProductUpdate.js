@@ -79,16 +79,29 @@ export default function ProductUpdate() {
     }, []);
 
     let photo = 'http://localhost:4000/uploads/'+product.image;
-
+// console.log(product.image);
 // Update Pro details
+let new_image = '';
+if(image !== ''){
+    new_image = image;
+}else{
+    new_image = product.image;
+}
+console.log("New image: ",new_image);
 const handleUpdate = () => {
-    const data = new FormData(); 
-    data.append("category", category ? category : product.category);
-    data.append("name", pro_name ? pro_name : product.name);
-    data.append("size", size ? size : product.size);
-    data.append("description", description ? description : product.description);
-    data.append("image", image ? image : product.image);
-    // product_id
+    $(document).ready(function(){
+        $('.CreatePro').hide()
+        $('.Loading_btn').show()
+      })
+
+      
+      const data = {
+        category : category ? category : product.category,
+        name: pro_name ? pro_name : product.name,
+        size: size ? size : product.size,
+        description: description ? description : product.description
+      };
+
 
     axios.patch(`http://localhost:4000/api/v1/products/${product_id}`, data, { headers: {"Authorization" : `Bearer ${token}`} })
     .then(res => {
@@ -107,7 +120,32 @@ const handleUpdate = () => {
     });
 }
 // End update Pro details
+const handleImageUpdate =() => {
+    if( new_image === ''){
+        setMsg("Add Image")
+        setAlertclass("err")
+    }else{
+        
+        const data = new FormData();
+        data.append("image", new_image);
+        axios.put(`http://localhost:4000/api/v1/products/profile/${product_id}`, data, { headers: {"Authorization" : `Bearer ${token}`} })
+        .then(res => {
+            // console.log("Updated: ",res);
+            window.location.reload()
+        }).catch(function (err) {
+            if(err.response.data.status===403){
+                console.log("Message: ",err.response.data.message);
+                // setMsg(err.response.data.message)
+                setMsg(err.response.data.message)
+                setAlertclass("err")
+              }else{
+                console.log(err);
+              }
+                // console.log("Err", err);
+        });
 
+    }
+}
 
 
   return (
@@ -122,12 +160,13 @@ const handleUpdate = () => {
                 <center>
                     <Alert severity={alertclass} style={{ width: '100%'}}>{msg}</Alert>
                     <br/>
-                    <a className='text text-info text-sm' href="../Products">Back on Products</a>
+                    {language == 1 ? <a className='text text-info text-sm' href="../Products">Subira Inyuma</a> : <a className='text text-info text-sm' href="../Products">Back on Products</a>}
                 </center>
             </>
             : 
+            
             <>
-            <h2>Update details of {product.name}</h2>
+                {language == 1 ? <h2>Hindura amakuru ya {product.name}</h2>: <h2>Update details of {product.name}</h2>}
 
                     <Paper
                         sx={{
@@ -139,17 +178,131 @@ const handleUpdate = () => {
                             theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
                         }}
                         >
+                    
                         <Grid container spacing={2}>
                             <Grid item>
                             <ButtonBase sx={{ width: 200, height: 230 }}>
                                 <Img alt="complex" src={photo} width='150' height='200' />
                             </ButtonBase>
                                 <br/>
+                                {language == 1 ?
+                                <Typography gutterBottom variant="subtitle1" component="div" color="primary">
+                                    Hindura ishusho
+                                </Typography>
+                                :
                                 <Typography gutterBottom variant="subtitle1" component="div" color="primary">
                                     Change Image
                                 </Typography>
+                                }
                                 <input type="file" name="image" label="file" onChange={e => {const image = e.target.files[0]; setImage(image) }} required/>
+                                <hr />
+                                {language == 1 ? <a className='btn btn-sm btn-success' onClick={handleImageUpdate}>Emeza Ifoto</a>: <a className='btn btn-sm btn-success' onClick={handleImageUpdate}>Confirm image</a>}
                             </Grid>
+
+                            {language == 1 ?
+                            <Grid item xs={12} sm container>
+                                <Grid item xs container direction="column" spacing={2}>
+                                    <Grid item xs>
+
+                                        <Grid container>
+                                            <Grid item xl={6} lg={12} md={12} sm={12} xs={12}>
+
+                                                <Typography gutterBottom variant="subtitle1" component="div">
+                                                    Izina ry'igicuruzwa
+                                                </Typography>
+                                                <Typography variant="body2" color="primary" style={{ paddingLeft: 5, fontWeight: 'bold' }}>{product.name}</Typography>
+
+                                            </Grid>
+                                            <Grid item xl={6} lg={12} md={12} sm={12} xs={12}>
+                                                <TextField id="standard-basic" label="Andika izina" style={{ padding:5, width: '100%' }} variant="standard" value={pro_name} onChange={(e) => setPro_name(e.target.value)} /> 
+                                            </Grid>
+                                        </Grid>
+                                    <hr />
+                                    
+                                    <Grid container>
+                                            <Grid item xl={6} lg={12} md={12} sm={12} xs={12}>
+
+                                                <Typography gutterBottom variant="subtitle1" component="div">
+                                                    Ingano z'igicuruzwa
+                                                </Typography>
+                                                <Typography variant="body2" color="primary" style={{ paddingLeft: 5, fontWeight: 'bold' }}>{product.size}</Typography>
+
+                                            </Grid>
+                                            <Grid item xl={6} lg={12} md={12} sm={12} xs={12}>
+                                            <TextField id="standard-basic" label="Andika Ingano" style={{ padding:5, width: '100%' }} variant="standard" value={size} onChange={(e) => setSize(e.target.value)} />
+                                            </Grid>
+                                        </Grid>
+                                    <hr />
+
+                                    <Grid container>
+                                        <Grid item xl={6} lg={12} md={12} sm={12} xs={12}>
+                                            <Typography variant="body2" gutterBottom>Icyiciro cy'igicuruzwa</Typography>
+                                            <Typography variant="body2" color="primary" style={{ paddingLeft: 5, fontWeight: 'bold' }}>{product.category}</Typography>
+                                        </Grid>
+                                        <Grid item xl={6} lg={12} md={12} sm={12} xs={12}>
+                                            <FormControl variant="standard" sx={{ m: 1, minWidth: 120 }} style={{ padding:5, width: '100%' }}>
+                                                <InputLabel id="demo-simple-select-standard-label">Andika Icyiciro</InputLabel>
+                                                <Select
+                                                    labelId="demo-simple-select-standard-label"
+                                                    id="demo-simple-select-standard"
+                                                    value={category}
+                                                    onChange={(e) => setCategory(e.target.value)}
+                                                    label="Product Category"
+                                                >
+                                                    <MenuItem value="Fungicide">Fungicide</MenuItem>
+                                                    <MenuItem value="Imiti yica udukoko">Imiti yica udukoko</MenuItem>
+                                                    <MenuItem value="Ifumbire">Ifumbire</MenuItem>
+                                                    <MenuItem value="Imiti ihungira">Imiti ihungira</MenuItem>
+                                                </Select>
+                                            </FormControl>
+                                        </Grid>
+                                    </Grid>
+                                    <hr />
+                                    <Grid container>
+                                        <Grid item xl={6} lg={12} md={12} sm={12} xs={12}>
+                                            <Typography variant="body2" gutterBottom>Ibisobanuro ku gicuruzwa</Typography>
+                                            <Typography variant="body2" color="primary" style={{ paddingLeft: 5, fontWeight: 'bold' }}>{product.description}</Typography>
+                                        </Grid>
+                                        <Grid item xl={6} lg={12} md={12} sm={12} xs={12}>
+                                            <TextField
+                                                id="standard-multiline-static"
+                                                label="Andika Ibisobanuro"
+                                                multiline
+                                                rows={3}
+                                                style={{ padding:5, width: '100%' }}
+                                                variant="standard"
+                                                value={description} onChange={(e) => setDescription(e.target.value)} 
+                                            /> 
+                                        </Grid>
+                                    </Grid>
+
+                                    
+                                    <hr />
+
+                                    </Grid>
+                                    <Grid item>
+                                    <Typography sx={{ cursor: 'pointer' }} variant="body2">
+                                        <a className='btn btn-success btn-sm CreatePro' onClick={handleUpdate}>Emeza</a>
+                                        <LoadingButton
+                                            loading
+                                            loadingPosition="center"
+                                            variant="contained"
+                                            color="primary"
+                                            className='Loading_btn'
+                                            >
+                                            Tegereza gato
+                                        </LoadingButton>
+                                        <span>  </span>
+                                        <a className='btn btn-danger btn-sm' onClick={handleDiscardUpdate}>Siba ibyanditswe</a>
+                                        <br/><br/>
+                                        <a className='text text-info text-sm' href="../Products">Subira Inyuma</a>
+                                        
+                                    </Typography>
+                                    </Grid>
+                                </Grid>
+                            </Grid>
+                            :
+
                             <Grid item xs={12} sm container>
                                 <Grid item xs container direction="column" spacing={2}>
                                     <Grid item xs>
@@ -231,11 +384,6 @@ const handleUpdate = () => {
 
                                     </Grid>
                                     <Grid item>
-                                        {/* <Grid item id="conf_updates_sm" style={{ display: 'none' }}>
-                                            <Typography variant="subtitle1" component="div" style={{ padding:5}}>
-                                                <a className='btn btn-success btn-sm CreatePro' onClick={handleUpdate}>Confirm updates</a>
-                                            </Typography> <hr/>
-                                        </Grid> */}
                                     <Typography sx={{ cursor: 'pointer' }} variant="body2">
                                         <a className='btn btn-success btn-sm CreatePro' onClick={handleUpdate}>Confirm updates</a>
                                         <LoadingButton
@@ -245,7 +393,7 @@ const handleUpdate = () => {
                                             color="primary"
                                             className='Loading_btn'
                                             >
-                                            Tegereza gato
+                                            Wait
                                         </LoadingButton>
                                         <span>  </span>
                                         <a className='btn btn-danger btn-sm' onClick={handleDiscardUpdate}>Discard changes</a>
@@ -255,12 +403,11 @@ const handleUpdate = () => {
                                     </Typography>
                                     </Grid>
                                 </Grid>
-                            {/* <Grid item style={{ padding:10}} id="conf_updates">
-                                <Typography variant="subtitle1" component="div" style={{ padding:5}}>
-                                    <a className='btn btn-success btn-sm CreatePro' onClick={handleUpdate}>Confirm updates</a>
-                                </Typography>
-                            </Grid> */}
                             </Grid>
+                            }
+
+
+
                         </Grid>
                     </Paper>
     
