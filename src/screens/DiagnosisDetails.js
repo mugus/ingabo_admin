@@ -136,7 +136,7 @@ let photo = 'http://197.243.14.102:4000/uploads/'+diagdetails.image;
       <>
         {/* <Navbar /> */}
         <Box sx={{ width: '100%' }}>
-            <Grid container style={{paddingTop: '5%'}}>
+            <Grid container style={{paddingTop: '2%'}}>
                 <Grid item xs={12} sm={2} md={2} lg={2} xl={2}></Grid>
                 { language == 1 ?
                 // kinyarwanda
