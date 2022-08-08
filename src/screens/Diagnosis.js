@@ -14,7 +14,7 @@ import Typography from '@mui/material/Typography';
 import { useParams } from "react-router-dom";
 import axios from 'axios';
 import $ from 'jquery'; 
-import { FormControl, FormControlLabel, FormGroup } from "@mui/material";
+import { useConfirm } from "material-ui-confirm";
 import Alert from '@mui/material/Alert';
 
 
@@ -33,6 +33,7 @@ const Item = styled(Paper)(({ theme }) => ({
 
 
 const Diagnosis = () => {
+  const confirm = useConfirm();
   const language = localStorage.getItem('language');
   const [diagnosis_name, setDiagnosis_name] = useState("");
   const [diagnosisdetails, setDiagnosisdetails] = useState([]);
@@ -93,10 +94,30 @@ const Diagnosis = () => {
   }
 
 
-
-//   const GetSingleDiagnosis = () => {
-
-// }
+// Delete Diagnosis
+const handleDeleteDiag = diagnosis_id => {
+  confirm({ description: `You are going to permanently delete` })
+    .then(() => {
+      // console.log("Ready");
+          axios.delete(`http://localhost:4000/api/v1/diagnosis/${diagnosis_id}`, { headers: {"Authorization" : `Bearer ${token}`} }).then(res => {
+          alert("Deleted ")
+          window.location.reload()
+      }).catch(err=>{
+          if(err.response.data.status===403){
+          console.log("Message: ",err.response.data.message);
+          alert(err.response.data.message);
+          // setMsg(err.response.data.message)
+          // setMsg(err.response.data.message)
+          // setAlertclass("err")
+          }else{
+          console.log(err);
+          }
+              // console.log(err);
+      })
+    }
+    )
+    .catch(() => console.log("Deletion cancelled."));
+};
 
 
 
@@ -149,8 +170,6 @@ const Diagnosis = () => {
       }
     })
 
-
-    // alert("Edit image")
   }
 
   const EditDiagnosisImage = () =>{
@@ -262,11 +281,13 @@ const Diagnosis = () => {
                                       <small>{diagnosisdetails.crop_name}  </small>
                                   </CardContent>
                                   <CardActions>
-                                      <Button value={diagnosisdetails.diagnosis_id} variant="outlined" size="small" onClick={e => handlediagnosisDetails(e.target.value)}>Diagnosis Details</Button>
-                                      <Button style={{ fontSize: 11, color: '#fff' , backgroundColor: '#5bc0de' }} className="view_data" data-bs-toggle="modal" href="#exampleModalToggle"
-                                              data-id={diagnosisdetails.diagnosis_id}>
-                                                Edit
-                                            </Button>
+                                      <Button value={diagnosisdetails.diagnosis_id} variant="outlined" size="small" className="btn btn-info" onClick={e => handlediagnosisDetails(e.target.value)}>Details</Button>
+                                      <Button style={{ fontSize: 11, color: '#fff' , backgroundColor: '#5bc0de' }} className="btn view_data" data-bs-toggle="modal" href="#exampleModalToggle"
+                                        data-id={diagnosisdetails.diagnosis_id}>
+                                          Edit
+                                      </Button>
+                                      <Button style={{ fontSize: 11, color: '#fff' , backgroundColor: '#5bc0de' }}  className="btn btn-danger"
+                                       value={diagnosisdetails.diagnosis_id} onClick={e => handleDeleteDiag(e.target.value)}>Delete</Button>
                                   </CardActions>
                               </Card>
 
