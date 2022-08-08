@@ -88,7 +88,7 @@ const DiagnosisDetails = () => {
             prevention: prevention,
             cause: cause
         }
-        axios.post('http://localhost:4000/api/v1/diagnosis/details', data, { headers: {"Authorization" : `Bearer ${token}`} }).then(res => {
+        axios.post('http://197.243.14.102:4000/api/v1/diagnosis/details', data, { headers: {"Authorization" : `Bearer ${token}`} }).then(res => {
             window.location.reload()
         }).catch(err=> {
             if(err.response.data.status===403){
@@ -99,18 +99,18 @@ const DiagnosisDetails = () => {
         })
         
     }
-    // http://localhost:4000/api/v1/diagnosis/single/3
+    // http://197.243.14.102:4000/api/v1/diagnosis/single/3
 
 
     const GetProducts = () => {
-        axios.get(`http://localhost:4000/api/v1/products`).then(res => {
+        axios.get(`http://197.243.14.102:4000/api/v1/products`).then(res => {
               setPro(res.data.products)
           }).catch(err=>{
               console.log(err);
           })
     }
     const GetSingleDiagnosis = () => {
-        axios.get(`http://localhost:4000/api/v1/diagnosis/single/${diagnosis_id}`).then(res => {
+        axios.get(`http://197.243.14.102:4000/api/v1/diagnosis/single/${diagnosis_id}`).then(res => {
             setSingledetails(res.data.diag)
         }).catch(err=>{
             console.log("Err: ",err);
@@ -118,7 +118,7 @@ const DiagnosisDetails = () => {
     }
 
   useEffect(() => {
-    axios.get(`http://localhost:4000/api/v1/diagnosis/${diagnosis_id}`).then(res => {
+    axios.get(`http://197.243.14.102:4000/api/v1/diagnosis/${diagnosis_id}`).then(res => {
         setDiagdetails(res.data.diagnosis);
             setMsg(true)
             setDiag_det(true)
@@ -136,7 +136,7 @@ const DiagnosisDetails = () => {
     GetSingleDiagnosis()
     GetProducts()
 }, []);
-let photo = 'http://localhost:4000/uploads/'+diagdetails.image;
+let photo = 'http://197.243.14.102:4000/uploads/'+diagdetails.image;
 
 
   return (

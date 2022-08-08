@@ -48,7 +48,7 @@ export default function Listcrops() {
             confirm({ description: `You are going to permanently delete` })
               .then(() => {
                 // console.log("Ready");
-                    axios.delete(`http://localhost:4000/api/v1/crops/${crop_id}`, { headers: {"Authorization" : `Bearer ${token}`} }).then(res => {
+                    axios.delete(`http://197.243.14.102:4000/api/v1/crops/${crop_id}`, { headers: {"Authorization" : `Bearer ${token}`} }).then(res => {
                     alert("Deleted ")
                     window.location.reload()
                 }).catch(err=>{
@@ -70,7 +70,7 @@ export default function Listcrops() {
 
 
           const getKinyaCrops = () => {
-            axios.get('http://localhost:4000/api/v1/crops/kin').then(res => {
+            axios.get('http://197.243.14.102:4000/api/v1/crops/kin').then(res => {
                 setCropkin(res.data.crops);
                 // setLang(language)
                 cropkin ? setisready(true) : setisready(false)
@@ -81,7 +81,7 @@ export default function Listcrops() {
                 })
         }
         const getEngCrops = () => {
-            axios.get('http://localhost:4000/api/v1/crops/en').then(res => {
+            axios.get('http://197.243.14.102:4000/api/v1/crops/en').then(res => {
                 setCropeng(res.data.crops);
                 // setLang(language)
                 cropeng ? setisready(true) : setisready(false)
@@ -107,7 +107,7 @@ export default function Listcrops() {
         GetCropName(crop_id);
     });
     const GetCropName =(crop_id)=>{
-        axios.get(`http://localhost:4000/api/v1/crops/single/${crop_id}`).then(res => {
+        axios.get(`http://197.243.14.102:4000/api/v1/crops/single/${crop_id}`).then(res => {
               setCrop_modal(res.data.crop)
           }).catch(err=>{
             if(err.response.data.status === 404){
@@ -130,7 +130,7 @@ const EditCropName =()=>{
         name: crop_name
     }
 
-    axios.put(`http://localhost:4000/api/v1/crops/${crop_modal.crop_id}`,data, { headers: {"Authorization" : `Bearer ${token}`} }).then(res => {
+    axios.put(`http://197.243.14.102:4000/api/v1/crops/${crop_modal.crop_id}`,data, { headers: {"Authorization" : `Bearer ${token}`} }).then(res => {
         window.location.reload()
     }).catch(err=>{
       if(err.response.data.status === 404){
@@ -152,7 +152,7 @@ const EditCropImage =()=>{
     data.append("image", image);
  
 
-    axios.put(`http://localhost:4000/api/v1/crops/profile/${crop_modal.crop_id}`,data, { headers: {"Authorization" : `Bearer ${token}`} }).then(res => {
+    axios.put(`http://197.243.14.102:4000/api/v1/crops/profile/${crop_modal.crop_id}`,data, { headers: {"Authorization" : `Bearer ${token}`} }).then(res => {
         window.location.reload()
     }).catch(err=>{
       if(err.response.data.status === 404){
@@ -164,7 +164,7 @@ const EditCropImage =()=>{
     })
 }
 
-let photo = 'http://localhost:4000/uploads/'+crop_modal.image;
+let photo = 'http://197.243.14.102:4000/uploads/'+crop_modal.image;
     return (
         <>
         {
@@ -175,7 +175,7 @@ let photo = 'http://localhost:4000/uploads/'+crop_modal.image;
                 <>
                 {
                     cropkin.map((crop)=>{
-                        let photo = 'http://localhost:4000/uploads/'+crop.image;
+                        let photo = 'http://197.243.14.102:4000/uploads/'+crop.image;
                         return (
                             <Grid item xs={12} sm={6} md={4} lg={4} xl={3} key={crop.crop_id}>
 
@@ -218,7 +218,7 @@ let photo = 'http://localhost:4000/uploads/'+crop_modal.image;
                     <>
                     {
                         cropeng.map((crop)=>{
-                            let photo = 'http://localhost:4000/uploads/'+crop.image;
+                            let photo = 'http://197.243.14.102:4000/uploads/'+crop.image;
                             return (
                                 <Grid item xs={12} sm={6} md={4} lg={4} xl={3} key={crop.crop_id}>
 

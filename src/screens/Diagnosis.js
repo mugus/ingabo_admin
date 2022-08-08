@@ -75,7 +75,7 @@ const Diagnosis = () => {
     data.append("image", image);
 
     // console.log("data: ", data);
-    axios.post('http://localhost:4000/api/v1/diagnosis', data, { headers: {"Authorization" : `Bearer ${token}`} })
+    axios.post('http://197.243.14.102:4000/api/v1/diagnosis', data, { headers: {"Authorization" : `Bearer ${token}`} })
     .then(res => {
       window.location.reload()
       console.log(res.message);
@@ -99,7 +99,7 @@ const handleDeleteDiag = diagnosis_id => {
   confirm({ description: `You are going to permanently delete` })
     .then(() => {
       // console.log("Ready");
-          axios.delete(`http://localhost:4000/api/v1/diagnosis/${diagnosis_id}`, { headers: {"Authorization" : `Bearer ${token}`} }).then(res => {
+          axios.delete(`http://197.243.14.102:4000/api/v1/diagnosis/${diagnosis_id}`, { headers: {"Authorization" : `Bearer ${token}`} }).then(res => {
           alert("Deleted ")
           window.location.reload()
       }).catch(err=>{
@@ -122,7 +122,7 @@ const handleDeleteDiag = diagnosis_id => {
 
 
   useEffect(()=> {
-    axios.get(`http://localhost:4000/api/v1/crops/${crop_id}`).then(res => {
+    axios.get(`http://197.243.14.102:4000/api/v1/crops/${crop_id}`).then(res => {
         setDiagnosisdetails(res.data.diag);
     }).catch(err=>{
         console.log(err);
@@ -137,7 +137,7 @@ const handleDeleteDiag = diagnosis_id => {
       GetDiagnosis(diagnosis_id);
     });
     const GetDiagnosis =(diagnosis_id)=>{
-        axios.get(`http://localhost:4000/api/v1/diagnosis/single/${diagnosis_id}`).then(res => {
+        axios.get(`http://197.243.14.102:4000/api/v1/diagnosis/single/${diagnosis_id}`).then(res => {
             setDiag_details(res.data.diag)
           }).catch(err=>{
             if(err.response.data.status === 404){
@@ -159,7 +159,7 @@ const handleDeleteDiag = diagnosis_id => {
       diagnosis_name: diagno_name
   }
 
-    axios.put(`http://localhost:4000/api/v1/diagnosis/single/${diag_details.diagnosis_id}`,data, { headers: {"Authorization" : `Bearer ${token}`} }).then(res => {
+    axios.put(`http://197.243.14.102:4000/api/v1/diagnosis/single/${diag_details.diagnosis_id}`,data, { headers: {"Authorization" : `Bearer ${token}`} }).then(res => {
       window.location.reload()
     }).catch(err=>{
       if(err.response.data.status === 404){
@@ -179,7 +179,7 @@ const handleDeleteDiag = diagnosis_id => {
     })
     let data = new FormData();
     data.append("image", new_image);
-    axios.put(`http://localhost:4000/api/v1/diagnosis/profile/${diag_details.diagnosis_id}`,data, { headers: {"Authorization" : `Bearer ${token}`} }).then(res => {
+    axios.put(`http://197.243.14.102:4000/api/v1/diagnosis/profile/${diag_details.diagnosis_id}`,data, { headers: {"Authorization" : `Bearer ${token}`} }).then(res => {
         window.location.reload()
     }).catch(err=>{
       if(err.response.data.status === 404){
@@ -194,7 +194,7 @@ const handleDeleteDiag = diagnosis_id => {
 
 
 
-  let modal_photo = 'http://localhost:4000/uploads/'+diag_details.diag_img;
+  let modal_photo = 'http://197.243.14.102:4000/uploads/'+diag_details.diag_img;
   return (
       <>
         {/* <Navbar /> */}
@@ -213,7 +213,7 @@ const handleDeleteDiag = diagnosis_id => {
                         // if(diagnosisdetails !== ''){
                           diagnosisdetails.length > 0 ?
                         diagnosisdetails.map((diagnosisdetails)=>{
-                          let photo = 'http://localhost:4000/uploads/'+diagnosisdetails.diag_image;
+                          let photo = 'http://197.243.14.102:4000/uploads/'+diagnosisdetails.diag_image;
                           return (
                             <Grid item xs={12} sm={6} md={4} lg={4} xl={3} key={diagnosisdetails.diagnosis_id}>
 
@@ -263,7 +263,7 @@ const handleDeleteDiag = diagnosis_id => {
                         // if(diagnosisdetails !== ''){
                           diagnosisdetails.length > 0 ?
                         diagnosisdetails.map((diagnosisdetails)=>{
-                          let photo = 'http://localhost:4000/uploads/'+diagnosisdetails.diag_image;
+                          let photo = 'http://197.243.14.102:4000/uploads/'+diagnosisdetails.diag_image;
                           return (
                             <Grid item xs={12} sm={6} md={4} lg={4} xl={3} key={diagnosisdetails.diagnosis_id}>
 

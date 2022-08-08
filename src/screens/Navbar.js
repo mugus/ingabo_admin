@@ -93,8 +93,29 @@ const Navbar = () => {
               }}
             >
               {pages.map((page) => (
+              //   <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
+              //   {pages.map((page) => (
+              //     <Button
+              //       href={page}
+              //       key={page}
+              //       onClick={handleCloseNavMenu}
+              //       sx={{ my: 2, color: 'white', display: 'block' }}
+              //     >
+              //       {page}
+              //     </Button>
+              //   ))}
+              // </Box>
                 <MenuItem key={page} onClick={handleCloseNavMenu}>
-                  <Typography textAlign="center">{page}</Typography>
+                  <Typography textAlign="center">
+                    <Button
+                      href={page}
+                      key={page}
+                      onClick={handleCloseNavMenu}
+                      sx={{ color: 'primary', display: 'block' }}
+                    >
+                    {page}
+                    </Button>
+                  </Typography>
                 </MenuItem>
               ))}
             </Menu>

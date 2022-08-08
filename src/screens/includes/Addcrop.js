@@ -47,7 +47,7 @@ export default function Addcrop() {
     data.append("image", image);
     data.append("lan_id", language);
     //ALTER TABLE `crops` ADD `lan_id` INT(11) NOT NULL DEFAULT '2' AFTER `crop_id`, ADD INDEX (`lan_id`);
-    axios.post('http://localhost:4000/api/v1/crops', data, { headers: {"Authorization" : `Bearer ${token}`} })
+    axios.post('http://197.243.14.102:4000/api/v1/crops', data, { headers: {"Authorization" : `Bearer ${token}`} })
     .then(res => {
       if(res.status===201){
         window.location.reload()

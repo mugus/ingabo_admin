@@ -68,7 +68,7 @@ const EditDiagnosisDetails = () => {
 
 
     const GetProducts = () => {
-        axios.get(`http://localhost:4000/api/v1/products`).then(res => {
+        axios.get(`http://197.243.14.102:4000/api/v1/products`).then(res => {
               setPro(res.data.products)
           }).catch(err=>{
               console.log(err);
@@ -92,7 +92,7 @@ const handleUpdateDiagDetails =()=>{
         recommendation_products: pro_item ? pro_item : diagdetails.recommendation_products
     }
 
-    axios.patch(`http://localhost:4000/api/v1/diagnosis/${diagnosis_id}`, data, { headers: {"Authorization" : `Bearer ${token}`} }).then(res => {
+    axios.patch(`http://197.243.14.102:4000/api/v1/diagnosis/${diagnosis_id}`, data, { headers: {"Authorization" : `Bearer ${token}`} }).then(res => {
         alert("Updated")
         window.location.reload()
     }).catch(err=>{
@@ -107,7 +107,7 @@ const handleUpdateDiagDetails =()=>{
 }
 
     useEffect(() => {
-        axios.get(`http://localhost:4000/api/v1/diagnosis/${diagnosis_id}`).then(res => {
+        axios.get(`http://197.243.14.102:4000/api/v1/diagnosis/${diagnosis_id}`).then(res => {
             setDiagdetails(res.data.diagnosis);
             // console.log("res.data.diagnosis", res.data.diagnosis);
                 setMsg(true)
@@ -127,7 +127,7 @@ const handleUpdateDiagDetails =()=>{
     }, []);
 
 
-    let photo = 'http://localhost:4000/uploads/'+diagdetails.image;
+    let photo = 'http://197.243.14.102:4000/uploads/'+diagdetails.image;
 
 
     return (
