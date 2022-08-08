@@ -48,7 +48,7 @@ export default function Listcrops() {
             confirm({ description: `You are going to permanently delete` })
               .then(() => {
                 // console.log("Ready");
-                    axios.delete(`http://197.243.14.102:4000/api/v1/crops/${crop_id}`, { headers: {"Authorization" : `Bearer ${token}`} }).then(res => {
+                    axios.delete(`http://localhost:4000/api/v1/crops/${crop_id}`, { headers: {"Authorization" : `Bearer ${token}`} }).then(res => {
                     alert("Deleted ")
                     window.location.reload()
                 }).catch(err=>{
@@ -70,7 +70,7 @@ export default function Listcrops() {
 
 
           const getKinyaCrops = () => {
-            axios.get('http://197.243.14.102:4000/api/v1/crops/kin').then(res => {
+            axios.get('http://localhost:4000/api/v1/crops/kin').then(res => {
                 setCropkin(res.data.crops);
                 // setLang(language)
                 cropkin ? setisready(true) : setisready(false)
@@ -81,7 +81,7 @@ export default function Listcrops() {
                 })
         }
         const getEngCrops = () => {
-            axios.get('http://197.243.14.102:4000/api/v1/crops/en').then(res => {
+            axios.get('http://localhost:4000/api/v1/crops/en').then(res => {
                 setCropeng(res.data.crops);
                 // setLang(language)
                 cropeng ? setisready(true) : setisready(false)
@@ -97,13 +97,6 @@ export default function Listcrops() {
     useEffect(()=> {
             getKinyaCrops()
             getEngCrops()
-
-        // axios.get('http://197.243.14.102:4000/api/v1/crops').then(res => {
-        //     setCrop(res.data.crops);
-        // }).catch(err=>{
-        //     console.log(err);
-        // })
-        // crop ? setisready(true) : setisready(false)
       }, [])
 
 
@@ -114,7 +107,7 @@ export default function Listcrops() {
         GetCropName(crop_id);
     });
     const GetCropName =(crop_id)=>{
-        axios.get(`http://197.243.14.102:4000/api/v1/crops/single/${crop_id}`).then(res => {
+        axios.get(`http://localhost:4000/api/v1/crops/single/${crop_id}`).then(res => {
               setCrop_modal(res.data.crop)
           }).catch(err=>{
             if(err.response.data.status === 404){
@@ -126,6 +119,7 @@ export default function Listcrops() {
           })
     }
     // End Get modal content
+
 // Update crop name
 const EditCropName =()=>{
     $(document).ready(function(){
@@ -136,7 +130,7 @@ const EditCropName =()=>{
         name: crop_name
     }
 
-    axios.put(`http://197.243.14.102:4000/api/v1/crops/${crop_modal.crop_id}`,data, { headers: {"Authorization" : `Bearer ${token}`} }).then(res => {
+    axios.put(`http://localhost:4000/api/v1/crops/${crop_modal.crop_id}`,data, { headers: {"Authorization" : `Bearer ${token}`} }).then(res => {
         window.location.reload()
     }).catch(err=>{
       if(err.response.data.status === 404){
@@ -158,7 +152,7 @@ const EditCropImage =()=>{
     data.append("image", image);
  
 
-    axios.put(`http://197.243.14.102:4000/api/v1/crops/profile/${crop_modal.crop_id}`,data, { headers: {"Authorization" : `Bearer ${token}`} }).then(res => {
+    axios.put(`http://localhost:4000/api/v1/crops/profile/${crop_modal.crop_id}`,data, { headers: {"Authorization" : `Bearer ${token}`} }).then(res => {
         window.location.reload()
     }).catch(err=>{
       if(err.response.data.status === 404){
@@ -170,7 +164,7 @@ const EditCropImage =()=>{
     })
 }
 
-let photo = 'http://197.243.14.102:4000/uploads/'+crop_modal.image;
+let photo = 'http://localhost:4000/uploads/'+crop_modal.image;
     return (
         <>
         {
@@ -181,7 +175,7 @@ let photo = 'http://197.243.14.102:4000/uploads/'+crop_modal.image;
                 <>
                 {
                     cropkin.map((crop)=>{
-                        let photo = 'http://197.243.14.102:4000/uploads/'+crop.image;
+                        let photo = 'http://localhost:4000/uploads/'+crop.image;
                         return (
                             <Grid item xs={12} sm={6} md={4} lg={4} xl={3} key={crop.crop_id}>
 
@@ -201,14 +195,14 @@ let photo = 'http://197.243.14.102:4000/uploads/'+crop_modal.image;
 
                                         <ButtonGroup size="small" aria-label="small button group">
                                             <Button style={{ fontSize: 11, color: '#fff' , backgroundColor: '#5cb85c' }} value={crop.crop_id} onClick={e => handleDiagnosis(e.target.value)}>
-                                                View Diagnosis
+                                                Reba indwara
                                             </Button>
-                                            <Button style={{ fontSize: 11, color: '#fff' , backgroundColor: '#5bc0de' }} value={crop.crop_id}>
-                                                Edit
+                                            <Button style={{ fontSize: 11, color: '#fff' , backgroundColor: '#5bc0de' }} className="view_data" data-bs-toggle="modal" href="#exampleModalToggle" data-id={crop.crop_id}>
+                                                Hindura
                                             </Button>
                                             {/* <Button style={{ fontSize: 11, color: '#fff' , backgroundColor: '#f0ad4e' }} value={product.product_id} onClick={handleDelete(product)}>Delete</Button> */}
                                             <Button style={{ fontSize: 11, color: '#fff' , backgroundColor: '#f0ad4e' }} value={crop.crop_id} onClick={e => handleDelete(e.target.value)}>
-                                                Delete
+                                                Siba
                                             </Button>
                                         </ButtonGroup>
 
@@ -224,7 +218,7 @@ let photo = 'http://197.243.14.102:4000/uploads/'+crop_modal.image;
                     <>
                     {
                         cropeng.map((crop)=>{
-                            let photo = 'http://197.243.14.102:4000/uploads/'+crop.image;
+                            let photo = 'http://localhost:4000/uploads/'+crop.image;
                             return (
                                 <Grid item xs={12} sm={6} md={4} lg={4} xl={3} key={crop.crop_id}>
 
@@ -298,6 +292,7 @@ let photo = 'http://197.243.14.102:4000/uploads/'+crop_modal.image;
                         <div style={{ width: 170, height: 200 }}>
                             <img src={photo} alt='crop image' width='170' height='200'/>
                         </div>
+                            <br/>
                             <input type='file' onChange={e => { const image = e.target.files[0]; setImage(image) }}/>
                     </div><br/>
                     <div className="form-group">
@@ -343,9 +338,6 @@ let photo = 'http://197.243.14.102:4000/uploads/'+crop_modal.image;
 
 
 
-      </div>
-      <div className="modal-footer">
-        
       </div>
     </div>
   </div>

@@ -40,13 +40,19 @@ const Diagnosis = () => {
   const { token, crop_id } = useParams();
   const [msg, setMsg] = useState("");
   const [alertclass, setAlertclass] = useState("");
-  const [cropdetails, setCropdetails] = useState([]);
+  const [diag_details, setDiag_details] = useState("");
+  const [new_image, setNew_image] = useState("");
+  const [diagno_name, setDiagno_name] = useState("")
 
 
   $(document).ready(function(){
     $('.CreatePro').show()
     $('.Loading_btn').hide()
   })
+  $(document).ready(function(){
+    $('.CreateProImg').show()
+    $('.Loading_btnImg').hide()
+})
 
   const handlediagnosisDetails =(diagnosis_id)=>{
     const token = localStorage.getItem('token');
@@ -68,7 +74,7 @@ const Diagnosis = () => {
     data.append("image", image);
 
     // console.log("data: ", data);
-    axios.post('http://197.243.14.102:4000/api/v1/diagnosis', data, { headers: {"Authorization" : `Bearer ${token}`} })
+    axios.post('http://localhost:4000/api/v1/diagnosis', data, { headers: {"Authorization" : `Bearer ${token}`} })
     .then(res => {
       window.location.reload()
       console.log(res.message);
@@ -95,18 +101,81 @@ const Diagnosis = () => {
 
 
   useEffect(()=> {
-    axios.get(`http://197.243.14.102:4000/api/v1/crops/${crop_id}`).then(res => {
-      // axios.get(`http://197.243.14.102:4000/api/v1/crops/${crop_id}`).then(res => {
+    axios.get(`http://localhost:4000/api/v1/crops/${crop_id}`).then(res => {
         setDiagnosisdetails(res.data.diag);
     }).catch(err=>{
         console.log(err);
     })
 
-
-
   }, [])
 
-console.log("Diagnosis ",diagnosisdetails);
+    // Get modal content
+    $(document).on('click', '.view_data', function(e){
+      e.preventDefault();
+      var diagnosis_id = $(this).data('id');
+      GetDiagnosis(diagnosis_id);
+    });
+    const GetDiagnosis =(diagnosis_id)=>{
+        axios.get(`http://localhost:4000/api/v1/diagnosis/single/${diagnosis_id}`).then(res => {
+            setDiag_details(res.data.diag)
+          }).catch(err=>{
+            if(err.response.data.status === 404){
+              alert(err.response.data.message);
+              console.log(err.response.data.message);
+            }else{
+              console.log(err);
+            }
+          })
+    }
+    // End Get modal content
+
+  const EditDiagnosisName = () =>{
+    $(document).ready(function(){
+      $('.CreatePro').hide()
+      $('.Loading_btn').show()
+  })
+  let data = {
+      diagnosis_name: diagno_name
+  }
+
+    axios.put(`http://localhost:4000/api/v1/diagnosis/single/${diag_details.diagnosis_id}`,data, { headers: {"Authorization" : `Bearer ${token}`} }).then(res => {
+      window.location.reload()
+    }).catch(err=>{
+      if(err.response.data.status === 404){
+        alert(err.response.data.message);
+        console.log(err.response.data.message);
+      }else{
+        console.log(err.response);
+      }
+    })
+
+
+    // alert("Edit image")
+  }
+
+  const EditDiagnosisImage = () =>{
+    $(document).ready(function(){
+      $('.CreateProImg').hide()
+      $('.Loading_btnImg').show()
+    })
+    let data = new FormData();
+    data.append("image", new_image);
+    axios.put(`http://localhost:4000/api/v1/diagnosis/profile/${diag_details.diagnosis_id}`,data, { headers: {"Authorization" : `Bearer ${token}`} }).then(res => {
+        window.location.reload()
+    }).catch(err=>{
+      if(err.response.data.status === 404){
+        alert(err.response.data.message);
+        console.log(err.response.data.message);
+      }else{
+        console.log(err.response);
+      }
+    })
+
+  }
+
+
+
+  let modal_photo = 'http://localhost:4000/uploads/'+diag_details.diag_img;
   return (
       <>
         {/* <Navbar /> */}
@@ -125,7 +194,7 @@ console.log("Diagnosis ",diagnosisdetails);
                         // if(diagnosisdetails !== ''){
                           diagnosisdetails.length > 0 ?
                         diagnosisdetails.map((diagnosisdetails)=>{
-                          let photo = 'http://197.243.14.102:4000/uploads/'+diagnosisdetails.diag_image;
+                          let photo = 'http://localhost:4000/uploads/'+diagnosisdetails.diag_image;
                           return (
                             <Grid item xs={12} sm={6} md={4} lg={4} xl={3} key={diagnosisdetails.diagnosis_id}>
 
@@ -143,7 +212,11 @@ console.log("Diagnosis ",diagnosisdetails);
                                       <small>{diagnosisdetails.crop_name}  </small>
                                   </CardContent>
                                   <CardActions>
-                                      <Button value={diagnosisdetails.diagnosis_id} variant="outlined" size="small" onClick={e => handlediagnosisDetails(e.target.value)}>Ibisobanuro ku ndwara</Button>
+                                      <Button value={diagnosisdetails.diagnosis_id} variant="outlined" size="small" onClick={e => handlediagnosisDetails(e.target.value)}>Ibisobanuro</Button>
+                                      <Button style={{ fontSize: 11, color: '#fff' , backgroundColor: '#5bc0de' }} className="view_data" data-bs-toggle="modal" href="#exampleModalToggle"
+                                              data-id={diagnosisdetails.diagnosis_id}>
+                                                Hindura
+                                            </Button>
                                   </CardActions>
                               </Card>
 
@@ -154,7 +227,7 @@ console.log("Diagnosis ",diagnosisdetails);
                         <Grid item xs={5} sm={6} md={4} lg={4} xl={3}></Grid>
                         <Grid item xs={6} sm={6} md={4} lg={4} xl={3}>
 
-                          <h6 style={{paddingTop: 20}}>Nta ndwara igihingwa gifite</h6>
+                          <h6 style={{paddingTop: 20}}>Nta ndwara ku gihingwa zibonetse</h6>
 
                         </Grid>
                         </>}
@@ -171,7 +244,7 @@ console.log("Diagnosis ",diagnosisdetails);
                         // if(diagnosisdetails !== ''){
                           diagnosisdetails.length > 0 ?
                         diagnosisdetails.map((diagnosisdetails)=>{
-                          let photo = 'http://197.243.14.102:4000/uploads/'+diagnosisdetails.diag_image;
+                          let photo = 'http://localhost:4000/uploads/'+diagnosisdetails.diag_image;
                           return (
                             <Grid item xs={12} sm={6} md={4} lg={4} xl={3} key={diagnosisdetails.diagnosis_id}>
 
@@ -298,6 +371,78 @@ console.log("Diagnosis ",diagnosisdetails);
               </Grid>
         </Box>
    
+
+        <div className="modal fade" id="exampleModalToggle" aria-hidden="true" aria-labelledby="exampleModalToggleLabel" tabIndex={-1}>
+  <div className="modal-dialog modal-md">
+    <div className="modal-content">
+      <div className="modal-header">
+        <h5 className="modal-title" id="exampleModalToggleLabel">Diagnosis Name: <span className='text-muted'>{diag_details.diagnosis_name}</span> </h5>
+        <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div className="modal-body">
+        
+        <div className='container'>
+
+
+            <div className='row'>
+                <div className='col-md-5'>
+                    <div className="form-group">
+                        <div style={{ width: 170, height: 200 }}>
+                            <img src={modal_photo} alt='crop image' width='170' height='200'/>
+                        </div>
+                            <br/>
+                            <input type='file' onChange={e => { const new_image = e.target.files[0]; setNew_image(new_image) }}/>
+                    </div><br/>
+                    <div className="form-group">
+                        <button className="btn btn-success btn-sm btn-block CreateProImg" style={{ width: '100%' }} onClick={EditDiagnosisImage}>Update image</button>
+                        <LoadingButton
+                              loading
+                              loadingPosition="center"
+                              variant="contained"
+                              color="primary"
+                              style={{ width: '100%' }} 
+                              className='Loading_btnImg'
+                            >
+                              Wait
+                            </LoadingButton>
+                    </div>
+                    
+                </div>
+
+                <div className='col-md-7'>
+                    <div className="form-group">
+                        <TextField id="standard-basic" label="Add New name" variant="standard" value={diagno_name} onChange={(e) => setDiagno_name(e.target.value)} style={{ width: '100%' }} />
+                        {/* <input type="hidden" className="form-control" value={crop_modal.crop_id} placeholder="Change name" onChange={(e) => setCrop_id(e.target.value)}/> */}
+                    </div><br/>
+                    <div className="form-group">
+                        <button className="btn btn-success btn-sm btn-block CreatePro" style={{ width: '100%' }} onClick={EditDiagnosisName}>Update name</button>
+                        <LoadingButton
+                              loading
+                              loadingPosition="center"
+                              variant="contained"
+                              color="primary"
+                              style={{ width: '100%' }} 
+                              className='Loading_btn'
+                            >
+                              Wait
+                            </LoadingButton>
+                    </div>
+                </div>
+            </div>
+
+          
+
+        </div>
+
+
+
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
       </>
   );
 }
