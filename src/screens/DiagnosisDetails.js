@@ -65,7 +65,14 @@ const DiagnosisDetails = () => {
       })
 
 
-    // http://197.243.14.102:4000/api/v1/diagnosis/details
+      const handleToDetails =(diagnosis_id)=>{
+        const token = localStorage.getItem('token');
+        window.location.replace(`../../EditDiagnosisDetails/${token}/${diagnosis_id}`)
+        // alert("Diagnosis ID: "+diagnosis_id)
+      }
+    
+
+
     const handleAddDiagnosisDetails = () => {
         $(document).ready(function(){
             $('.CreatePro').hide()
@@ -81,7 +88,7 @@ const DiagnosisDetails = () => {
             prevention: prevention,
             cause: cause
         }
-        axios.post('http://197.243.14.102:4000/api/v1/diagnosis/details', data, { headers: {"Authorization" : `Bearer ${token}`} }).then(res => {
+        axios.post('http://localhost:4000/api/v1/diagnosis/details', data, { headers: {"Authorization" : `Bearer ${token}`} }).then(res => {
             window.location.reload()
         }).catch(err=> {
             if(err.response.data.status===403){
@@ -92,18 +99,18 @@ const DiagnosisDetails = () => {
         })
         
     }
-    // http://197.243.14.102:4000/api/v1/diagnosis/single/3
+    // http://localhost:4000/api/v1/diagnosis/single/3
 
 
     const GetProducts = () => {
-        axios.get(`http://197.243.14.102:4000/api/v1/products`).then(res => {
+        axios.get(`http://localhost:4000/api/v1/products`).then(res => {
               setPro(res.data.products)
           }).catch(err=>{
               console.log(err);
           })
     }
     const GetSingleDiagnosis = () => {
-        axios.get(`http://197.243.14.102:4000/api/v1/diagnosis/single/${diagnosis_id}`).then(res => {
+        axios.get(`http://localhost:4000/api/v1/diagnosis/single/${diagnosis_id}`).then(res => {
             setSingledetails(res.data.diag)
         }).catch(err=>{
             console.log("Err: ",err);
@@ -111,7 +118,7 @@ const DiagnosisDetails = () => {
     }
 
   useEffect(() => {
-    axios.get(`http://197.243.14.102:4000/api/v1/diagnosis/${diagnosis_id}`).then(res => {
+    axios.get(`http://localhost:4000/api/v1/diagnosis/${diagnosis_id}`).then(res => {
         setDiagdetails(res.data.diagnosis);
             setMsg(true)
             setDiag_det(true)
@@ -129,7 +136,7 @@ const DiagnosisDetails = () => {
     GetSingleDiagnosis()
     GetProducts()
 }, []);
-let photo = 'http://197.243.14.102:4000/uploads/'+diagdetails.image;
+let photo = 'http://localhost:4000/uploads/'+diagdetails.image;
 
 
   return (
@@ -178,7 +185,7 @@ let photo = 'http://197.243.14.102:4000/uploads/'+diagdetails.image;
                                     </Typography>
                                 </CardContent>
                                 <CardActions>
-                                    <Button value="" variant="outlined" size="small">Hindura Ibisobanuro</Button>
+                                    <Button  value={diagdetails.diagnosis_id} onClick={e => handleToDetails(e.target.value)} variant="outlined" size="small">Hindura Ibisobanuro</Button>
                                     <Button variant="outlined" size="small" href="../../Crops">Subira inyuma</Button>
                                 </CardActions>
 
@@ -259,7 +266,7 @@ let photo = 'http://197.243.14.102:4000/uploads/'+diagdetails.image;
 
                                 <FormControl sx={{ m: 1, width: 300 }}>
 
-                                    <InputLabel id="demo-multiple-name-label">Imiti yakoreshwa havurwa iyi ndwara</InputLabel>
+                                    <InputLabel id="demo-multiple-name-label">Imiti yakoreshwa havurwa {singledetails.diagnosis_name}</InputLabel>
                                     <Select
                                             labelId="Imiti yakoreshwa havurwa iyi ndwara"
                                             multiple
@@ -270,7 +277,7 @@ let photo = 'http://197.243.14.102:4000/uploads/'+diagdetails.image;
                                                 } = event;
                                                 setProductlist(
                                                     // On autofill we get a stringified value.
-                                                    typeof value === 'string' ? value.split(',') : value,
+                                                    typeof value === 'string' ? value.split(', ') : value,
                                                 );
                                                 }
                                             }
@@ -351,7 +358,7 @@ let photo = 'http://197.243.14.102:4000/uploads/'+diagdetails.image;
                                     </Typography>
                                 </CardContent>
                                 <CardActions>
-                                    <Button value="" variant="outlined" size="small">Edit Details</Button>
+                                    <Button  value={diagdetails.diagnosis_id} onClick={e => handleToDetails(e.target.value)} variant="outlined" size="small">Edit Details</Button>
                                     <Button variant="outlined" size="small" href="../../Crops">Back</Button>
                                 </CardActions>
 

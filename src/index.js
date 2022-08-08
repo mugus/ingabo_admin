@@ -12,8 +12,10 @@ import Settings from './screens/Settings';
 import Diagnosis from './screens/Diagnosis';
 import ProductUpdate from './screens/ProductUpdate';
 import DiagnosisDetails from './screens/DiagnosisDetails';
+import EditDiagnosisDetails from './screens/EditDiagnosisDetails';
 import Crops from './screens/Crops';
 import Help from './screens/Help';
+
 
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import { ConfirmProvider } from "material-ui-confirm";
@@ -51,6 +53,7 @@ root.render(
           <Route path="Profile" element={<Profile />} />
           <Route path="Diagnosis/:token/:crop_id" element={<Diagnosis />} />
           <Route path="DiagnosisDetails/:token/:diagnosis_id" element={<DiagnosisDetails />} />
+          <Route path="EditDiagnosisDetails/:token/:diagnosis_id" element={<EditDiagnosisDetails />} />
           <Route path="Help" element={<Help />} />
           <Route path="Crops" element={<Crops />} />
         </Routes>

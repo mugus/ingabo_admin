@@ -397,7 +397,7 @@ const handleDeleteDiag = diagnosis_id => {
         </Box>
    
 
-        <div className="modal fade" id="exampleModalToggle" aria-hidden="true" aria-labelledby="exampleModalToggleLabel" tabIndex={-1}>
+<div className="modal fade" id="exampleModalToggle" aria-hidden="true" aria-labelledby="exampleModalToggleLabel" tabIndex={-1}>
   <div className="modal-dialog modal-md">
     <div className="modal-content">
       <div className="modal-header">
