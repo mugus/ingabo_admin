@@ -56,12 +56,15 @@ const EditDiagnosisDetails = () => {
     const [diagno_cause, setDiagno_cause] = useState("");
     const [diagno_symptoms, setDiagno_symptoms] = useState("");
     const [diagno_prevention, setDiagno_prevention] = useState("");
-    const [diagno_recommendation_products, setDiagno_recommendation_products] = useState("");
+    const [productlist, setProductlist] = React.useState([]);
     const [diagdetails, setDiagdetails] = useState([]);
     const { token, diagnosis_id } = useParams();
-    const [productlist, setProductlist] = React.useState([]);
     const language = localStorage.getItem('language');
-    
+
+    $(function(){
+        $('.CreatePro').show()
+        $('.Loading_btn').hide()
+      }) 
 
 
     const GetProducts = () => {
@@ -74,13 +77,39 @@ const EditDiagnosisDetails = () => {
 
 
 console.log("token", token);
-    const handleEditDiagnosisDetails =()=>{
-        alert("Edit")
+
+const handleUpdateDiagDetails =()=>{
+    $(function(){
+        $('.CreatePro').hide()
+        $('.Loading_btn').show()
+    })
+
+    let pro_item = productlist.toString();
+    const data = {
+        symptoms: diagno_symptoms ? diagno_symptoms : diagdetails.symptoms,
+        cause: diagno_cause? diagno_cause : diagdetails.cause,
+        prevention: diagno_prevention ? diagno_prevention : diagdetails.prevention,
+        recommendation_products: pro_item ? pro_item : diagdetails.recommendation_products
     }
+
+    axios.patch(`http://localhost:4000/api/v1/diagnosis/${diagnosis_id}`, data, { headers: {"Authorization" : `Bearer ${token}`} }).then(res => {
+        alert("Updated")
+        window.location.reload()
+    }).catch(err=>{
+        if(err.response.data.status===403){
+            alert(err.response.data.message)
+            window.location.replace('../../')
+            // console.log("Message: ",err.response.data.message);
+          }else{
+            console.log(err);
+          }
+    })
+}
 
     useEffect(() => {
         axios.get(`http://localhost:4000/api/v1/diagnosis/${diagnosis_id}`).then(res => {
             setDiagdetails(res.data.diagnosis);
+            // console.log("res.data.diagnosis", res.data.diagnosis);
                 setMsg(true)
                 setDiag_det(true)
             if(res.data.diagnosis.cause === null || res.data.diagnosis.symptoms === null || res.data.diagnosis.prevention === null){
@@ -210,10 +239,7 @@ console.log("token", token);
                                     </Typography>
 
                                 </CardContent>
-                                <CardActions>
-                                    <Button value="" variant="outlined" size="small">Confirm changes</Button>
-                                    <Button variant="outlined" size="small" href="../../Crops">Subira inyuma</Button>
-                                </CardActions>
+                                
 
                             </Card>
                         </Grid>
@@ -244,6 +270,19 @@ console.log("token", token);
                                         />
                                     </Typography>
                                 </CardContent>
+                                <CardActions>
+                                    <Button value="" variant="outlined" size="small" onClick={handleUpdateDiagDetails} className="CreatePro" >Confirm changes</Button>
+                                    <LoadingButton
+                                        loading
+                                        loadingPosition="center"
+                                        variant="contained"
+                                        color="primary"
+                                        className='Loading_btn'
+                                    >
+                                        Wait
+                                    </LoadingButton>
+                                    <Button variant="outlined" size="small" href="../../Crops">Subira inyuma</Button>
+                                </CardActions>
                             </Card>
 
 
