@@ -263,6 +263,10 @@ const Diagnosis = () => {
                                   </CardContent>
                                   <CardActions>
                                       <Button value={diagnosisdetails.diagnosis_id} variant="outlined" size="small" onClick={e => handlediagnosisDetails(e.target.value)}>Diagnosis Details</Button>
+                                      <Button style={{ fontSize: 11, color: '#fff' , backgroundColor: '#5bc0de' }} className="view_data" data-bs-toggle="modal" href="#exampleModalToggle"
+                                              data-id={diagnosisdetails.diagnosis_id}>
+                                                Edit
+                                            </Button>
                                   </CardActions>
                               </Card>
 
