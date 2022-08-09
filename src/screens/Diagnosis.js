@@ -235,7 +235,9 @@ const handleDeleteDiag = diagnosis_id => {
                                       <Button style={{ fontSize: 11, color: '#fff' , backgroundColor: '#5bc0de' }} className="view_data" data-bs-toggle="modal" href="#exampleModalToggle"
                                               data-id={diagnosisdetails.diagnosis_id}>
                                                 Hindura
-                                            </Button>
+                                      </Button>
+                                      <Button style={{ fontSize: 11, color: '#fff' , backgroundColor: '#5bc0de' }}  className="btn btn-danger"
+                                       value={diagnosisdetails.diagnosis_id} onClick={e => handleDeleteDiag(e.target.value)}>Siba</Button>
                                   </CardActions>
                               </Card>
 
