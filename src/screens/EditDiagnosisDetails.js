@@ -141,8 +141,10 @@ const handleUpdateDiagDetails =()=>{
 
                 <Grid item xs={12} sm={2} md={2} lg={2} xl={2}></Grid>
 
+                {language == 1 
+                ?
                 <Grid item xs={12} sm={9} md={9} lg={9} xl={9}>
-                <h2 style={{ fontWeight: 'bold', textTransform: 'uppercase'}} color="primary">Hindura ubusobanuro bwa {diagdetails.diagnosis_name}</h2>
+                    <h2 style={{ fontWeight: 'bold', textTransform: 'uppercase'}} color="primary">Hindura ubusobanuro bwa {diagdetails.diagnosis_name}</h2>
                     <Grid container style={{paddingTop: '2%'}}>
 
                         <Grid item xs={12} sm={5} md={5} lg={5} xl={5}>
@@ -251,6 +253,158 @@ const handleUpdateDiagDetails =()=>{
                                         {diagdetails.diagnosis_name}
                                     </Typography>
                                     <Typography gutterBottom variant="h6" color="primary" component="div">
+                                        Ibimenyetso
+                                    </Typography>
+                                    <Typography gutterBottom variant="p" component="div">
+                                        {diagdetails.symptoms}
+                                    </Typography>
+
+                                    <Typography gutterBottom variant="p">
+                                        <TextField
+                                            style={{ width: '90%' }}
+                                            id="standard-multiline-static"
+                                            label="Andika ibimenyetso"
+                                            multiline
+                                            rows={3}
+                                            variant="standard"
+                                            value={diagno_symptoms} onChange={(e) => setDiagno_symptoms(e.target.value)}
+                                            min={80}
+                                        />
+                                    </Typography>
+                                </CardContent>
+                                <CardActions>
+                                    <Button value="" variant="outlined" size="small" onClick={handleUpdateDiagDetails} className="CreatePro" >Emeza</Button>
+                                    <LoadingButton
+                                        loading
+                                        loadingPosition="center"
+                                        variant="contained"
+                                        color="primary"
+                                        className='Loading_btn'
+                                    >
+                                        Wait
+                                    </LoadingButton>
+                                    <Button variant="outlined" size="small" href="../../Crops">Subira inyuma</Button>
+                                </CardActions>
+                            </Card>
+
+
+                        </Grid>
+                    </Grid>
+
+
+
+                </Grid>
+                :
+                <Grid item xs={12} sm={9} md={9} lg={9} xl={9}>
+                    <h2 style={{ fontWeight: 'bold', textTransform: 'uppercase'}} color="primary">Edit descriptions of {diagdetails.diagnosis_name}</h2>
+                    <Grid container style={{paddingTop: '2%'}}>
+
+                        <Grid item xs={12} sm={5} md={5} lg={5} xl={5}>
+                            <Card sx={{ width: '100%' }} style={{ textAlign: 'left' }}>
+                                <CardMedia
+                                component="img"
+                                height="300"
+                                image={photo}
+                                alt={diagdetails.diagnosis_name}
+                                />
+                                
+                                <CardContent>
+                                    <Typography  variant="h6" color="primary">
+                                        Cause
+                                    </Typography>
+                                    <Typography gutterBottom variant="p">
+                                        {diagdetails.cause}
+                                    </Typography>
+
+                                    <Typography gutterBottom variant="p">
+                                        <TextField
+                                            style={{ width: '90%' }}
+                                            id="standard-multiline-static"
+                                            label="Add New Cause"
+                                            multiline
+                                            rows={3}
+                                            variant="standard"
+                                            value={diagno_cause} onChange={(e) => setDiagno_cause(e.target.value)}
+                                            min={80}
+                                        />
+                                    </Typography>
+
+
+
+                                    <Typography gutterBottom variant="h6" color="primary">
+                                        Prevention
+                                    </Typography>
+                                    <Typography gutterBottom variant="p">
+                                        {diagdetails.prevention}
+                                    </Typography>
+
+                                    <Typography gutterBottom variant="p">
+                                        <TextField
+                                            style={{ width: '90%' }}
+                                            id="standard-multiline-static"
+                                            label="Add New Prevention"
+                                            multiline
+                                            rows={3}
+                                            variant="standard"
+                                            value={diagno_prevention} onChange={(e) => setDiagno_prevention(e.target.value)}
+                                            min={80}
+                                        />
+                                    </Typography>
+
+
+                                    <Typography gutterBottom variant="h6" color="primary" component="div">
+                                        Recommended products
+                                    </Typography>
+                                    <Typography gutterBottom variant="p" component="div">
+                                        {diagdetails.recommendation_products}
+                                    </Typography>
+
+                                    <Typography gutterBottom variant="p" component="div">
+                                    <FormControl sx={{ m: 1, width: 300 }}>
+
+                                        <InputLabel id="demo-multiple-name-label">Recommended products on {singledetails.diagnosis_name}</InputLabel>
+                                        <Select
+                                            labelId="Imiti yakoreshwa"
+                                            multiple
+                                            value={productlist}
+                                            onChange={ (event) => {
+                                                const {
+                                                    target: { value },
+                                                } = event;
+                                                setProductlist(
+                                                    // On autofill we get a stringified value.
+                                                    typeof value === 'string' ? value.split(', ') : value,
+                                                );
+                                                }
+                                            }
+                                            input={<OutlinedInput label="Recommended products" />}
+                                            MenuProps={MenuProps}
+                                            >
+                                            {pro.map((pro) => (
+                                                <MenuItem
+                                                key={pro.product_id}
+                                                value={pro.name}
+                                                >
+                                                {pro.name}
+                                                </MenuItem>
+                                            ))}
+                                        </Select>
+                                        </FormControl>
+                                    </Typography>
+
+                                </CardContent>
+                                
+
+                            </Card>
+                        </Grid>
+                        <Grid item xs={12} sm={7} md={7} lg={7} xl={7}>
+                            
+                            <Card sx={{ width: '100%' }} style={{textAlign: 'left'}}>
+                                <CardContent>
+                                    <Typography gutterBottom variant="h5" color="primary" component="div" style={{ fontWeight: 'bold' ,textTransform: 'uppercase' }}>
+                                        {diagdetails.diagnosis_name}
+                                    </Typography>
+                                    <Typography gutterBottom variant="h6" color="primary" component="div">
                                         Symptoms
                                     </Typography>
                                     <Typography gutterBottom variant="p" component="div">
@@ -281,7 +435,7 @@ const handleUpdateDiagDetails =()=>{
                                     >
                                         Wait
                                     </LoadingButton>
-                                    <Button variant="outlined" size="small" href="../../Crops">Subira inyuma</Button>
+                                    <Button variant="outlined" size="small" href="../../Crops">Back</Button>
                                 </CardActions>
                             </Card>
 
@@ -292,6 +446,8 @@ const handleUpdateDiagDetails =()=>{
 
 
                 </Grid>
+                }
+                
                         
             </Grid>
         </Box>
