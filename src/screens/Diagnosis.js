@@ -369,7 +369,7 @@ const handleDeleteDiag = diagnosis_id => {
                               setImage(image)
                             }}/>
                             
-                            <Button variant="contained" color="success" onClick={handleAddDiagnosis}>
+                            <Button variant="contained" className="CreatePro" color="success" onClick={handleAddDiagnosis}>
                               Create Diagnosis
                             </Button>
                             <LoadingButton
