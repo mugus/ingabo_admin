@@ -103,7 +103,7 @@ const DiagnosisDetails = () => {
 
 
     const GetProducts = () => {
-        axios.get(`http://197.243.14.102:4000/api/v1/products`).then(res => {
+        axios.get(`http://197.243.14.102:4000/api/v1/products/en`).then(res => {
               setPro(res.data.products)
           }).catch(err=>{
               console.log(err);
