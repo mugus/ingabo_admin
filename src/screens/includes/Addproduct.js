@@ -170,7 +170,7 @@ export default function Addproduct() {
                 label="Product Category"
               >
                 <MenuItem value="Fungicide">Fungicide</MenuItem>
-                <MenuItem value="Pesticide">Pesticide</MenuItem>
+                <MenuItem value="Insecticide">Insecticide</MenuItem>
                 <MenuItem value="Fertilizer">Fertilizer</MenuItem>
                 <MenuItem value="Seed Coating">Seed Coating</MenuItem>
               </Select>

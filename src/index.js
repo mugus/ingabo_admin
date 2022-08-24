@@ -2,6 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import './index.css';
+import ProductQRCode from './screens/ProductQRCode';
 import Products from './screens/Products';
 import ProductUsage from './screens/ProductUsage';
 import Landing from './screens/Landing';
@@ -47,6 +48,7 @@ root.render(
           <Route path="/Signup" element={<Signup />} />
           <Route path="Home" element={<Home />} />
           <Route path="Products" element={<Products />} />
+          <Route path="code/:id" element={<ProductQRCode />} />
           <Route path="ProductUsage/:product_id" element={<ProductUsage />} />
           <Route path="ProductUpdate/:product_id" element={<ProductUpdate />} />
           <Route path="Settings" element={<Settings />} />
