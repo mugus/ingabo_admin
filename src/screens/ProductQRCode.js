@@ -55,7 +55,7 @@ export default function ProductQRCode() {
                 setEmail("")
                 setPhone("")
                 setContent("")
-                setMsg(res.message)
+                setMsg(res.data.message)
                 setAlertclass("success")
             }).catch(function (error) {
                 if(error.response.data.status===400){
