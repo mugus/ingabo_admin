@@ -75,20 +75,26 @@ const Diagnosis = () => {
     data.append("image", image);
 
     // console.log("data: ", data);
-    axios.post('http://197.243.14.102:4000/api/v1/diagnosis', data, { headers: {"Authorization" : `Bearer ${token}`} })
-    .then(res => {
-      window.location.reload()
-      console.log(res.message);
-    }).catch(function (error) {
-      if(error.response.data.status===403){
-        console.log("Message: ",error.response.data.message);
-        // setMsg(error.response.data.message)
-        setMsg(error.response.data.message)
-        setAlertclass("error")
-      }else{
-        console.log(error);
-      }
-  });
+    if(diagnosis_name === '' || image === ''){
+      setMsg("Fill all fields")
+      setAlertclass("error")
+    }else{
+      axios.post('http://197.243.14.102:4000/api/v1/diagnosis', data, { headers: {"Authorization" : `Bearer ${token}`} })
+      .then(res => {
+        window.location.reload()
+        console.log(res.message);
+      }).catch(function (error) {
+        if(error.response.data.status===403){
+          console.log("Message: ",error.response.data.message);
+          // setMsg(error.response.data.message)
+          setMsg(error.response.data.message)
+          setAlertclass("error")
+        }else{
+          console.log(error);
+        }
+      });
+
+    }
 
 
   }

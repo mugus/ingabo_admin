@@ -47,38 +47,45 @@ export default function Addcrop() {
     data.append("image", image);
     data.append("lan_id", language);
     //ALTER TABLE `crops` ADD `lan_id` INT(11) NOT NULL DEFAULT '2' AFTER `crop_id`, ADD INDEX (`lan_id`);
-    axios.post('http://197.243.14.102:4000/api/v1/crops', data, { headers: {"Authorization" : `Bearer ${token}`} })
-    .then(res => {
-      if(res.status===201){
-        window.location.reload()
-        console.log(res.message);
-        // alert('Product Created')
-        setMsg(res.message)
-        setAlertclass("success")
-      }else if(res.status===400){
-        console.log(res);
-        setMsg(res.message)
-        setAlertclass("error")
-      }else if(res.status===403){
-        console.log(res);
-        setMsg(res.message)
-        setAlertclass("error")
-      }else{
-        console.log(res)
-      }
-      // console.log('Axios response: ', res)
-    }).catch(function (error) {
-      if(error.response.data.status===403){
-        console.log("Message: ",error.response.data.message);
-        // setMsg(error.response.data.message)
-        setMsg(error.response.data.message)
-        setAlertclass("error")
-      }else{
-        console.log(error);
-      }
-  });
+    if(name !== '' || image !== ''){
+
+      axios.post('http://197.243.14.102:4000/api/v1/crops', data, { headers: {"Authorization" : `Bearer ${token}`} })
+      .then(res => {
+        if(res.status===201){
+          window.location.reload()
+          console.log(res.message);
+          // alert('Product Created')
+          setMsg(res.message)
+          setAlertclass("success")
+        }else if(res.status===400){
+          console.log(res);
+          setMsg(res.message)
+          setAlertclass("error")
+        }else if(res.status===403){
+          console.log(res);
+          setMsg(res.message)
+          setAlertclass("error")
+        }else{
+          console.log(res)
+        }
+        // console.log('Axios response: ', res)
+      }).catch(function (error) {
+        if(error.response.data.status===403){
+          console.log("Message: ",error.response.data.message);
+          // setMsg(error.response.data.message)
+          setMsg(error.response.data.message)
+          setAlertclass("error")
+        }else{
+          console.log(error);
+        }
+    });
+    }else{
+      setMsg('Fill out all fields')
+      setAlertclass("error")
+    }
+
   }
-  console.log("Language ", language);
+  // console.log("Language ", language);
   return (
     <>
     {/* <Grid item spacing={2}> */}
@@ -91,6 +98,9 @@ export default function Addcrop() {
         noValidate
         autoComplete="off"
       >
+         <div style={{ paddingLeft: 40 }}>
+          {msg ? <Alert severity={alertclass}>{msg}</Alert> : <></> }
+        </div>
         {
         language == 1 ?
         <>
@@ -136,9 +146,7 @@ export default function Addcrop() {
         </>
 
         }
-        <div style={{ paddingLeft: 40 }}>
-          {msg ? <Alert severity={alertclass}>{msg}</Alert> : <></> }
-        </div>
+       
 
         
       </Box>
