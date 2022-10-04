@@ -297,7 +297,7 @@ let photo = 'http://197.243.14.102:4000/uploads/'+diagdetails.image;
                                 
                                 
                                 <Button variant="contained" color="success" className="CreatePro" onClick={handleAddDiagnosisDetails}>
-                                    Andika Ubusobanuro ku ndwara
+                                    Emeza Ubusobanuro ku ndwara
                                 </Button>
                                 <LoadingButton
                                 loading

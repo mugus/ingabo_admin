@@ -111,7 +111,7 @@ export default function Addcrop() {
                             setImage(image)
                           }} required/>
         <Button variant="contained" color="success" className='CreatePro' onClick={handleAddCrop}>
-          Andika Igihingwa
+          Emeza Igihingwa
         </Button>
         <LoadingButton
             loading

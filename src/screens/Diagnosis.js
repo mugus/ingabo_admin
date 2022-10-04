@@ -344,7 +344,7 @@ const handleDeleteDiag = diagnosis_id => {
                               }}/>
                               
                               <Button variant="contained" color="success" className="CreatePro" onClick={handleAddDiagnosis}>
-                                Indika Indwara
+                                Emeza indwara
                               </Button>
                               <LoadingButton
                                 loading

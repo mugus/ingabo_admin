@@ -111,9 +111,9 @@ export default function Addproduct() {
             
             
             <br/>
-            <TextField id="standard-basic" label="Izina ry'igicuruzwa" variant="standard" value={name} onChange={(e) => setName(e.target.value)} required/>
+            <TextField id="standard-basic" label="Izina ry'umuti" variant="standard" value={name} onChange={(e) => setName(e.target.value)} required/>
             <FormControl variant="standard" sx={{ m: 1, minWidth: 120 }}>
-              <InputLabel id="demo-simple-select-standard-label">Icyiciro cy'igicuruzwa</InputLabel>
+              <InputLabel id="demo-simple-select-standard-label">Icyiciro cy'umuti</InputLabel>
               <Select
                 labelId="demo-simple-select-standard-label"
                 id="demo-simple-select-standard"
@@ -125,13 +125,14 @@ export default function Addproduct() {
                 <MenuItem value="Imiti yica udukoko">Imiti yica udukoko</MenuItem>
                 <MenuItem value="Ifumbire">Ifumbire</MenuItem>
                 <MenuItem value="Imiti ihungira">Imiti ihungira</MenuItem>
+                <MenuItem value="Imiti y'amatungo">Imiti y'amatungo</MenuItem>
               </Select>
             </FormControl>
             {/* <TextField id="standard-basic" label="Product Category" variant="standard" value={category} onChange={(e) => setCategory(e.target.value)} /> */}
-            <TextField id="standard-basic" label="Ingano z'igicuruzwa" variant="standard" value={size} onChange={(e) => setSize(e.target.value)} />
+            <TextField id="standard-basic" label="Ingano z'umuti" variant="standard" value={size} onChange={(e) => setSize(e.target.value)} />
             <TextField
                 id="standard-multiline-static"
-                label="Ibisobanuro ku gicuruzwa(Ibindi)"
+                label="Ibisobanuro uko umuti ukoreshwa(Ibindi)"
                 multiline
                 rows={3}
                 variant="standard"
@@ -143,7 +144,7 @@ export default function Addproduct() {
                               }} required/>
           
             <Button className="CreatePro" variant="contained" color="success" onClick={handleAddProduct}>
-              Andika igicuruzwa
+              Emeza Umuti
             </Button>
             
             <LoadingButton
@@ -178,6 +179,7 @@ export default function Addproduct() {
                 <MenuItem value="Insecticide">Insecticide</MenuItem>
                 <MenuItem value="Fertilizer">Fertilizer</MenuItem>
                 <MenuItem value="Seed Coating">Seed Coating</MenuItem>
+                <MenuItem value="Animal product">Animal product</MenuItem>
               </Select>
             </FormControl>
             {/* <TextField id="standard-basic" label="Product Category" variant="standard" value={category} onChange={(e) => setCategory(e.target.value)} /> */}

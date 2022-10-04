@@ -13,13 +13,13 @@ import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 import logo from '../img/icon.png';
 import user_default from '../img/default-img.png';
-const pages = ['Crops', 'Products', 'Help'];
+const pages = ['Crops', 'Products'];
 const settings = ['Profile', 'Settings', 'Logout'];
 
 const Navbar = () => {
   const [anchorElNav, setAnchorElNav] = useState(null);
   const [anchorElUser, setAnchorElUser] = useState(null);
-
+  const language = localStorage.getItem('language');
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
     console.log('Event',event.target);
@@ -39,6 +39,22 @@ const Navbar = () => {
   const HandleLogout = async() => {
     localStorage.clear();
     window.location.replace('./');
+  }
+
+
+
+  const switchLanguage = () => {
+    // english = 2
+    // kinya = 1
+    // let lan = language
+    if(language == 1){
+      localStorage.setItem('language',2)
+      window.location.reload()
+    }else{
+      localStorage.setItem('language',1)
+      window.location.reload()
+    }
+    
   }
 
   return (
@@ -154,6 +170,15 @@ const Navbar = () => {
           </Box>
 
           <Box sx={{ flexGrow: 0 }}>
+            <Tooltip title="Change language">
+                  <Typography textAlign="center">
+                   
+                    </Typography>
+            </Tooltip>
+            </Box>
+
+
+          <Box sx={{ flexGrow: 0 }}>
             <Tooltip title="Open settings">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
                 <Avatar alt="John Doe" src={user_default} />
@@ -175,6 +200,24 @@ const Navbar = () => {
               open={Boolean(anchorElUser)}
               onClose={handleCloseUserMenu}
             >
+              <MenuItem>
+                  <Typography textAlign="center">
+                  {
+                    language == 1 ?
+                      <Button color='secondary' href="#" onClick={switchLanguage} >
+                        Switch to English
+                      </Button>
+                    :
+                      <Button color='secondary' href="#" onClick={switchLanguage} >
+                        Switch to Kinyarwanda
+                      </Button>
+                  }
+                    </Typography>
+                </MenuItem>
+                
+
+
+
                <MenuItem>
                   <Typography textAlign="center">
                     <Button
