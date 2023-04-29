@@ -126,6 +126,7 @@ export default function Addproduct() {
                 <MenuItem value="Ifumbire">Ifumbire</MenuItem>
                 <MenuItem value="Imiti ihungira">Imiti ihungira</MenuItem>
                 <MenuItem value="Imiti y'amatungo">Imiti y'amatungo</MenuItem>
+                <MenuItem value="Isukura amazi">Isukura amazi</MenuItem>
               </Select>
             </FormControl>
             {/* <TextField id="standard-basic" label="Product Category" variant="standard" value={category} onChange={(e) => setCategory(e.target.value)} /> */}
@@ -180,6 +181,7 @@ export default function Addproduct() {
                 <MenuItem value="Fertilizer">Fertilizer</MenuItem>
                 <MenuItem value="Seed Coating">Seed Coating</MenuItem>
                 <MenuItem value="Animal product">Animal product</MenuItem>
+                <MenuItem value="Water treatment">Water treatment</MenuItem>
               </Select>
             </FormControl>
             {/* <TextField id="standard-basic" label="Product Category" variant="standard" value={category} onChange={(e) => setCategory(e.target.value)} /> */}
